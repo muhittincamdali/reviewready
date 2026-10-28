@@ -83,8 +83,8 @@ How to fix
          https://github.com/muhittincamdali/reviewready/blob/main/docs/guides/purpose-strings.md
 
 [B]      Build with Xcode 26 or later
-         1. Change the pinned version to Xcode 26 or later (27.1 is the current release) in the file
-            and line the finding names, and use a runner or build image that has it.
+         1. Change the pinned version to Xcode 26 or later (for example 27.1) in the file and line
+            the finding names, and use a runner or build image that has it.
          2. Fix the build warnings and errors the newer SDK reports before the next upload.
          https://github.com/muhittincamdali/reviewready/blob/main/docs/guides/xcode-and-ios-minimums.md
 

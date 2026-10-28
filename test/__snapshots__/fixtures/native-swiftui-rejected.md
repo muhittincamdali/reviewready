@@ -58,7 +58,7 @@ Sources: [Apple Developer Forums: Icon composer icon contains alpha channel uplo
 
 **Fix: Build with Xcode 26 or later** ([guide](https://github.com/muhittincamdali/reviewready/blob/main/docs/guides/xcode-and-ios-minimums.md))
 
-1. Change the pinned version to Xcode 26 or later \(27.1 is the current release\) in the file and line the finding names, and use a runner or build image that has it.
+1. Change the pinned version to Xcode 26 or later \(for example 27.1\) in the file and line the finding names, and use a runner or build image that has it.
 2. Fix the build warnings and errors the newer SDK reports before the next upload.
 
 Sources: [Apple: Upcoming Requirements](https://developer.apple.com/news/upcoming-requirements/), [Apple Developer News: Upcoming SDK minimum requirements \(3 February 2026\)](https://developer.apple.com/news/?id=ueeok6yw)
