@@ -1,0 +1,50 @@
+{
+  "$schema": "https://typedoc.org/schema.json",
+  "name": "reviewready",
+  "entryPoints": [
+    "../../src/index.ts"
+  ],
+  "tsconfig": "./tsconfig.json",
+  "out": "../../site",
+  "readme": "./index.md",
+  "projectDocuments": [
+    "../guides/purpose-strings.md",
+    "../guides/export-compliance.md",
+    "../guides/accounts-and-sign-in.md",
+    "../guides/app-icon.md",
+    "../guides/xcode-and-ios-minimums.md",
+    "../guides/privacy-manifest.md",
+    "../guides/ci.md"
+  ],
+  "customCss": "./theme.css",
+  "navigationLinks": {
+    "GitHub": "https://github.com/muhittincamdali/reviewready"
+  },
+  "sourceLinkTemplate": "https://github.com/muhittincamdali/reviewready/blob/{gitRevision}/{path}#L{line}",
+  "excludePrivate": true,
+  "excludeInternal": true,
+  "validation": {
+    "notExported": true,
+    "invalidLink": true,
+    "notDocumented": false
+  },
+  "treatWarningsAsErrors": true,
+  "alwaysCreateEntryPointModule": false,
+  "highlightLanguages": [
+    "bash",
+    "dart",
+    "javascript",
+    "js",
+    "json",
+    "jsx",
+    "objc",
+    "sh",
+    "swift",
+    "text",
+    "ts",
+    "tsx",
+    "typescript",
+    "xml",
+    "yaml"
+  ]
+}
