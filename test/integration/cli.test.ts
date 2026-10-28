@@ -1,4 +1,4 @@
-import { lstatSync, mkdirSync, readFileSync, symlinkSync, writeFileSync } from 'node:fs';
+import { chmodSync, lstatSync, mkdirSync, readFileSync, symlinkSync, writeFileSync } from 'node:fs';
 import { join } from 'node:path';
 import { describe, expect, it } from 'vitest';
 import { EXIT, failsOn, PACKAGE_NAME, RELEASE_TARBALL_URL } from '../../src/cli/run.js';
@@ -145,6 +145,29 @@ describe('output', () => {
     expect(readFileSync(victim, 'utf8')).toBe('outside the project\n');
     expect(lstatSync(join(project, 'reviewready.md')).isSymbolicLink()).toBe(true);
   });
+
+  // A root user can write into a read-only folder, so the permission case needs another user.
+  it.skipIf(process.getuid?.() === 0)(
+    'says why --output could not be written, without calling it a bug',
+    async () => {
+      const folder = scratchDir('output-denied');
+      const locked = join(folder, 'locked');
+      mkdirSync(locked, { mode: 0o500 });
+      const cases = [
+        [join(locked, 'report.md'), 'permission denied'],
+        [join(folder, 'missing', 'report.md'), 'its folder does not exist'],
+        [folder, 'it is a folder'],
+      ] as const;
+      for (const [output, reason] of cases) {
+        const result = await reviewready([REJECTED, '--output', output]);
+        expect(result.code).toBe(EXIT.error);
+        expect(result.stderr).toBe(
+          `reviewready: cannot write the report to ${output}: ${reason}\n`,
+        );
+      }
+      chmodSync(locked, 0o700);
+    },
+  );
 
   it('colours a terminal unless NO_COLOR is set, and FORCE_COLOR colours a pipe', async () => {
     expect((await reviewready([REJECTED], { tty: true })).stdout).toContain('\u001b[');
