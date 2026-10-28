@@ -1,6 +1,6 @@
 {
   "name": "@mcamdali/reviewready",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Checks a native iOS, Flutter or React Native/Expo project for the App Review rejections a file can show before you submit: purpose strings, export compliance, account deletion, Sign in with Apple, the App Store icon, the Xcode and iOS minimums and the privacy manifest. Every rule cites its source.",
   "keywords": [
     "app-store",

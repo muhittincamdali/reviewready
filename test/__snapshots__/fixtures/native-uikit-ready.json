@@ -2,7 +2,7 @@
   "schemaVersion": 0,
   "tool": {
     "name": "reviewready",
-    "version": "0.1.0"
+    "version": "0.1.1"
   },
   "rules": {
     "ruleSet": "app-review",

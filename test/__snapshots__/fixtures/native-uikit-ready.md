@@ -28,4 +28,4 @@
 
 0 errors, 0 warnings, 14 checks passed. [Rules and sources](https://github.com/muhittincamdali/reviewready#what-reviewready-checks).
 
-<sub>[reviewready](https://github.com/muhittincamdali/reviewready) 0.1.0, rules app-review@2026.10.28 (sources read 2026-10-28). Reads the project's files; it does not build, run or change the app.</sub>
+<sub>[reviewready](https://github.com/muhittincamdali/reviewready) 0.1.1, rules app-review@2026.10.28 (sources read 2026-10-28). Reads the project's files; it does not build, run or change the app.</sub>
