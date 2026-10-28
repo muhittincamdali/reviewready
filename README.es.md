@@ -1,4 +1,4 @@
-<!-- i18n-source: README.md@e6049c7e87beb535d91e3026106454ba19cd59d1 status=reviewed -->
+<!-- i18n-source: README.md@264c269721da98eaa26e4b481013e8f8fb065c64 status=reviewed -->
 <!-- brand:start -->
 
 <p align="center"><picture><source media="(prefers-color-scheme: dark)" srcset="https://raw.githubusercontent.com/muhittincamdali/reviewready/main/.github/brand/banner-dark.svg"><source media="(prefers-color-scheme: light)" srcset="https://raw.githubusercontent.com/muhittincamdali/reviewready/main/.github/brand/banner-light.svg"><img src="https://raw.githubusercontent.com/muhittincamdali/reviewready/main/.github/brand/banner-light.svg" alt="reviewready: Catches App Review rejections in CI before you submit, with the Apple source of every rule and the fix."></picture></p>
@@ -126,7 +126,7 @@ reviewready [path] [options]
 | `--brief`               | Informes de terminal y de texto: solo el veredicto y los hallazgos                 |
 | `--no-color`            | Texto plano incluso en una terminal (se respetan `NO_COLOR` y `FORCE_COLOR`)       |
 
-Códigos de salida: `0` nada en el nivel de `--fail-on` o por encima, `1` hallazgos en ese nivel o por encima, `2` argumentos incorrectos, no se encontró ningún proyecto iOS o un error inesperado. Cuando no se ha podido leer un proyecto de Xcode, un Info.plist o la configuración de Expo, el veredicto es “Not known” y el código de salida es `1`, salvo con `--fail-on none`: reviewready nunca da una app por lista a partir de archivos que no leyó.
+Códigos de salida: `0` nada en el nivel de `--fail-on` o por encima, `1` hallazgos en ese nivel o por encima, `2` argumentos incorrectos, no se encontró ningún proyecto iOS o un error inesperado. Cuando no se ha podido leer un proyecto de Xcode, un Info.plist, la configuración de Expo o una carpeta de código fuente, el veredicto es “Not known” y el código de salida es `1`, salvo con `--fail-on none`: reviewready nunca da una app por lista a partir de archivos que no leyó.
 
 reviewready encuentra por sí solo la app de iOS: un `.xcodeproj` en la raíz o una carpeta más abajo en las apps nativas, `ios/` en las apps de Flutter, React Native y Expo. Lee el Info.plist de cada target de app de iOS (XML o binario), los build settings y los entitlements, el conjunto de iconos y el manifiesto de privacidad, los archivos Swift, Objective-C, JavaScript, TypeScript y Dart de la app y sus archivos de cadenas (strings), el Podfile y los archivos que fijan una versión de Xcode. Una app de Expo sin `ios/` se comprueba a partir de app.json.
 
@@ -195,7 +195,7 @@ Medido el 28 de octubre de 2026 en un Mac (Apple silicon, M5 Max) con Node.js 26
 - **Build settings solo de project.pbxproj.** No se leen los archivos `.xcconfig`. Cuando no se puede leer el Info.plist de un target, el resultado es “not known” y el informe explica por qué.
 - **Configuración de Expo como JSON.** `app.config.js` y `app.config.ts` no se ejecutan, así que dejan el resultado en “not known”; app.json sí se lee.
 - **Solo archivos.** reviewready no compila la app ni mira sus pantallas, y App Review decide con más información de la que muestran los archivos. Las grabaciones del simulador de este repositorio salen de `scripts/simulator-check.sh`, ejecutado en un Mac.
-- **Entrada acotada.** Un proyecto puede venir de una pull request, así que reviewready lee como máximo 32 MB por archivo de proyecto y, del código fuente, 4 MB por archivo, 20 000 archivos y 128 MB en total; lo que deja fuera aparece en las notas del informe. Los patrones se han probado con archivos hostiles de un millón de caracteres.
+- **Entrada acotada.** Un proyecto puede venir de una pull request, así que reviewready lee como máximo 32 MB por archivo de proyecto y, del código fuente, 4 MB por archivo, 20 000 archivos y 128 MB en total, en carpetas de hasta 12 niveles de profundidad; lo que deja fuera aparece en las notas del informe. Una carpeta de código fuente que no recorrió, por estar más abajo o porque no se pudo listar, deja el resultado en “not known”. Los patrones se han probado con archivos hostiles de un millón de caracteres.
 
 ## Documentación
 

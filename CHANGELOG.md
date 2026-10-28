@@ -7,6 +7,12 @@ All notable changes to reviewready are listed here. The format follows
 
 ## [Unreleased]
 
+### Fixed
+
+- Source files more than 12 folder levels down, or in a folder that could not be listed, were left
+  out without a note, so a project could pass with a call it never read. The report now names those
+  folders and the verdict is "Not known" (exit code 1 unless `--fail-on none`).
+
 ## [0.1.0] - 2026-10-28
 
 ### Added

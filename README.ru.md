@@ -1,4 +1,4 @@
-<!-- i18n-source: README.md@e6049c7e87beb535d91e3026106454ba19cd59d1 status=reviewed -->
+<!-- i18n-source: README.md@264c269721da98eaa26e4b481013e8f8fb065c64 status=reviewed -->
 <!-- brand:start -->
 
 <p align="center"><picture><source media="(prefers-color-scheme: dark)" srcset="https://raw.githubusercontent.com/muhittincamdali/reviewready/main/.github/brand/banner-dark.svg"><source media="(prefers-color-scheme: light)" srcset="https://raw.githubusercontent.com/muhittincamdali/reviewready/main/.github/brand/banner-light.svg"><img src="https://raw.githubusercontent.com/muhittincamdali/reviewready/main/.github/brand/banner-light.svg" alt="reviewready: Catches App Review rejections in CI before you submit, with the Apple source of every rule and the fix."></picture></p>
@@ -126,7 +126,7 @@ reviewready [path] [options]
 | `--brief`               | Отчёты для терминала и текстовые: только вердикт и замечания                             |
 | `--no-color`            | Обычный текст даже в терминале (`NO_COLOR` и `FORCE_COLOR` учитываются)                  |
 
-Коды завершения: `0` — нет ничего на уровне `--fail-on` и выше, `1` — есть замечания на этом уровне и выше, `2` — неверные аргументы, iOS-проект не найден или произошла непредвиденная ошибка. Если проект Xcode, Info.plist или конфигурацию Expo прочитать не удалось, вердикт — «Not known», а код завершения — `1`, если не указан `--fail-on none`: reviewready никогда не объявляет приложение готовым, опираясь на файлы, которые он не прочитал.
+Коды завершения: `0` — нет ничего на уровне `--fail-on` и выше, `1` — есть замечания на этом уровне и выше, `2` — неверные аргументы, iOS-проект не найден или произошла непредвиденная ошибка. Если проект Xcode, Info.plist, конфигурацию Expo или папку с исходным кодом прочитать не удалось, вердикт — «Not known», а код завершения — `1`, если не указан `--fail-on none`: reviewready никогда не объявляет приложение готовым, опираясь на файлы, которые он не прочитал.
 
 reviewready находит iOS-приложение сам: `.xcodeproj` в корне или на одну папку глубже — для нативных приложений, `ios/` — для приложений на Flutter, React Native и Expo. Он читает Info.plist каждого iOS-таргета приложения (XML или бинарный), build settings и entitlements, набор значков и манифест конфиденциальности, файлы приложения на Swift, Objective-C, JavaScript, TypeScript и Dart и его файлы строк (strings), Podfile и файлы, которые закрепляют версию Xcode. Приложение на Expo без `ios/` проверяется по app.json.
 
@@ -195,7 +195,7 @@ console.log(render(report, 'markdown'));
 - **Build settings — только из project.pbxproj.** Файлы `.xcconfig` не читаются. Если Info.plist таргета прочитать не удалось, результат — «not known», и отчёт объясняет причину.
 - **Конфигурация Expo как JSON.** `app.config.js` и `app.config.ts` не выполняются, поэтому результат для них — «not known»; app.json читается.
 - **Только файлы.** reviewready не собирает приложение и не смотрит на его экраны, а App Review принимает решение, опираясь на большее, чем показывают файлы. Записи симулятора в этом репозитории получены из `scripts/simulator-check.sh`, запущенного на Mac.
-- **Ограниченный ввод.** Проект может прийти из pull request, поэтому reviewready читает не более 32 МБ на файл проекта, а из исходного кода — 4 МБ на файл, 20 000 файлов и 128 МБ в сумме; то, что он пропускает, перечислено в примечаниях отчёта. Шаблоны проверены на враждебных файлах в миллион символов.
+- **Ограниченный ввод.** Проект может прийти из pull request, поэтому reviewready читает не более 32 МБ на файл проекта, а из исходного кода — 4 МБ на файл, 20 000 файлов и 128 МБ в сумме, в папках до 12 уровней вложенности; то, что он пропускает, перечислено в примечаниях отчёта. Если папку с исходным кодом он не просмотрел, потому что она глубже или её содержимое не удалось получить, результат — «not known». Шаблоны проверены на враждебных файлах в миллион символов.
 
 ## Документация
 
