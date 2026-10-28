@@ -9,6 +9,12 @@ import { checkPrivacyManifest } from './privacy.js';
 import { checkPurposeStrings } from './purpose.js';
 import { checkDeploymentTarget, checkXcodeVersion } from './toolchain.js';
 
+/**
+ * The rules that read the app's source files. When some source files were not read, these rules
+ * did not see all of the app's code, so a rule without a finding is not checked rather than passed.
+ */
+export const SOURCE_RULES: ReadonlySet<RuleId> = new Set(['RVW101', 'RVW301', 'RVW401']);
+
 export interface CheckOutcome {
   hits: Hit[];
   checked: Set<RuleId>;
@@ -30,7 +36,11 @@ export async function checkApp(app: AppModel): Promise<CheckOutcome> {
   ];
   return {
     hits: results.flatMap((result) => result.hits),
-    checked: new Set(results.flatMap((result) => result.checked)),
+    checked: new Set(
+      results
+        .flatMap((result) => result.checked)
+        .filter((rule) => !(app.sourcesIncomplete && SOURCE_RULES.has(rule))),
+    ),
     notes,
   };
 }
