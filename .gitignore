@@ -1,0 +1,15 @@
+.simulator-work/
+.test-work/
+_work/
+node_modules/
+dist/
+coverage/
+*.tgz
+/site/
+docs/site/node_modules/
+.lycheecache
+xcuserdata/
+DerivedData/
+build/
+Pods/
+.DS_Store
