@@ -1,4 +1,4 @@
-<!-- i18n-source: README.md@e3810ae0705b6913776ebab7be1d27df41028f3f status=reviewed -->
+<!-- i18n-source: README.md@3e9e5e61a6bac2815ed0be778cb9ad84a37754cf status=reviewed -->
 <!-- brand:start -->
 
 <p align="center"><picture><source media="(prefers-color-scheme: dark)" srcset="https://raw.githubusercontent.com/muhittincamdali/reviewready/main/.github/brand/banner-dark.svg"><source media="(prefers-color-scheme: light)" srcset="https://raw.githubusercontent.com/muhittincamdali/reviewready/main/.github/brand/banner-light.svg"><img src="https://raw.githubusercontent.com/muhittincamdali/reviewready/main/.github/brand/banner-light.svg" alt="reviewready: Catches App Review rejections in CI before you submit, with the Apple source of every rule and the fix."></picture></p>
@@ -172,7 +172,7 @@ Die Terminal-Aufzeichnungen stammen vom CLI an den [Fixtures](fixtures/README.md
 | UIKit-App, die alle Prüfungen besteht                                              | [hell](docs/media/demo-native-ready-light.svg) · [dunkel](docs/media/demo-native-ready-dark.svg)                                                      |
 | `scripts/simulator-check.sh` unter iOS 27.0, ohne und mit den Lösungen             | [fehlend](docs/media/demo-simulator-contacts-probe-missing-27.0-light.svg) · [behoben](docs/media/demo-simulator-contacts-probe-fixed-27.0-light.svg) |
 
-Gemessen am 28. Oktober 2026 auf einem Mac (Apple silicon, M5 Max) mit Node.js 26.12: drei Durchgänge zu je 100 Läufen von `node dist/cli/main.js --json` über die sechs Fixtures, einschließlich des Node.js-Starts. Die Mediane der drei Durchgänge betrugen 0,110, 0,112 und 0,109 Sekunden; der langsamste Lauf dauerte 0,24 Sekunden. Die Testsuite umfasst 311 Tests (`npm test`, derselbe Rechner).
+Gemessen am 28. Oktober 2026 auf einem Mac (Apple silicon, M5 Max) mit Node.js 26.12: drei Durchgänge zu je 100 Läufen von `node dist/cli/main.js --json` über die sechs Fixtures, einschließlich des Node.js-Starts. Die Mediane der drei Durchgänge betrugen 0,110, 0,112 und 0,109 Sekunden; der langsamste Lauf dauerte 0,24 Sekunden. Die Testsuite umfasst 319 Tests (`npm test`, derselbe Rechner).
 
 ## Status
 
