@@ -11,6 +11,7 @@ import {
 import { join } from 'node:path';
 import { describe, expect, it } from 'vitest';
 import { EXIT, failsOn, PACKAGE_NAME, RELEASE_TARBALL_URL } from '../../src/cli/run.js';
+import { SOURCE_LIMITS } from '../../src/collect/sources.js';
 import type { Report } from '../../src/model.js';
 import { VERSION } from '../../src/version.js';
 import { ROOT, reviewready } from '../helpers/cli.js';
@@ -87,9 +88,19 @@ describe('exit codes', () => {
     mkdirSync(join(deepSource, levels), { recursive: true });
     writeFileSync(join(deepSource, levels, 'Contacts.swift'), 'let store = CNContactStore()\n');
 
+    // The ready app with the same call in a Swift file over the 4 MB a source file may have.
+    const largeSource = scratchDir('large-source');
+    cpSync(READY, largeSource, { recursive: true });
+    const call = 'let store = CNContactStore()\n';
+    writeFileSync(
+      join(largeSource, 'Atlas', 'Contacts.swift'),
+      call.repeat(Math.ceil((SOURCE_LIMITS.fileBytes + 1) / call.length)),
+    );
+
     it.each([
       ['an Info.plist with a conflict marker', conflict],
       ['a source folder more than 12 levels down', deepSource],
+      ['a source file larger than 4 MB', largeSource],
       ['an Info.plist linked outside the project', linkedPlist],
       ['an ios/ folder linked outside the project', linkedIos],
       ['an Expo config written as code', configJs],

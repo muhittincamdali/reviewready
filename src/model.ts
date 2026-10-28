@@ -53,8 +53,8 @@ export interface TargetSummary {
 
 /**
  * The verdict, most serious first. `rejected`: an error-level finding, which App Review or App
- * Store Connect turns away. `not-known`: part of the app (its project, config, Info.plist or a
- * source folder) could not be read.
+ * Store Connect turns away. `not-known`: part of the app (its project, config, Info.plist, a
+ * source folder or a source file) could not be read.
  */
 export type VerdictCode = 'rejected' | 'not-known' | 'review' | 'ready';
 

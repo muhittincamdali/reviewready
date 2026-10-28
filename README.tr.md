@@ -1,4 +1,4 @@
-<!-- i18n-source: README.md@e6df98d52e28f2cab4ebd87b40c1410d705319f5 status=reviewed -->
+<!-- i18n-source: README.md@c0610d626f9553775dd81adce891cf04a8f1bf4a status=reviewed -->
 <!-- brand:start -->
 
 <p align="center"><picture><source media="(prefers-color-scheme: dark)" srcset="https://raw.githubusercontent.com/muhittincamdali/reviewready/main/.github/brand/banner-dark.svg"><source media="(prefers-color-scheme: light)" srcset="https://raw.githubusercontent.com/muhittincamdali/reviewready/main/.github/brand/banner-light.svg"><img src="https://raw.githubusercontent.com/muhittincamdali/reviewready/main/.github/brand/banner-light.svg" alt="reviewready: App Review ret sebeplerini göndermeden önce CI'da yakalar; her kuralın Apple kaynağını ve düzeltmesini verir."></picture></p>
@@ -163,8 +163,8 @@ reviewready [path] [options]
 
 Çıkış kodları: `0` `--fail-on` düzeyinde ya da üstünde hiçbir şey yok, `1` bu düzeyde ya da üstünde
 bulgu var, `2` hatalı argüman, iOS projesi bulunamadı ya da beklenmeyen bir hata. Bir Xcode projesi,
-bir Info.plist, Expo yapılandırması ya da bir kaynak klasörü okunamadığında karar "Not known" olur
-ve `--fail-on none` verilmedikçe çıkış kodu `1` olur: reviewready, okumadığı dosyalara dayanarak bir uygulamaya asla
+bir Info.plist, Expo yapılandırması, bir kaynak klasörü ya da bir kaynak dosyası okunamadığında
+karar "Not known" olur ve `--fail-on none` verilmedikçe çıkış kodu `1` olur: reviewready, okumadığı dosyalara dayanarak bir uygulamaya asla
 "hazır" demez.
 
 reviewready iOS uygulamasını kendisi bulur: yerel uygulamalarda kökte ya da bir klasör aşağıda bir
@@ -260,9 +260,10 @@ sürdü. Test paketinde 324 test var (`npm test`, aynı makine).
 - **Sınırlı girdi.** Bir proje bir pull request'ten gelebileceği için reviewready, proje dosyası
   başına en fazla 32 MB okur; kaynak dosyalarda ise dosya başına 4 MB, toplamda 20.000 dosya ve
   128 MB okur ve 12 klasör düzeyinden derine inmez. Dışarıda bıraktıkları raporun notlarında
-  listelenir. Daha derinde olduğu ya da içeriği listelenemediği için taranmayan bir kaynak klasörü
-  sonucu "not known" yapar. Desenler, bir milyon karakterlik
-  kötü niyetle hazırlanmış dosyalarda test edilmiştir.
+  listelenir ve sonucu "not known" yapar: bu sınırları aşan, proje dışına bağlanan ya da
+  okunamayan bir kaynak dosyası ve daha derinde olduğu, içeriği listelenemediği ya da sembolik
+  bağlantı olduğu için taranmayan bir kaynak klasörü (klasör bağlantıları izlenmez). Desenler, bir
+  milyon karakterlik kötü niyetle hazırlanmış dosyalarda test edilmiştir.
 
 ## Dokümantasyon
 

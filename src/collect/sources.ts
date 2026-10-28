@@ -3,7 +3,7 @@
 // app's localized strings (.strings, .xcstrings, .arb), which hold the words its screens show.
 // Each code file is kept as written and with its comments and string contents blanked out.
 import type { Dirent } from 'node:fs';
-import { readdir, realpath } from 'node:fs/promises';
+import { readdir, realpath, stat } from 'node:fs/promises';
 import { extname, join, relative, sep } from 'node:path';
 import { isInside, megabytes, readProjectFile } from '../core/files.js';
 import { lineIndex } from '../core/lines.js';
@@ -61,6 +61,8 @@ export interface SourceListing {
   tooDeep: string[];
   /** Folders that could not be listed, for example for lack of permission. */
   unreadable: string[];
+  /** Symbolic links to folders, which are not followed. */
+  linked: string[];
 }
 
 /**
@@ -75,6 +77,7 @@ export async function listSourceFiles(
   const found: string[] = [];
   const tooDeep: string[] = [];
   const unreadable: string[] = [];
+  const linked: string[] = [];
   const walk = async (dir: string, depth: number) => {
     let entries: Dirent[];
     try {
@@ -92,18 +95,24 @@ export async function listSourceFiles(
         continue;
       }
       const language = EXTENSIONS[extname(entry.name)];
-      if (
-        entry.isFile() &&
-        language &&
-        languages.has(language) &&
-        !SKIPPED_FILES.test(entry.name)
-      ) {
+      const source = language && languages.has(language) && !SKIPPED_FILES.test(entry.name);
+      // A linked source file is listed like any other; reading it checks where the link goes.
+      if ((entry.isFile() || entry.isSymbolicLink()) && source) {
         found.push(join(dir, entry.name));
+      } else if (entry.isSymbolicLink() && !SKIPPED.test(entry.name)) {
+        // Following links to folders could loop; one that is not searched is named instead.
+        const child = join(dir, entry.name);
+        if ((await stat(child).catch(() => null))?.isDirectory()) linked.push(child);
       }
     }
   };
   await walk(folder, 0);
-  return { files: found.sort(), tooDeep: tooDeep.sort(), unreadable: unreadable.sort() };
+  return {
+    files: found.sort(),
+    tooDeep: tooDeep.sort(),
+    unreadable: unreadable.sort(),
+    linked: linked.sort(),
+  };
 }
 
 export function sourceFile(path: string, text: string): SourceFile {
@@ -152,10 +161,11 @@ export interface SourceSet {
   /** Files and folders that were not read, for the report. */
   notes: string[];
   /**
-   * Whether a source folder was too deep or could not be listed. Its files are not known, and one
-   * of them may call an API that needs a purpose string, so the result is not known either.
+   * Whether a source file was left out: in a folder too deep, linked or that could not be listed,
+   * over the size, count or total limit, linked outside the project, or not readable. Any of them
+   * may call an API that needs a purpose string, so the result is not known either.
    */
-  foldersNotSearched: boolean;
+  incomplete: boolean;
 }
 
 /** "Source files not read (why): a, b, c and 4 more." */
@@ -169,6 +179,10 @@ interface ReadResult {
   files: SourceFile[];
   tooLarge: string[];
   overBudget: string[];
+  /** Files that were listed but could not be read, for example for lack of permission. */
+  unread: string[];
+  /** Files linked to a file outside the project, which are not read. */
+  outside: string[];
 }
 
 /**
@@ -180,7 +194,7 @@ async function readWithin(
   root: string,
   limits: Readonly<SourceLimits>,
 ): Promise<ReadResult> {
-  const result: ReadResult = { files: [], tooLarge: [], overBudget: [] };
+  const result: ReadResult = { files: [], tooLarge: [], overBudget: [], unread: [], outside: [] };
   let total = 0;
   for (let start = 0; start < paths.length; start += READ_BATCH) {
     const batch = paths.slice(start, start + READ_BATCH);
@@ -191,6 +205,8 @@ async function readWithin(
       const path = batch[index] ?? '';
       if (!read.found) {
         if (read.reason === 'too-large') result.tooLarge.push(path);
+        else if (read.reason === 'outside') result.outside.push(path);
+        else result.unread.push(path);
       } else if (total + read.bytes.length > limits.totalBytes) {
         result.overBudget.push(path);
       } else {
@@ -261,13 +277,17 @@ export async function readSources(
   if (unreadable.length > 0) {
     notes.push(skippedNote(unreadable, 'could not be listed', 'Source folders not searched'));
   }
+  const linked = folders(listings.flatMap((listing) => listing.linked));
+  if (linked.length > 0) {
+    notes.push(skippedNote(linked, 'symbolic links', 'Source folders not searched'));
+  }
   const paths = [...new Set(listings.flatMap((listing) => listing.files))].sort();
   if (paths.length > limits.files) {
     notes.push(
       `The project has ${paths.length} source files; reviewready read the first ${limits.files} by path.`,
     );
   }
-  const { files, tooLarge, overBudget } = await readWithin(
+  const { files, tooLarge, overBudget, unread, outside } = await readWithin(
     paths.slice(0, limits.files),
     projectRoot,
     limits,
@@ -280,5 +300,16 @@ export async function readSources(
       skippedNote(shown(overBudget), `after the first ${megabytes(limits.totalBytes)} of source`),
     );
   }
-  return { files, notes, foldersNotSearched: tooDeep.length > 0 || unreadable.length > 0 };
+  if (unread.length > 0) notes.push(skippedNote(shown(unread), 'could not be read'));
+  if (outside.length > 0) notes.push(skippedNote(shown(outside), 'linked outside the project'));
+  const incomplete =
+    tooDeep.length > 0 ||
+    unreadable.length > 0 ||
+    linked.length > 0 ||
+    paths.length > limits.files ||
+    tooLarge.length > 0 ||
+    overBudget.length > 0 ||
+    unread.length > 0 ||
+    outside.length > 0;
+  return { files, notes, incomplete };
 }

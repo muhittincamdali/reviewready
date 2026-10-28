@@ -157,8 +157,8 @@ reviewready [path] [options]
 
 Exit codes: `0` nothing at or above `--fail-on`, `1` findings at or above it, `2` bad arguments,
 no iOS project found, or an unexpected error. When an Xcode project, an Info.plist, the Expo
-config or a source folder could not be read, the verdict is "Not known" and the exit code is `1`
-unless `--fail-on none`: reviewready never calls an app ready on files it did not read.
+config, a source folder or a source file could not be read, the verdict is "Not known" and the exit
+code is `1` unless `--fail-on none`: reviewready never calls an app ready on files it did not read.
 
 reviewready finds the iOS app on its own: an `.xcodeproj` at the root or one folder down for native
 apps, `ios/` for Flutter, React Native and Expo apps. It reads every iOS app target's Info.plist
@@ -250,9 +250,11 @@ The test suite has 324 tests (`npm test`, same machine).
   `scripts/simulator-check.sh`, run on a Mac.
 - **Bounded input.** A project can come from a pull request, so reviewready reads at most 32 MB
   per project file and, of the sources, 4 MB per file, 20,000 files and 128 MB in total, in folders
-  up to 12 levels down; what it leaves out is listed in the report's notes. A source folder it did
-  not search, because it is deeper or cannot be listed, makes the result "not known". The patterns
-  are tested on hostile files of a million characters.
+  up to 12 levels down; what it leaves out is listed in the report's notes and makes the
+  result "not known": a source file over these limits, linked outside the project or not readable,
+  and a source folder it did not search because it is deeper, cannot be listed or is a symbolic
+  link (links to folders are not followed). The patterns are tested on hostile files of a million
+  characters.
 
 ## Documentation
 
