@@ -32,6 +32,12 @@ describe('rules/app-review.json', () => {
       expect(plugin.version, plugin.name).toMatch(/^\d+\.\d+\.\d+$/);
   });
 
+  it('has the package counts the README and CHANGELOG give', () => {
+    const count = (ecosystem: string) =>
+      RULE_DATA.packages.filter((item) => item.ecosystem === ecosystem).length;
+    expect([count('flutter'), count('npm'), RULE_DATA.expoPlugins.length]).toEqual([15, 10, 11]);
+  });
+
   it('links every fix to a guide that exists', () => {
     for (const rule of RULE_DATA.rules) {
       for (const fix of Object.values(rule.fixes)) {
