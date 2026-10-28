@@ -1,4 +1,4 @@
-<!-- i18n-source: README.md@6156987af1dcda58a7bd3220ac4f8dc2c4c989aa status=reviewed -->
+<!-- i18n-source: README.md@8664c42f034f901757599afc006cc06fa47c80ca status=reviewed -->
 <!-- brand:start -->
 
 <p align="center"><picture><source media="(prefers-color-scheme: dark)" srcset="https://raw.githubusercontent.com/muhittincamdali/reviewready/main/.github/brand/banner-dark.svg"><source media="(prefers-color-scheme: light)" srcset="https://raw.githubusercontent.com/muhittincamdali/reviewready/main/.github/brand/banner-light.svg"><img src="https://raw.githubusercontent.com/muhittincamdali/reviewready/main/.github/brand/banner-light.svg" alt="reviewready: App Review ret sebeplerini göndermeden önce CI'da yakalar; her kuralın Apple kaynağını ve düzeltmesini verir."></picture></p>
@@ -224,8 +224,8 @@ Terminal kayıtları, her araç zinciriyle hazırlanmış projeler olan [fixture
 
 28 Ekim 2026'da Node.js 26.12 yüklü bir Mac'te (Apple silicon, M5 Max) ölçüldü: altı fixture
 üzerinde `node dist/cli/main.js --json` komutunun 100'er çalıştırmalık üç seti; Node.js başlangıç
-süresi dahil. Üç setin medyanları 0,110, 0,112 ve 0,109 saniyeydi; en yavaş çalıştırma 0,24 saniye
-sürdü. Test paketinde 324 test var (`npm test`, aynı makine).
+süresi dahil. Üç setin medyanları 0,113, 0,111 ve 0,112 saniyeydi; en yavaş çalıştırma 0,19 saniye
+sürdü. Test paketinde 331 test var (`npm test`, aynı makine).
 
 ## Durum
 

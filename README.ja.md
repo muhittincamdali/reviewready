@@ -1,4 +1,4 @@
-<!-- i18n-source: README.md@6156987af1dcda58a7bd3220ac4f8dc2c4c989aa status=reviewed -->
+<!-- i18n-source: README.md@8664c42f034f901757599afc006cc06fa47c80ca status=reviewed -->
 <!-- brand:start -->
 
 <p align="center"><picture><source media="(prefers-color-scheme: dark)" srcset="https://raw.githubusercontent.com/muhittincamdali/reviewready/main/.github/brand/banner-dark.svg"><source media="(prefers-color-scheme: light)" srcset="https://raw.githubusercontent.com/muhittincamdali/reviewready/main/.github/brand/banner-light.svg"><img src="https://raw.githubusercontent.com/muhittincamdali/reviewready/main/.github/brand/banner-light.svg" alt="reviewready：提出前に CI で App Review のリジェクト要因を検出し、各ルールの根拠となる Apple のページと対処方法を示します。"></picture></p>
@@ -173,7 +173,7 @@ console.log(render(report, 'markdown'));
 | すべてのチェックに合格する UIKit アプリ                                               | [ライト](docs/media/demo-native-ready-light.svg) · [ダーク](docs/media/demo-native-ready-dark.svg)                                                  |
 | iOS 27.0 での `scripts/simulator-check.sh`、修正なしと修正あり                        | [修正前](docs/media/demo-simulator-contacts-probe-missing-27.0-light.svg) · [修正後](docs/media/demo-simulator-contacts-probe-fixed-27.0-light.svg) |
 
-2026 年 10 月 28 日に、Mac（Apple silicon、M5 Max）と Node.js 26.12 で計測しました。6 つのフィクスチャに対して `node dist/cli/main.js --json` を 100 回実行するセットを 3 回行い、Node.js の起動時間を含みます。3 セットの中央値は 0.110 秒、0.112 秒、0.109 秒で、最も遅かった実行は 0.24 秒でした。テストスイートには 324 件のテストがあります（`npm test`、同じマシン）。
+2026 年 10 月 28 日に、Mac（Apple silicon、M5 Max）と Node.js 26.12 で計測しました。6 つのフィクスチャに対して `node dist/cli/main.js --json` を 100 回実行するセットを 3 回行い、Node.js の起動時間を含みます。3 セットの中央値は 0.113 秒、0.111 秒、0.112 秒で、最も遅かった実行は 0.19 秒でした。テストスイートには 331 件のテストがあります（`npm test`、同じマシン）。
 
 ## ステータス
 

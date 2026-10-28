@@ -216,8 +216,8 @@ each toolchain:
 
 Measured on 28 October 2026 on a Mac (Apple silicon, M5 Max) with Node.js 26.12: three sets of 100
 runs of `node dist/cli/main.js --json` over the six fixtures, Node.js start-up included. The
-medians of the three sets were 0.110, 0.112 and 0.109 seconds; the slowest run took 0.24 seconds.
-The test suite has 324 tests (`npm test`, same machine).
+medians of the three sets were 0.113, 0.111 and 0.112 seconds; the slowest run took 0.19 seconds.
+The test suite has 331 tests (`npm test`, same machine).
 
 ## Status
 

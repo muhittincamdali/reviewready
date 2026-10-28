@@ -1,4 +1,4 @@
-<!-- i18n-source: README.md@6156987af1dcda58a7bd3220ac4f8dc2c4c989aa status=reviewed -->
+<!-- i18n-source: README.md@8664c42f034f901757599afc006cc06fa47c80ca status=reviewed -->
 <!-- brand:start -->
 
 <p align="center"><picture><source media="(prefers-color-scheme: dark)" srcset="https://raw.githubusercontent.com/muhittincamdali/reviewready/main/.github/brand/banner-dark.svg"><source media="(prefers-color-scheme: light)" srcset="https://raw.githubusercontent.com/muhittincamdali/reviewready/main/.github/brand/banner-light.svg"><img src="https://raw.githubusercontent.com/muhittincamdali/reviewready/main/.github/brand/banner-light.svg" alt="reviewready: detecta en CI los rechazos de App Review antes de enviar la app, con la fuente de Apple de cada regla y la solución."></picture></p>
@@ -172,7 +172,7 @@ Las grabaciones de terminal salen de la CLI sobre los [fixtures](fixtures/README
 | App UIKit que supera todas las comprobaciones                                    | [claro](docs/media/demo-native-ready-light.svg) · [oscuro](docs/media/demo-native-ready-dark.svg)                                                            |
 | `scripts/simulator-check.sh` en iOS 27.0, sin las soluciones y con ellas         | [sin la clave](docs/media/demo-simulator-contacts-probe-missing-27.0-light.svg) · [corregido](docs/media/demo-simulator-contacts-probe-fixed-27.0-light.svg) |
 
-Medido el 28 de octubre de 2026 en un Mac (Apple silicon, M5 Max) con Node.js 26.12: tres series de 100 ejecuciones de `node dist/cli/main.js --json` sobre los seis fixtures, con el arranque de Node.js incluido. Las medianas de las tres series fueron 0,110, 0,112 y 0,109 segundos; la ejecución más lenta tardó 0,24 segundos. El conjunto de pruebas tiene 324 pruebas (`npm test`, el mismo equipo).
+Medido el 28 de octubre de 2026 en un Mac (Apple silicon, M5 Max) con Node.js 26.12: tres series de 100 ejecuciones de `node dist/cli/main.js --json` sobre los seis fixtures, con el arranque de Node.js incluido. Las medianas de las tres series fueron 0,113, 0,111 y 0,112 segundos; la ejecución más lenta tardó 0,19 segundos. El conjunto de pruebas tiene 331 pruebas (`npm test`, el mismo equipo).
 
 ## Estado
 
