@@ -150,7 +150,8 @@ export async function run(argv: readonly string[], environment: CliEnvironment):
   if (options.json) options.format = 'json';
   const path = (command.processedArgs[0] as string | undefined) ?? '.';
   try {
-    const report = await scan(resolve(io.cwd, path), { ignore: options.ignore });
+    const root = resolve(io.cwd, path);
+    const report = await scan(root, { ignore: options.ignore });
     report.project.path = path;
     const width = io.stdoutIsTty && io.columns ? Math.min(io.columns, 100) : 100;
     const output = render(report, options.format, {
@@ -159,7 +160,8 @@ export async function run(argv: readonly string[], environment: CliEnvironment):
       brief: options.brief === true,
     });
     if (options.output) {
-      await writeReport(resolve(io.cwd, options.output), output);
+      // The current folder and the checked project may both come from a pull request.
+      await writeReport(resolve(io.cwd, options.output), output, [resolve(io.cwd), root]);
       io.stderr(`Wrote ${options.output}: ${report.verdict.text}\n`);
     } else {
       io.stdout(output);

@@ -1,4 +1,13 @@
-import { chmodSync, lstatSync, mkdirSync, readFileSync, symlinkSync, writeFileSync } from 'node:fs';
+import {
+  chmodSync,
+  cpSync,
+  lstatSync,
+  mkdirSync,
+  readdirSync,
+  readFileSync,
+  symlinkSync,
+  writeFileSync,
+} from 'node:fs';
 import { join } from 'node:path';
 import { describe, expect, it } from 'vitest';
 import { EXIT, failsOn, PACKAGE_NAME, RELEASE_TARBALL_URL } from '../../src/cli/run.js';
@@ -144,6 +153,48 @@ describe('output', () => {
     }
     expect(readFileSync(victim, 'utf8')).toBe('outside the project\n');
     expect(lstatSync(join(project, 'reviewready.md')).isSymbolicLink()).toBe(true);
+  });
+
+  it('does not write --output into a folder of the project that links outside it', async () => {
+    const folder = scratchDir('output-folder-link');
+    const elsewhere = join(folder, 'elsewhere');
+    mkdirSync(elsewhere);
+    const project = join(folder, 'project');
+    mkdirSync(join(project, 'deep'), { recursive: true });
+    symlinkSync(elsewhere, join(project, 'reports'));
+    symlinkSync(elsewhere, join(project, 'deep', 'out'));
+    // The project is checked as the current folder and, from outside it, as the path argument.
+    const runs = [
+      { cwd: project, args: ['.', '--output', 'reports/reviewready.md'] },
+      { cwd: project, args: ['.', '--output', 'deep/out/x/reviewready.md'] },
+      { cwd: folder, args: ['project', '--output', 'project/reports/reviewready.md'] },
+    ];
+    for (const { cwd, args } of runs) {
+      cpSync(join(ROOT, REJECTED), project, { recursive: true });
+      const result = await reviewready([...args, '--format', 'markdown'], { cwd });
+      expect(result.code).toBe(EXIT.error);
+      expect(result.stderr).toMatch(/is inside .+, a symbolic link; reviewready does not write/);
+      expect(result.stderr).not.toContain('bug');
+    }
+    expect(readdirSync(elsewhere)).toEqual([]);
+  });
+
+  it('writes the report through a link above the checked folders, and replaces an old report', async () => {
+    const folder = scratchDir('output-machine-link');
+    const real = join(folder, 'real');
+    mkdirSync(real);
+    symlinkSync(real, join(folder, 'alias'));
+    const file = join(folder, 'alias', 'report.md');
+    writeFileSync(join(real, 'report.md'), 'old\n');
+    const cwd = join(folder, 'work');
+    mkdirSync(cwd);
+    const result = await reviewready(
+      [join(ROOT, REJECTED), '--format', 'markdown', '--output', file],
+      { cwd },
+    );
+    expect(result.code).toBe(EXIT.findings);
+    expect(readFileSync(join(real, 'report.md'), 'utf8')).toContain('## reviewready: Ledger');
+    expect(readdirSync(real)).toEqual(['report.md']);
   });
 
   // A root user can write into a read-only folder, so the permission case needs another user.
