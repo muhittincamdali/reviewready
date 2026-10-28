@@ -41,7 +41,7 @@
           "guide": "docs/guides/purpose-strings.md"
         },
         "build-setting": {
-          "title": "Add the key in Signing & Capabilities or as a build setting",
+          "title": "Add the key in the target's Info tab",
           "steps": [
             "In Xcode, select the target, open Info, and add the key with a sentence that says what the app does with the data. Xcode stores it as the INFOPLIST_KEY_<key> build setting.",
             "If the app never uses this feature, remove the code or the package that uses it instead."
