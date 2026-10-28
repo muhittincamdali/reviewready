@@ -12,6 +12,7 @@ import { join } from 'node:path';
 import { describe, expect, it } from 'vitest';
 import { EXIT, failsOn, PACKAGE_NAME, RELEASE_TARBALL_URL } from '../../src/cli/run.js';
 import { SOURCE_LIMITS } from '../../src/collect/sources.js';
+import { SOURCE_RULES } from '../../src/rules/check.js';
 import type { Report } from '../../src/model.js';
 import { VERSION } from '../../src/version.js';
 import { ROOT, reviewready } from '../helpers/cli.js';
@@ -111,6 +112,19 @@ describe('exit codes', () => {
       expect(result.code).toBe(EXIT.findings);
       expect((await reviewready([root, '--fail-on', 'error'])).code).toBe(EXIT.findings);
       expect((await reviewready([root, '--fail-on', 'none'])).code).toBe(EXIT.ok);
+    });
+
+    it.each([
+      ['a source folder more than 12 levels down', deepSource],
+      ['a source file larger than 4 MB', largeSource],
+    ])('does not call the rules that read sources passed for %s', async (_, root) => {
+      const result = await reviewready([root, '--json']);
+      const report = JSON.parse(result.stdout) as Report;
+      const status = Object.fromEntries(report.checks.map((check) => [check.rule, check.status]));
+      for (const rule of SOURCE_RULES) expect(status[rule]).toBe('not-checked');
+      // The rules that read the project files, not its code, still ran.
+      expect(status.RVW102).toBe('passed');
+      expect(status.RVW602).toBe('passed');
     });
   });
 

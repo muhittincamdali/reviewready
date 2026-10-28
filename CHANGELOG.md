@@ -18,6 +18,8 @@ All notable changes to reviewready are listed here. The format follows
 - Symbolic links under a source folder were dropped without a note. A linked source file inside the
   project is now read; one linked outside it, and a linked folder (which is not followed), are named
   in the notes and make the verdict "Not known".
+- With source files not read, RVW101, RVW301 and RVW401, the rules that read the app's code, showed
+  as passed ("✓") and counted in "checks passed". Without a finding they are now "not checked".
 
 ## [0.1.0] - 2026-10-28
 
