@@ -1,0 +1,32 @@
+name: Ledger
+options:
+  bundleIdPrefix: dev.reviewready.fixtures
+  deploymentTarget:
+    iOS: "12.0"
+packages:
+  GoogleSignIn:
+    url: https://github.com/google/GoogleSignIn-iOS
+    from: 9.0.0
+settings:
+  base:
+    SWIFT_VERSION: "6.0"
+    CODE_SIGNING_ALLOWED: "NO"
+targets:
+  Ledger:
+    type: application
+    platform: iOS
+    sources:
+      - path: Ledger
+        excludes:
+          - PrivacyInfo.xcprivacy
+    dependencies:
+      - package: GoogleSignIn
+    settings:
+      base:
+        PRODUCT_BUNDLE_IDENTIFIER: dev.reviewready.fixtures.ledger
+        GENERATE_INFOPLIST_FILE: "YES"
+        INFOPLIST_KEY_UIApplicationSceneManifest_Generation: "YES"
+        INFOPLIST_KEY_UILaunchScreen_Generation: "YES"
+        INFOPLIST_KEY_CFBundleDisplayName: Ledger
+        INFOPLIST_KEY_NSPhotoLibraryUsageDescription: ""
+        INFOPLIST_KEY_NSLocationWhenInUseUsageDescription: "TODO: explain location"

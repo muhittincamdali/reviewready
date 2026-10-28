@@ -1,0 +1,148 @@
+reviewready 0.1.0 · rules app-review@2026.10.28 (sources read 2026-10-28)
+
+harvest · Flutter · fixtures/flutter-harvest
+Xcode 16.4 pinned · deployment target iOS 15.0
+target Runner (ios/Runner/Info.plist)
+
+4 problems App Review or App Store Connect turns away, and 5 warnings to review
+
+ERROR    RVW101 Purpose string missing
+         ios/Runner/Info.plist
+         permission_handler PERMISSION_CONTACTS (ios/Podfile:48) needs NSContactsUsageDescription
+         (contacts); Runner has none.
+         Fix: [A] Add the key to Info.plist
+         Source:
+         https://developer.apple.com/documentation/uikit/requesting-access-to-protected-resources
+
+ERROR    RVW101 Purpose string missing
+         ios/Runner/Info.plist
+         The camera package needs NSMicrophoneUsageDescription (microphone); Runner has none.
+         Fix: [A] Add the key to Info.plist
+         Source:
+         https://developer.apple.com/documentation/uikit/requesting-access-to-protected-resources
+
+ERROR    RVW101 Purpose string missing
+         ios/Runner/Info.plist
+         The image_picker package needs NSPhotoLibraryUsageDescription (photo library); Runner has
+         none.
+         Fix: [A] Add the key to Info.plist
+         Source:
+         https://developer.apple.com/documentation/uikit/requesting-access-to-protected-resources
+
+ERROR    RVW601 Xcode older than App Store Connect accepts
+         codemagic.yaml:6
+         codemagic.yaml pins Xcode 16.4 (xcode key); App Store Connect accepts uploads built with
+         Xcode 26 or later since 28 April 2026.
+         Fix: [B] Build with Xcode 26 or later
+         Source: https://developer.apple.com/news/upcoming-requirements/
+
+WARNING  RVW104 Purpose string is placeholder or default text
+         ios/Runner/Info.plist:27
+         NSCameraUsageDescription "your usage description here" is the sample text from the camera
+         package README.
+         Fix: [C] Say why the app needs access
+         Source:
+         https://developer.apple.com/documentation/uikit/requesting-access-to-protected-resources
+
+WARNING  RVW201 Export compliance not declared
+         ios/Runner/Info.plist
+         The Info.plist of Runner has no ITSAppUsesNonExemptEncryption, so App Store Connect asks
+         the export compliance questions for every build.
+         Fix: [D] Declare the app's encryption
+         Source:
+         https://developer.apple.com/documentation/bundleresources/information-property-list/itsappusesnonexemptencryption
+
+WARNING  RVW301 Account creation without account deletion
+         lib/main.dart:32
+         Accounts are created (a createUserWithEmailAndPassword call in lib/main.dart:32), and no
+         account deletion call or "Delete account" text was found in the app's code or strings.
+         Fix: [E] Let people delete their account in the app
+         Source:
+         https://developer.apple.com/app-store/review/guidelines/#data-collection-and-storage
+
+WARNING  RVW401 Third-party login without an equivalent option
+         pubspec.yaml
+         Google Sign-In is used (the google_sign_in package in pubspec.yaml), and no Sign in with
+         Apple was found: no package, entitlement or AuthenticationServices call.
+         Fix: [F] Offer Sign in with Apple next to the other login
+         Source: https://developer.apple.com/app-store/review/guidelines/#login-services
+
+WARNING  RVW701 No privacy manifest
+         ios/Runner.xcodeproj/project.pbxproj
+         Runner has no PrivacyInfo.xcprivacy in its resources.
+         Fix: [G] Add a privacy manifest to the app target
+         Source: https://developer.apple.com/documentation/bundleresources/privacy-manifest-files
+
+How to fix
+
+[A]      Add the key to Info.plist
+         1. Add the key to the target's Info.plist with one sentence that says what the app does
+            with the data, for example: <key>NSCameraUsageDescription</key><string>Scan the barcode
+            on a receipt to add it to your expenses.</string>
+         2. If the app never uses this feature, remove the code or the package that uses it instead.
+         https://github.com/muhittincamdali/reviewready/blob/main/docs/guides/purpose-strings.md
+
+[B]      Build with Xcode 26 or later
+         1. Change the pinned version to Xcode 26 or later (for example 27.1) in the file and line
+            the finding names, and use a runner or build image that has it.
+         2. Fix the build warnings and errors the newer SDK reports before the next upload.
+         https://github.com/muhittincamdali/reviewready/blob/main/docs/guides/xcode-and-ios-minimums.md
+
+[C]      Say why the app needs access
+         1. Replace the text with one sentence that names what the app does with the data, for
+            example "Take a photo of your meal to log it" rather than "needs camera access".
+         https://github.com/muhittincamdali/reviewready/blob/main/docs/guides/purpose-strings.md
+
+[D]      Declare the app's encryption
+         1. If the app (with its libraries) uses no encryption, or only the encryption built into
+            the operating system such as HTTPS through URLSession, add
+            <key>ITSAppUsesNonExemptEncryption</key><false/>.
+         2. If it uses non-exempt encryption, set it to <true/> and add
+            ITSEncryptionExportComplianceCode with the code Apple gives you after reviewing your
+            documentation.
+         https://github.com/muhittincamdali/reviewready/blob/main/docs/guides/export-compliance.md
+
+[E]      Let people delete their account in the app
+         1. Add a Delete account action that is easy to find, usually in the account settings, and
+            that deletes the account record with its personal data, not only deactivates it.
+         2. If deletion finishes on a website, link straight to that page. With Sign in with Apple,
+            also revoke the user's tokens.
+         3. If the app already has it under words reviewready does not know, turn the finding off
+            with --ignore RVW301.
+         https://github.com/muhittincamdali/reviewready/blob/main/docs/guides/accounts-and-sign-in.md
+
+[F]      Offer Sign in with Apple next to the other login
+         1. Add Sign in with Apple (AuthenticationServices on iOS, sign_in_with_apple on Flutter,
+            expo-apple-authentication or @invertase/react-native-apple-authentication on React
+            Native) and the Sign in with Apple capability.
+         2. If the app falls under one of the exceptions of guideline 4.8, or offers another login
+            service with the listed features, turn the finding off with --ignore RVW401.
+         https://github.com/muhittincamdali/reviewready/blob/main/docs/guides/accounts-and-sign-in.md
+
+[G]      Add a privacy manifest to the app target
+         1. In Xcode choose File > New > File from Template, pick App Privacy, name it
+            PrivacyInfo.xcprivacy and tick the app target.
+         2. Record the data the app collects (NSPrivacyCollectedDataTypes) and the reasons for each
+            required reason API the app's own code uses (NSPrivacyAccessedAPITypes). SDKs ship their
+            own manifests.
+         https://github.com/muhittincamdali/reviewready/blob/main/docs/guides/privacy-manifest.md
+
+Checks
+
+  ✗ RVW101  Purpose string missing
+  ✓ RVW102  Purpose string missing for a package feature
+  ✓ RVW103  Purpose string not valid
+  ✗ RVW104  Purpose string is placeholder or default text
+  ✗ RVW201  Export compliance not declared
+  ✗ RVW301  Account creation without account deletion
+  ✗ RVW401  Third-party login without an equivalent option
+  ✓ RVW501  No App Store icon
+  ✓ RVW502  App Store icon is not 1024 × 1024
+  ✓ RVW503  App Store icon has an alpha channel
+  ✗ RVW601  Xcode older than App Store Connect accepts
+  ✓ RVW602  Deployment target below iOS 13
+  ✗ RVW701  No privacy manifest
+  ✓ RVW702  Privacy manifest not in the app
+
+4 errors, 5 warnings, 7 checks passed
+Rules and sources: https://github.com/muhittincamdali/reviewready#what-reviewready-checks

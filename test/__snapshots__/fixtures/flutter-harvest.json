@@ -1,0 +1,371 @@
+{
+  "schemaVersion": 0,
+  "tool": {
+    "name": "reviewready",
+    "version": "0.1.0"
+  },
+  "rules": {
+    "ruleSet": "app-review",
+    "dataVersion": "2026.10.28",
+    "read": "2026-10-28"
+  },
+  "project": {
+    "path": "fixtures/flutter-harvest",
+    "name": "harvest",
+    "ecosystem": "flutter",
+    "versions": [],
+    "targets": [
+      {
+        "name": "Runner",
+        "infoPlists": [
+          "ios/Runner/Info.plist"
+        ],
+        "deploymentTarget": "15.0"
+      }
+    ],
+    "xcode": [
+      {
+        "version": "16.4",
+        "file": "codemagic.yaml",
+        "line": 6,
+        "via": "xcode key"
+      }
+    ]
+  },
+  "verdict": {
+    "code": "rejected",
+    "text": "4 problems App Review or App Store Connect turns away, and 5 warnings to review"
+  },
+  "findings": [
+    {
+      "rule": "RVW101",
+      "severity": "error",
+      "title": "Purpose string missing",
+      "message": "permission_handler PERMISSION_CONTACTS (ios/Podfile:48) needs NSContactsUsageDescription (contacts); Runner has none.",
+      "file": "ios/Runner/Info.plist",
+      "line": null,
+      "target": "Runner",
+      "fix": {
+        "id": "RVW101/info-plist",
+        "title": "Add the key to Info.plist",
+        "steps": [
+          "Add the key to the target's Info.plist with one sentence that says what the app does with the data, for example: <key>NSCameraUsageDescription</key><string>Scan the barcode on a receipt to add it to your expenses.</string>",
+          "If the app never uses this feature, remove the code or the package that uses it instead."
+        ],
+        "guide": "https://github.com/muhittincamdali/reviewready/blob/main/docs/guides/purpose-strings.md"
+      },
+      "sources": [
+        {
+          "title": "Apple: Requesting access to protected resources",
+          "url": "https://developer.apple.com/documentation/uikit/requesting-access-to-protected-resources"
+        },
+        {
+          "title": "App Review Guidelines 5.1.1(ii) Permission",
+          "url": "https://developer.apple.com/app-store/review/guidelines/#data-collection-and-storage"
+        }
+      ]
+    },
+    {
+      "rule": "RVW101",
+      "severity": "error",
+      "title": "Purpose string missing",
+      "message": "The camera package needs NSMicrophoneUsageDescription (microphone); Runner has none.",
+      "file": "ios/Runner/Info.plist",
+      "line": null,
+      "target": "Runner",
+      "fix": {
+        "id": "RVW101/info-plist",
+        "title": "Add the key to Info.plist",
+        "steps": [
+          "Add the key to the target's Info.plist with one sentence that says what the app does with the data, for example: <key>NSCameraUsageDescription</key><string>Scan the barcode on a receipt to add it to your expenses.</string>",
+          "If the app never uses this feature, remove the code or the package that uses it instead."
+        ],
+        "guide": "https://github.com/muhittincamdali/reviewready/blob/main/docs/guides/purpose-strings.md"
+      },
+      "sources": [
+        {
+          "title": "Apple: Requesting access to protected resources",
+          "url": "https://developer.apple.com/documentation/uikit/requesting-access-to-protected-resources"
+        },
+        {
+          "title": "App Review Guidelines 5.1.1(ii) Permission",
+          "url": "https://developer.apple.com/app-store/review/guidelines/#data-collection-and-storage"
+        }
+      ]
+    },
+    {
+      "rule": "RVW101",
+      "severity": "error",
+      "title": "Purpose string missing",
+      "message": "The image_picker package needs NSPhotoLibraryUsageDescription (photo library); Runner has none.",
+      "file": "ios/Runner/Info.plist",
+      "line": null,
+      "target": "Runner",
+      "fix": {
+        "id": "RVW101/info-plist",
+        "title": "Add the key to Info.plist",
+        "steps": [
+          "Add the key to the target's Info.plist with one sentence that says what the app does with the data, for example: <key>NSCameraUsageDescription</key><string>Scan the barcode on a receipt to add it to your expenses.</string>",
+          "If the app never uses this feature, remove the code or the package that uses it instead."
+        ],
+        "guide": "https://github.com/muhittincamdali/reviewready/blob/main/docs/guides/purpose-strings.md"
+      },
+      "sources": [
+        {
+          "title": "Apple: Requesting access to protected resources",
+          "url": "https://developer.apple.com/documentation/uikit/requesting-access-to-protected-resources"
+        },
+        {
+          "title": "App Review Guidelines 5.1.1(ii) Permission",
+          "url": "https://developer.apple.com/app-store/review/guidelines/#data-collection-and-storage"
+        }
+      ]
+    },
+    {
+      "rule": "RVW601",
+      "severity": "error",
+      "title": "Xcode older than App Store Connect accepts",
+      "message": "codemagic.yaml pins Xcode 16.4 (xcode key); App Store Connect accepts uploads built with Xcode 26 or later since 28 April 2026.",
+      "file": "codemagic.yaml",
+      "line": 6,
+      "target": null,
+      "fix": {
+        "id": "RVW601/ci",
+        "title": "Build with Xcode 26 or later",
+        "steps": [
+          "Change the pinned version to Xcode 26 or later (for example 27.1) in the file and line the finding names, and use a runner or build image that has it.",
+          "Fix the build warnings and errors the newer SDK reports before the next upload."
+        ],
+        "guide": "https://github.com/muhittincamdali/reviewready/blob/main/docs/guides/xcode-and-ios-minimums.md"
+      },
+      "sources": [
+        {
+          "title": "Apple: Upcoming Requirements",
+          "url": "https://developer.apple.com/news/upcoming-requirements/"
+        },
+        {
+          "title": "Apple Developer News: Upcoming SDK minimum requirements (3 February 2026)",
+          "url": "https://developer.apple.com/news/?id=ueeok6yw"
+        }
+      ]
+    },
+    {
+      "rule": "RVW104",
+      "severity": "warning",
+      "title": "Purpose string is placeholder or default text",
+      "message": "NSCameraUsageDescription \"your usage description here\" is the sample text from the camera package README.",
+      "file": "ios/Runner/Info.plist",
+      "line": 27,
+      "target": "Runner",
+      "fix": {
+        "id": "RVW104/info-plist",
+        "title": "Say why the app needs access",
+        "steps": [
+          "Replace the text with one sentence that names what the app does with the data, for example \"Take a photo of your meal to log it\" rather than \"needs camera access\"."
+        ],
+        "guide": "https://github.com/muhittincamdali/reviewready/blob/main/docs/guides/purpose-strings.md"
+      },
+      "sources": [
+        {
+          "title": "Apple: Adhere to the requirements for purpose strings",
+          "url": "https://developer.apple.com/documentation/uikit/requesting-access-to-protected-resources"
+        },
+        {
+          "title": "App Review Guidelines 5.1.1(ii) Permission",
+          "url": "https://developer.apple.com/app-store/review/guidelines/#data-collection-and-storage"
+        }
+      ]
+    },
+    {
+      "rule": "RVW201",
+      "severity": "warning",
+      "title": "Export compliance not declared",
+      "message": "The Info.plist of Runner has no ITSAppUsesNonExemptEncryption, so App Store Connect asks the export compliance questions for every build.",
+      "file": "ios/Runner/Info.plist",
+      "line": null,
+      "target": "Runner",
+      "fix": {
+        "id": "RVW201/info-plist",
+        "title": "Declare the app's encryption",
+        "steps": [
+          "If the app (with its libraries) uses no encryption, or only the encryption built into the operating system such as HTTPS through URLSession, add <key>ITSAppUsesNonExemptEncryption</key><false/>.",
+          "If it uses non-exempt encryption, set it to <true/> and add ITSEncryptionExportComplianceCode with the code Apple gives you after reviewing your documentation."
+        ],
+        "guide": "https://github.com/muhittincamdali/reviewready/blob/main/docs/guides/export-compliance.md"
+      },
+      "sources": [
+        {
+          "title": "Apple: ITSAppUsesNonExemptEncryption",
+          "url": "https://developer.apple.com/documentation/bundleresources/information-property-list/itsappusesnonexemptencryption"
+        },
+        {
+          "title": "Apple: Complying with Encryption Export Regulations",
+          "url": "https://developer.apple.com/documentation/security/complying-with-encryption-export-regulations"
+        }
+      ]
+    },
+    {
+      "rule": "RVW301",
+      "severity": "warning",
+      "title": "Account creation without account deletion",
+      "message": "Accounts are created (a createUserWithEmailAndPassword call in lib/main.dart:32), and no account deletion call or \"Delete account\" text was found in the app's code or strings.",
+      "file": "lib/main.dart",
+      "line": 32,
+      "target": null,
+      "fix": {
+        "id": "RVW301/code",
+        "title": "Let people delete their account in the app",
+        "steps": [
+          "Add a Delete account action that is easy to find, usually in the account settings, and that deletes the account record with its personal data, not only deactivates it.",
+          "If deletion finishes on a website, link straight to that page. With Sign in with Apple, also revoke the user's tokens.",
+          "If the app already has it under words reviewready does not know, turn the finding off with --ignore RVW301."
+        ],
+        "guide": "https://github.com/muhittincamdali/reviewready/blob/main/docs/guides/accounts-and-sign-in.md"
+      },
+      "sources": [
+        {
+          "title": "App Review Guidelines 5.1.1(v) Account Sign-In",
+          "url": "https://developer.apple.com/app-store/review/guidelines/#data-collection-and-storage"
+        },
+        {
+          "title": "Apple: Offering account deletion in your app",
+          "url": "https://developer.apple.com/support/offering-account-deletion-in-your-app/"
+        }
+      ]
+    },
+    {
+      "rule": "RVW401",
+      "severity": "warning",
+      "title": "Third-party login without an equivalent option",
+      "message": "Google Sign-In is used (the google_sign_in package in pubspec.yaml), and no Sign in with Apple was found: no package, entitlement or AuthenticationServices call.",
+      "file": "pubspec.yaml",
+      "line": null,
+      "target": null,
+      "fix": {
+        "id": "RVW401/code",
+        "title": "Offer Sign in with Apple next to the other login",
+        "steps": [
+          "Add Sign in with Apple (AuthenticationServices on iOS, sign_in_with_apple on Flutter, expo-apple-authentication or @invertase/react-native-apple-authentication on React Native) and the Sign in with Apple capability.",
+          "If the app falls under one of the exceptions of guideline 4.8, or offers another login service with the listed features, turn the finding off with --ignore RVW401."
+        ],
+        "guide": "https://github.com/muhittincamdali/reviewready/blob/main/docs/guides/accounts-and-sign-in.md"
+      },
+      "sources": [
+        {
+          "title": "App Review Guidelines 4.8 Login Services",
+          "url": "https://developer.apple.com/app-store/review/guidelines/#login-services"
+        },
+        {
+          "title": "Apple: Sign in with Apple",
+          "url": "https://developer.apple.com/sign-in-with-apple/"
+        }
+      ]
+    },
+    {
+      "rule": "RVW701",
+      "severity": "warning",
+      "title": "No privacy manifest",
+      "message": "Runner has no PrivacyInfo.xcprivacy in its resources.",
+      "file": "ios/Runner.xcodeproj/project.pbxproj",
+      "line": null,
+      "target": "Runner",
+      "fix": {
+        "id": "RVW701/info-plist",
+        "title": "Add a privacy manifest to the app target",
+        "steps": [
+          "In Xcode choose File > New > File from Template, pick App Privacy, name it PrivacyInfo.xcprivacy and tick the app target.",
+          "Record the data the app collects (NSPrivacyCollectedDataTypes) and the reasons for each required reason API the app's own code uses (NSPrivacyAccessedAPITypes). SDKs ship their own manifests."
+        ],
+        "guide": "https://github.com/muhittincamdali/reviewready/blob/main/docs/guides/privacy-manifest.md"
+      },
+      "sources": [
+        {
+          "title": "Apple: Privacy manifest files",
+          "url": "https://developer.apple.com/documentation/bundleresources/privacy-manifest-files"
+        },
+        {
+          "title": "Apple: Describing use of required reason API",
+          "url": "https://developer.apple.com/documentation/bundleresources/describing-use-of-required-reason-api"
+        }
+      ]
+    }
+  ],
+  "checks": [
+    {
+      "rule": "RVW101",
+      "title": "Purpose string missing",
+      "status": "found"
+    },
+    {
+      "rule": "RVW102",
+      "title": "Purpose string missing for a package feature",
+      "status": "passed"
+    },
+    {
+      "rule": "RVW103",
+      "title": "Purpose string not valid",
+      "status": "passed"
+    },
+    {
+      "rule": "RVW104",
+      "title": "Purpose string is placeholder or default text",
+      "status": "found"
+    },
+    {
+      "rule": "RVW201",
+      "title": "Export compliance not declared",
+      "status": "found"
+    },
+    {
+      "rule": "RVW301",
+      "title": "Account creation without account deletion",
+      "status": "found"
+    },
+    {
+      "rule": "RVW401",
+      "title": "Third-party login without an equivalent option",
+      "status": "found"
+    },
+    {
+      "rule": "RVW501",
+      "title": "No App Store icon",
+      "status": "passed"
+    },
+    {
+      "rule": "RVW502",
+      "title": "App Store icon is not 1024 × 1024",
+      "status": "passed"
+    },
+    {
+      "rule": "RVW503",
+      "title": "App Store icon has an alpha channel",
+      "status": "passed"
+    },
+    {
+      "rule": "RVW601",
+      "title": "Xcode older than App Store Connect accepts",
+      "status": "found"
+    },
+    {
+      "rule": "RVW602",
+      "title": "Deployment target below iOS 13",
+      "status": "passed"
+    },
+    {
+      "rule": "RVW701",
+      "title": "No privacy manifest",
+      "status": "found"
+    },
+    {
+      "rule": "RVW702",
+      "title": "Privacy manifest not in the app",
+      "status": "passed"
+    }
+  ],
+  "notes": [],
+  "summary": {
+    "errors": 4,
+    "warnings": 5,
+    "info": 0
+  }
+}

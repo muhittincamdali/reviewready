@@ -4,6 +4,8 @@ import { type AppModel, shownPath } from '../collect/app.js';
 import type { RuleId } from './data.js';
 import type { CheckResult, Hit } from './hit.js';
 
+const REACT_NATIVE: ReadonlySet<string> = new Set(['react-native', 'expo']);
+
 export function checkPrivacyManifest(app: AppModel): CheckResult {
   const hits: Hit[] = [];
   const stray = app.strayPrivacyManifests;
@@ -31,7 +33,7 @@ export function checkPrivacyManifest(app: AppModel): CheckResult {
         line: null,
         variant: 'info-plist',
         target: target.name,
-        message: `${shownPath(file, app.project.root)} is not in the Copy Bundle Resources of ${target.name} or in a folder it syncs, so the app ships without it.`,
+        message: `${shownPath(file, app.project.root)} is not in the Copy Bundle Resources of ${target.name} or in a folder it syncs, so the app ships without it.${REACT_NATIVE.has(app.project.ecosystem) ? " React Native's pod install adds it to the target (privacy manifest aggregation); commit the project file it changes." : ''}`,
       });
       continue;
     }

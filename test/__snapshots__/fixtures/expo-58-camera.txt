@@ -1,0 +1,86 @@
+reviewready 0.1.0 · rules app-review@2026.10.28 (sources read 2026-10-28)
+
+field-notes · Expo · fixtures/expo-58-camera
+Xcode 16.4 pinned
+react-native 0.88.0 (declared)
+expo 58.0.20 (declared)
+target field-notes
+
+2 problems App Review or App Store Connect turns away, and 2 warnings to review
+
+ERROR    RVW101 Purpose string missing
+         app.json
+         The expo-tracking-transparency package (its config plugin is not in expo.plugins) needs
+         NSUserTrackingUsageDescription (App Tracking Transparency); field-notes has none.
+         Fix: [A] Set the text in app.json
+         Source:
+         https://developer.apple.com/documentation/uikit/requesting-access-to-protected-resources
+
+ERROR    RVW601 Xcode older than App Store Connect accepts
+         eas.json:8
+         eas.json pins Xcode 16.4 (EAS image); App Store Connect accepts uploads built with Xcode 26
+         or later since 28 April 2026.
+         Fix: [B] Build with Xcode 26 or later
+         Source: https://developer.apple.com/news/upcoming-requirements/
+
+WARNING  RVW104 Purpose string is placeholder or default text
+         app.json
+         The expo-location config plugin writes its default text for
+         NSLocationWhenInUseUsageDescription, NSLocationAlwaysAndWhenInUseUsageDescription,
+         NSLocationAlwaysUsageDescription: no option or ios.infoPlist value gives the app's own.
+         Fix: [C] Pass your own text to the config plugin
+         Source:
+         https://developer.apple.com/documentation/uikit/requesting-access-to-protected-resources
+
+WARNING  RVW701 No privacy manifest
+         app.json
+         app.json has no ios.privacyManifests, so prebuild writes no privacy manifest for the app.
+         Fix: [D] Add ios.privacyManifests to app.json
+         Source: https://developer.apple.com/documentation/bundleresources/privacy-manifest-files
+
+How to fix
+
+[A]      Set the text in app.json
+         1. Set the key under expo.ios.infoPlist in app.json, or pass the text to the package's
+            config plugin option, with a sentence that says what the app does with the data.
+         2. Run npx expo prebuild --clean (or the next EAS Build) so the native Info.plist gets it.
+         https://github.com/muhittincamdali/reviewready/blob/main/docs/guides/purpose-strings.md
+
+[B]      Build with Xcode 26 or later
+         1. Change the pinned version to Xcode 26 or later (for example 27.1) in the file and line
+            the finding names, and use a runner or build image that has it.
+         2. Fix the build warnings and errors the newer SDK reports before the next upload.
+         https://github.com/muhittincamdali/reviewready/blob/main/docs/guides/xcode-and-ios-minimums.md
+
+[C]      Pass your own text to the config plugin
+         1. Add the plugin to expo.plugins with its permission option, for example ["expo-camera", {
+            "cameraPermission": "Scan a receipt to add it to your expenses." }], or set the key
+            under expo.ios.infoPlist.
+         2. Set the option to false instead if the app never uses that permission: the plugin then
+            leaves the key out.
+         https://github.com/muhittincamdali/reviewready/blob/main/docs/guides/purpose-strings.md
+
+[D]      Add ios.privacyManifests to app.json
+         1. Add expo.ios.privacyManifests with NSPrivacyAccessedAPITypes (and the data types the app
+            collects); prebuild writes them into PrivacyInfo.xcprivacy.
+         https://github.com/muhittincamdali/reviewready/blob/main/docs/guides/privacy-manifest.md
+
+Checks
+
+  ✗ RVW101  Purpose string missing
+  ✓ RVW102  Purpose string missing for a package feature
+  ✓ RVW103  Purpose string not valid
+  ✗ RVW104  Purpose string is placeholder or default text
+  ✓ RVW201  Export compliance not declared
+  ✓ RVW301  Account creation without account deletion
+  ✓ RVW401  Third-party login without an equivalent option
+  ✓ RVW501  No App Store icon
+  ✓ RVW502  App Store icon is not 1024 × 1024
+  ✓ RVW503  App Store icon has an alpha channel
+  ✗ RVW601  Xcode older than App Store Connect accepts
+  – RVW602  Deployment target below iOS 13 (not-checked)
+  ✗ RVW701  No privacy manifest
+  ✓ RVW702  Privacy manifest not in the app
+
+2 errors, 2 warnings, 9 checks passed
+Rules and sources: https://github.com/muhittincamdali/reviewready#what-reviewready-checks

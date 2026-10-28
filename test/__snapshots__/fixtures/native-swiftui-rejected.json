@@ -1,0 +1,382 @@
+{
+  "schemaVersion": 0,
+  "tool": {
+    "name": "reviewready",
+    "version": "0.1.0"
+  },
+  "rules": {
+    "ruleSet": "app-review",
+    "dataVersion": "2026.10.28",
+    "read": "2026-10-28"
+  },
+  "project": {
+    "path": "fixtures/native-swiftui-rejected",
+    "name": "Ledger",
+    "ecosystem": "native",
+    "versions": [],
+    "targets": [
+      {
+        "name": "Ledger",
+        "infoPlists": [],
+        "deploymentTarget": "12.0"
+      }
+    ],
+    "xcode": [
+      {
+        "version": "16.4",
+        "file": ".xcode-version",
+        "line": 1,
+        "via": ".xcode-version"
+      }
+    ]
+  },
+  "verdict": {
+    "code": "rejected",
+    "text": "5 problems App Review or App Store Connect turns away, and 5 warnings to review"
+  },
+  "findings": [
+    {
+      "rule": "RVW101",
+      "severity": "error",
+      "title": "Purpose string missing",
+      "message": "AVCaptureSession (Ledger/ScannerView.swift:6) needs NSCameraUsageDescription (camera); Ledger has none.",
+      "file": "Ledger.xcodeproj/project.pbxproj",
+      "line": null,
+      "target": "Ledger",
+      "fix": {
+        "id": "RVW101/build-setting",
+        "title": "Add the key in Signing & Capabilities or as a build setting",
+        "steps": [
+          "In Xcode, select the target, open Info, and add the key with a sentence that says what the app does with the data. Xcode stores it as the INFOPLIST_KEY_<key> build setting.",
+          "If the app never uses this feature, remove the code or the package that uses it instead."
+        ],
+        "guide": "https://github.com/muhittincamdali/reviewready/blob/main/docs/guides/purpose-strings.md"
+      },
+      "sources": [
+        {
+          "title": "Apple: Requesting access to protected resources",
+          "url": "https://developer.apple.com/documentation/uikit/requesting-access-to-protected-resources"
+        },
+        {
+          "title": "App Review Guidelines 5.1.1(ii) Permission",
+          "url": "https://developer.apple.com/app-store/review/guidelines/#data-collection-and-storage"
+        }
+      ]
+    },
+    {
+      "rule": "RVW103",
+      "severity": "error",
+      "title": "Purpose string not valid",
+      "message": "NSPhotoLibraryUsageDescription is empty.",
+      "file": "Ledger.xcodeproj/project.pbxproj",
+      "line": 157,
+      "target": "Ledger",
+      "fix": {
+        "id": "RVW103/build-setting",
+        "title": "Write a one-sentence string",
+        "steps": [
+          "Set the INFOPLIST_KEY_<key> build setting (target > Info in Xcode) to one complete sentence that says what the app does with the data."
+        ],
+        "guide": "https://github.com/muhittincamdali/reviewready/blob/main/docs/guides/purpose-strings.md"
+      },
+      "sources": [
+        {
+          "title": "Apple: Adhere to the requirements for purpose strings",
+          "url": "https://developer.apple.com/documentation/uikit/requesting-access-to-protected-resources"
+        }
+      ]
+    },
+    {
+      "rule": "RVW503",
+      "severity": "error",
+      "title": "App Store icon has an alpha channel",
+      "message": "The App Store icon has an alpha channel.",
+      "file": "Ledger/Assets.xcassets/AppIcon.appiconset/AppIcon-1024.png",
+      "line": null,
+      "target": "Ledger",
+      "fix": {
+        "id": "RVW503/info-plist",
+        "title": "Export the icon without transparency",
+        "steps": [
+          "Export the 1024 × 1024 icon as an opaque PNG: give it a solid background and turn off \"Transparency\" or \"Alpha\" in the export settings (in Preview: File > Export, untick Alpha).",
+          "Check it with: sips -g hasAlpha path/to/icon.png (it should print hasAlpha: no)."
+        ],
+        "guide": "https://github.com/muhittincamdali/reviewready/blob/main/docs/guides/app-icon.md"
+      },
+      "sources": [
+        {
+          "title": "Apple Developer Forums: Icon composer icon contains alpha channel upload error (the 90717 message, with a DTS engineer)",
+          "url": "https://developer.apple.com/forums/thread/795411"
+        },
+        {
+          "title": "Apple: Human Interface Guidelines, App icons",
+          "url": "https://developer.apple.com/design/human-interface-guidelines/app-icons"
+        }
+      ]
+    },
+    {
+      "rule": "RVW601",
+      "severity": "error",
+      "title": "Xcode older than App Store Connect accepts",
+      "message": ".xcode-version pins Xcode 16.4 (.xcode-version); App Store Connect accepts uploads built with Xcode 26 or later since 28 April 2026.",
+      "file": ".xcode-version",
+      "line": 1,
+      "target": null,
+      "fix": {
+        "id": "RVW601/ci",
+        "title": "Build with Xcode 26 or later",
+        "steps": [
+          "Change the pinned version to Xcode 26 or later (for example 27.1) in the file and line the finding names, and use a runner or build image that has it.",
+          "Fix the build warnings and errors the newer SDK reports before the next upload."
+        ],
+        "guide": "https://github.com/muhittincamdali/reviewready/blob/main/docs/guides/xcode-and-ios-minimums.md"
+      },
+      "sources": [
+        {
+          "title": "Apple: Upcoming Requirements",
+          "url": "https://developer.apple.com/news/upcoming-requirements/"
+        },
+        {
+          "title": "Apple Developer News: Upcoming SDK minimum requirements (3 February 2026)",
+          "url": "https://developer.apple.com/news/?id=ueeok6yw"
+        }
+      ]
+    },
+    {
+      "rule": "RVW602",
+      "severity": "error",
+      "title": "Deployment target below iOS 13",
+      "message": "Ledger targets iOS 12.0; App Store Connect accepts iOS apps that target iOS 13.0 or later since 9 September 2026.",
+      "file": "Ledger.xcodeproj/project.pbxproj",
+      "line": 216,
+      "target": "Ledger",
+      "fix": {
+        "id": "RVW602/info-plist",
+        "title": "Raise the deployment target",
+        "steps": [
+          "Set IPHONEOS_DEPLOYMENT_TARGET of the app target to 13.0 or later (target > General > Minimum Deployments in Xcode), and raise platform :ios in the Podfile to match.",
+          "Remove the code paths that only ran on older iOS versions."
+        ],
+        "guide": "https://github.com/muhittincamdali/reviewready/blob/main/docs/guides/xcode-and-ios-minimums.md"
+      },
+      "sources": [
+        {
+          "title": "Apple: Upcoming Requirements",
+          "url": "https://developer.apple.com/news/upcoming-requirements/"
+        }
+      ]
+    },
+    {
+      "rule": "RVW104",
+      "severity": "warning",
+      "title": "Purpose string is placeholder or default text",
+      "message": "NSLocationWhenInUseUsageDescription \"TODO: explain location\" contains the placeholder \"TODO\".",
+      "file": "Ledger.xcodeproj/project.pbxproj",
+      "line": 156,
+      "target": "Ledger",
+      "fix": {
+        "id": "RVW104/info-plist",
+        "title": "Say why the app needs access",
+        "steps": [
+          "Replace the text with one sentence that names what the app does with the data, for example \"Take a photo of your meal to log it\" rather than \"needs camera access\"."
+        ],
+        "guide": "https://github.com/muhittincamdali/reviewready/blob/main/docs/guides/purpose-strings.md"
+      },
+      "sources": [
+        {
+          "title": "Apple: Adhere to the requirements for purpose strings",
+          "url": "https://developer.apple.com/documentation/uikit/requesting-access-to-protected-resources"
+        },
+        {
+          "title": "App Review Guidelines 5.1.1(ii) Permission",
+          "url": "https://developer.apple.com/app-store/review/guidelines/#data-collection-and-storage"
+        }
+      ]
+    },
+    {
+      "rule": "RVW201",
+      "severity": "warning",
+      "title": "Export compliance not declared",
+      "message": "The Info.plist of Ledger has no ITSAppUsesNonExemptEncryption, so App Store Connect asks the export compliance questions for every build.",
+      "file": "Ledger.xcodeproj/project.pbxproj",
+      "line": null,
+      "target": "Ledger",
+      "fix": {
+        "id": "RVW201/build-setting",
+        "title": "Declare the app's encryption",
+        "steps": [
+          "Set the INFOPLIST_KEY_ITSAppUsesNonExemptEncryption build setting to NO if the app uses no encryption or only exempt encryption such as HTTPS, or to YES with ITSEncryptionExportComplianceCode otherwise."
+        ],
+        "guide": "https://github.com/muhittincamdali/reviewready/blob/main/docs/guides/export-compliance.md"
+      },
+      "sources": [
+        {
+          "title": "Apple: ITSAppUsesNonExemptEncryption",
+          "url": "https://developer.apple.com/documentation/bundleresources/information-property-list/itsappusesnonexemptencryption"
+        },
+        {
+          "title": "Apple: Complying with Encryption Export Regulations",
+          "url": "https://developer.apple.com/documentation/security/complying-with-encryption-export-regulations"
+        }
+      ]
+    },
+    {
+      "rule": "RVW301",
+      "severity": "warning",
+      "title": "Account creation without account deletion",
+      "message": "Accounts are created (a createUser(withEmail:) call in Ledger/SignUpView.swift:13), and no account deletion call or \"Delete account\" text was found in the app's code or strings.",
+      "file": "Ledger/SignUpView.swift",
+      "line": 13,
+      "target": null,
+      "fix": {
+        "id": "RVW301/code",
+        "title": "Let people delete their account in the app",
+        "steps": [
+          "Add a Delete account action that is easy to find, usually in the account settings, and that deletes the account record with its personal data, not only deactivates it.",
+          "If deletion finishes on a website, link straight to that page. With Sign in with Apple, also revoke the user's tokens.",
+          "If the app already has it under words reviewready does not know, turn the finding off with --ignore RVW301."
+        ],
+        "guide": "https://github.com/muhittincamdali/reviewready/blob/main/docs/guides/accounts-and-sign-in.md"
+      },
+      "sources": [
+        {
+          "title": "App Review Guidelines 5.1.1(v) Account Sign-In",
+          "url": "https://developer.apple.com/app-store/review/guidelines/#data-collection-and-storage"
+        },
+        {
+          "title": "Apple: Offering account deletion in your app",
+          "url": "https://developer.apple.com/support/offering-account-deletion-in-your-app/"
+        }
+      ]
+    },
+    {
+      "rule": "RVW401",
+      "severity": "warning",
+      "title": "Third-party login without an equivalent option",
+      "message": "Google Sign-In is used (import GoogleSignIn in Ledger/SignUpView.swift:1), and no Sign in with Apple was found: no package, entitlement or AuthenticationServices call.",
+      "file": "Ledger/SignUpView.swift",
+      "line": 1,
+      "target": null,
+      "fix": {
+        "id": "RVW401/code",
+        "title": "Offer Sign in with Apple next to the other login",
+        "steps": [
+          "Add Sign in with Apple (AuthenticationServices on iOS, sign_in_with_apple on Flutter, expo-apple-authentication or @invertase/react-native-apple-authentication on React Native) and the Sign in with Apple capability.",
+          "If the app falls under one of the exceptions of guideline 4.8, or offers another login service with the listed features, turn the finding off with --ignore RVW401."
+        ],
+        "guide": "https://github.com/muhittincamdali/reviewready/blob/main/docs/guides/accounts-and-sign-in.md"
+      },
+      "sources": [
+        {
+          "title": "App Review Guidelines 4.8 Login Services",
+          "url": "https://developer.apple.com/app-store/review/guidelines/#login-services"
+        },
+        {
+          "title": "Apple: Sign in with Apple",
+          "url": "https://developer.apple.com/sign-in-with-apple/"
+        }
+      ]
+    },
+    {
+      "rule": "RVW702",
+      "severity": "warning",
+      "title": "Privacy manifest not in the app",
+      "message": "Ledger/PrivacyInfo.xcprivacy is not in the Copy Bundle Resources of Ledger or in a folder it syncs, so the app ships without it.",
+      "file": "Ledger/PrivacyInfo.xcprivacy",
+      "line": null,
+      "target": "Ledger",
+      "fix": {
+        "id": "RVW702/info-plist",
+        "title": "Add the file to the app target",
+        "steps": [
+          "Select PrivacyInfo.xcprivacy in Xcode, open the File inspector and tick the app target under Target Membership, so it appears in Build Phases > Copy Bundle Resources."
+        ],
+        "guide": "https://github.com/muhittincamdali/reviewready/blob/main/docs/guides/privacy-manifest.md"
+      },
+      "sources": [
+        {
+          "title": "Apple: Privacy manifest files",
+          "url": "https://developer.apple.com/documentation/bundleresources/privacy-manifest-files"
+        }
+      ]
+    }
+  ],
+  "checks": [
+    {
+      "rule": "RVW101",
+      "title": "Purpose string missing",
+      "status": "found"
+    },
+    {
+      "rule": "RVW102",
+      "title": "Purpose string missing for a package feature",
+      "status": "passed"
+    },
+    {
+      "rule": "RVW103",
+      "title": "Purpose string not valid",
+      "status": "found"
+    },
+    {
+      "rule": "RVW104",
+      "title": "Purpose string is placeholder or default text",
+      "status": "found"
+    },
+    {
+      "rule": "RVW201",
+      "title": "Export compliance not declared",
+      "status": "found"
+    },
+    {
+      "rule": "RVW301",
+      "title": "Account creation without account deletion",
+      "status": "found"
+    },
+    {
+      "rule": "RVW401",
+      "title": "Third-party login without an equivalent option",
+      "status": "found"
+    },
+    {
+      "rule": "RVW501",
+      "title": "No App Store icon",
+      "status": "passed"
+    },
+    {
+      "rule": "RVW502",
+      "title": "App Store icon is not 1024 × 1024",
+      "status": "passed"
+    },
+    {
+      "rule": "RVW503",
+      "title": "App Store icon has an alpha channel",
+      "status": "found"
+    },
+    {
+      "rule": "RVW601",
+      "title": "Xcode older than App Store Connect accepts",
+      "status": "found"
+    },
+    {
+      "rule": "RVW602",
+      "title": "Deployment target below iOS 13",
+      "status": "found"
+    },
+    {
+      "rule": "RVW701",
+      "title": "No privacy manifest",
+      "status": "passed"
+    },
+    {
+      "rule": "RVW702",
+      "title": "Privacy manifest not in the app",
+      "status": "found"
+    }
+  ],
+  "notes": [],
+  "summary": {
+    "errors": 5,
+    "warnings": 5,
+    "info": 0
+  }
+}

@@ -1,0 +1,118 @@
+{
+  "schemaVersion": 0,
+  "tool": {
+    "name": "reviewready",
+    "version": "0.1.0"
+  },
+  "rules": {
+    "ruleSet": "app-review",
+    "dataVersion": "2026.10.28",
+    "read": "2026-10-28"
+  },
+  "project": {
+    "path": "fixtures/native-uikit-ready",
+    "name": "Atlas",
+    "ecosystem": "native",
+    "versions": [],
+    "targets": [
+      {
+        "name": "Atlas",
+        "infoPlists": [
+          "Atlas/Info.plist"
+        ],
+        "deploymentTarget": "17.0"
+      }
+    ],
+    "xcode": [
+      {
+        "version": "27.1",
+        "file": ".github/workflows/ios.yml",
+        "line": 14,
+        "via": "xcode-version input"
+      }
+    ]
+  },
+  "verdict": {
+    "code": "ready",
+    "text": "No rejection found in the files reviewready reads"
+  },
+  "findings": [],
+  "checks": [
+    {
+      "rule": "RVW101",
+      "title": "Purpose string missing",
+      "status": "passed"
+    },
+    {
+      "rule": "RVW102",
+      "title": "Purpose string missing for a package feature",
+      "status": "passed"
+    },
+    {
+      "rule": "RVW103",
+      "title": "Purpose string not valid",
+      "status": "passed"
+    },
+    {
+      "rule": "RVW104",
+      "title": "Purpose string is placeholder or default text",
+      "status": "passed"
+    },
+    {
+      "rule": "RVW201",
+      "title": "Export compliance not declared",
+      "status": "passed"
+    },
+    {
+      "rule": "RVW301",
+      "title": "Account creation without account deletion",
+      "status": "passed"
+    },
+    {
+      "rule": "RVW401",
+      "title": "Third-party login without an equivalent option",
+      "status": "passed"
+    },
+    {
+      "rule": "RVW501",
+      "title": "No App Store icon",
+      "status": "passed"
+    },
+    {
+      "rule": "RVW502",
+      "title": "App Store icon is not 1024 × 1024",
+      "status": "passed"
+    },
+    {
+      "rule": "RVW503",
+      "title": "App Store icon has an alpha channel",
+      "status": "passed"
+    },
+    {
+      "rule": "RVW601",
+      "title": "Xcode older than App Store Connect accepts",
+      "status": "passed"
+    },
+    {
+      "rule": "RVW602",
+      "title": "Deployment target below iOS 13",
+      "status": "passed"
+    },
+    {
+      "rule": "RVW701",
+      "title": "No privacy manifest",
+      "status": "passed"
+    },
+    {
+      "rule": "RVW702",
+      "title": "Privacy manifest not in the app",
+      "status": "passed"
+    }
+  ],
+  "notes": [],
+  "summary": {
+    "errors": 0,
+    "warnings": 0,
+    "info": 0
+  }
+}

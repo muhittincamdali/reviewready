@@ -1,0 +1,610 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "type": "object",
+  "properties": {
+    "$schema": {
+      "type": "string"
+    },
+    "ruleSet": {
+      "type": "string",
+      "const": "app-review"
+    },
+    "dataVersion": {
+      "type": "string",
+      "pattern": "^\\d{4}\\.\\d{2}\\.\\d{2}$"
+    },
+    "read": {
+      "type": "string",
+      "pattern": "^\\d{4}-\\d{2}-\\d{2}$"
+    },
+    "requirements": {
+      "type": "object",
+      "properties": {
+        "xcode": {
+          "type": "object",
+          "properties": {
+            "minimum": {
+              "type": "string"
+            },
+            "since": {
+              "type": "string",
+              "pattern": "^\\d{4}-\\d{2}-\\d{2}$"
+            },
+            "text": {
+              "type": "string"
+            }
+          },
+          "required": [
+            "minimum",
+            "since",
+            "text"
+          ],
+          "additionalProperties": false
+        },
+        "deploymentTarget": {
+          "type": "object",
+          "properties": {
+            "minimum": {
+              "type": "string"
+            },
+            "since": {
+              "type": "string",
+              "pattern": "^\\d{4}-\\d{2}-\\d{2}$"
+            },
+            "text": {
+              "type": "string"
+            }
+          },
+          "required": [
+            "minimum",
+            "since",
+            "text"
+          ],
+          "additionalProperties": false
+        }
+      },
+      "required": [
+        "xcode",
+        "deploymentTarget"
+      ],
+      "additionalProperties": false
+    },
+    "rules": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "enum": [
+              "RVW101",
+              "RVW102",
+              "RVW103",
+              "RVW104",
+              "RVW201",
+              "RVW301",
+              "RVW401",
+              "RVW501",
+              "RVW502",
+              "RVW503",
+              "RVW601",
+              "RVW602",
+              "RVW701",
+              "RVW702"
+            ]
+          },
+          "severity": {
+            "type": "string",
+            "enum": [
+              "error",
+              "warning",
+              "info"
+            ]
+          },
+          "title": {
+            "type": "string",
+            "minLength": 1
+          },
+          "summary": {
+            "type": "string",
+            "minLength": 1
+          },
+          "sources": {
+            "minItems": 1,
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "title": {
+                  "type": "string",
+                  "minLength": 1
+                },
+                "url": {
+                  "type": "string",
+                  "format": "uri"
+                }
+              },
+              "required": [
+                "title",
+                "url"
+              ],
+              "additionalProperties": false
+            }
+          },
+          "fixes": {
+            "type": "object",
+            "propertyNames": {
+              "type": "string",
+              "enum": [
+                "info-plist",
+                "build-setting",
+                "expo-config",
+                "code",
+                "ci"
+              ]
+            },
+            "additionalProperties": {
+              "type": "object",
+              "properties": {
+                "title": {
+                  "type": "string",
+                  "minLength": 1
+                },
+                "steps": {
+                  "minItems": 1,
+                  "type": "array",
+                  "items": {
+                    "type": "string",
+                    "minLength": 1
+                  }
+                },
+                "guide": {
+                  "type": "string",
+                  "pattern": "^docs\\/guides\\/[\\w-]+\\.md$"
+                }
+              },
+              "required": [
+                "title",
+                "steps",
+                "guide"
+              ],
+              "additionalProperties": false
+            }
+          }
+        },
+        "required": [
+          "id",
+          "severity",
+          "title",
+          "summary",
+          "sources",
+          "fixes"
+        ],
+        "additionalProperties": false
+      }
+    },
+    "purposeKeys": {
+      "type": "object",
+      "propertyNames": {
+        "type": "string",
+        "pattern": "^(NS[A-Za-z]+UsageDescription|NFCReaderUsageDescription)$"
+      },
+      "additionalProperties": {
+        "type": "string",
+        "minLength": 1
+      }
+    },
+    "nativeApis": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "label": {
+            "type": "string",
+            "minLength": 1
+          },
+          "pattern": {
+            "type": "string"
+          },
+          "keys": {
+            "minItems": 1,
+            "type": "array",
+            "items": {
+              "type": "string",
+              "pattern": "^(NS[A-Za-z]+UsageDescription|NFCReaderUsageDescription)$"
+            }
+          }
+        },
+        "required": [
+          "label",
+          "pattern",
+          "keys"
+        ],
+        "additionalProperties": false
+      }
+    },
+    "packages": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "ecosystem": {
+            "type": "string",
+            "enum": [
+              "flutter",
+              "npm"
+            ]
+          },
+          "name": {
+            "type": "string",
+            "minLength": 1
+          },
+          "version": {
+            "type": "string",
+            "minLength": 1
+          },
+          "source": {
+            "type": "string",
+            "format": "uri"
+          },
+          "needs": {
+            "minItems": 1,
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "keys": {
+                  "minItems": 1,
+                  "type": "array",
+                  "items": {
+                    "type": "string",
+                    "pattern": "^(NS[A-Za-z]+UsageDescription|NFCReaderUsageDescription)$"
+                  }
+                },
+                "when": {
+                  "type": "string",
+                  "minLength": 1
+                }
+              },
+              "required": [
+                "keys"
+              ],
+              "additionalProperties": false
+            }
+          },
+          "plugin": {
+            "type": "string",
+            "minLength": 1
+          }
+        },
+        "required": [
+          "ecosystem",
+          "name",
+          "version",
+          "source",
+          "needs"
+        ],
+        "additionalProperties": false
+      }
+    },
+    "expoPlugins": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string",
+            "minLength": 1
+          },
+          "version": {
+            "type": "string",
+            "minLength": 1
+          },
+          "auto": {
+            "type": "boolean"
+          },
+          "keys": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "key": {
+                  "type": "string",
+                  "pattern": "^(NS[A-Za-z]+UsageDescription|NFCReaderUsageDescription)$"
+                },
+                "option": {
+                  "type": "string",
+                  "minLength": 1
+                },
+                "default": {
+                  "type": "string",
+                  "minLength": 1
+                },
+                "when": {
+                  "type": "string",
+                  "minLength": 1
+                }
+              },
+              "required": [
+                "key",
+                "option",
+                "default"
+              ],
+              "additionalProperties": false
+            }
+          }
+        },
+        "required": [
+          "name",
+          "version",
+          "auto",
+          "keys"
+        ],
+        "additionalProperties": false
+      }
+    },
+    "podfileMacros": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "macro": {
+            "type": "string"
+          },
+          "keys": {
+            "minItems": 1,
+            "type": "array",
+            "items": {
+              "type": "string",
+              "pattern": "^(NS[A-Za-z]+UsageDescription|NFCReaderUsageDescription)$"
+            }
+          }
+        },
+        "required": [
+          "macro",
+          "keys"
+        ],
+        "additionalProperties": false
+      }
+    },
+    "podfileMacroSource": {
+      "type": "string",
+      "format": "uri"
+    },
+    "rnPermissions": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string"
+          },
+          "keys": {
+            "minItems": 1,
+            "type": "array",
+            "items": {
+              "type": "string",
+              "pattern": "^(NS[A-Za-z]+UsageDescription|NFCReaderUsageDescription)$"
+            }
+          }
+        },
+        "required": [
+          "name",
+          "keys"
+        ],
+        "additionalProperties": false
+      }
+    },
+    "rnPermissionsSource": {
+      "type": "string",
+      "format": "uri"
+    },
+    "placeholders": {
+      "type": "object",
+      "properties": {
+        "exact": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "text": {
+                "type": "string",
+                "minLength": 1
+              },
+              "from": {
+                "type": "string",
+                "minLength": 1
+              }
+            },
+            "required": [
+              "text",
+              "from"
+            ],
+            "additionalProperties": false
+          }
+        },
+        "words": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1
+          }
+        }
+      },
+      "required": [
+        "exact",
+        "words"
+      ],
+      "additionalProperties": false
+    },
+    "login": {
+      "type": "object",
+      "properties": {
+        "thirdParty": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "label": {
+                "type": "string",
+                "minLength": 1
+              },
+              "native": {
+                "anyOf": [
+                  {
+                    "type": "string"
+                  },
+                  {
+                    "type": "string",
+                    "const": ""
+                  }
+                ]
+              },
+              "flutter": {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                }
+              },
+              "npm": {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                }
+              },
+              "imports": {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                }
+              }
+            },
+            "required": [
+              "label",
+              "native",
+              "flutter",
+              "npm",
+              "imports"
+            ],
+            "additionalProperties": false
+          }
+        },
+        "apple": {
+          "type": "object",
+          "properties": {
+            "native": {
+              "type": "string"
+            },
+            "entitlement": {
+              "type": "string"
+            },
+            "flutter": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            },
+            "npm": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            },
+            "text": {
+              "type": "string"
+            }
+          },
+          "required": [
+            "native",
+            "entitlement",
+            "flutter",
+            "npm",
+            "text"
+          ],
+          "additionalProperties": false
+        }
+      },
+      "required": [
+        "thirdParty",
+        "apple"
+      ],
+      "additionalProperties": false
+    },
+    "accounts": {
+      "type": "object",
+      "properties": {
+        "creation": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "label": {
+                "type": "string"
+              },
+              "pattern": {
+                "type": "string"
+              }
+            },
+            "required": [
+              "label",
+              "pattern"
+            ],
+            "additionalProperties": false
+          }
+        },
+        "creationText": {
+          "type": "string"
+        },
+        "deletion": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "label": {
+                "type": "string"
+              },
+              "pattern": {
+                "type": "string"
+              }
+            },
+            "required": [
+              "label",
+              "pattern"
+            ],
+            "additionalProperties": false
+          }
+        },
+        "deletionText": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "creation",
+        "creationText",
+        "deletion",
+        "deletionText"
+      ],
+      "additionalProperties": false
+    }
+  },
+  "required": [
+    "ruleSet",
+    "dataVersion",
+    "read",
+    "requirements",
+    "rules",
+    "purposeKeys",
+    "nativeApis",
+    "packages",
+    "expoPlugins",
+    "podfileMacros",
+    "podfileMacroSource",
+    "rnPermissions",
+    "rnPermissionsSource",
+    "placeholders",
+    "login",
+    "accounts"
+  ],
+  "additionalProperties": false,
+  "title": "reviewready rule data"
+}

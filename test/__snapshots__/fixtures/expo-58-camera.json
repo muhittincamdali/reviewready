@@ -1,0 +1,239 @@
+{
+  "schemaVersion": 0,
+  "tool": {
+    "name": "reviewready",
+    "version": "0.1.0"
+  },
+  "rules": {
+    "ruleSet": "app-review",
+    "dataVersion": "2026.10.28",
+    "read": "2026-10-28"
+  },
+  "project": {
+    "path": "fixtures/expo-58-camera",
+    "name": "field-notes",
+    "ecosystem": "expo",
+    "versions": [
+      {
+        "name": "react-native",
+        "version": "0.88.0",
+        "source": "declared"
+      },
+      {
+        "name": "expo",
+        "version": "58.0.20",
+        "source": "declared"
+      }
+    ],
+    "targets": [
+      {
+        "name": "field-notes",
+        "infoPlists": [],
+        "deploymentTarget": null
+      }
+    ],
+    "xcode": [
+      {
+        "version": "16.4",
+        "file": "eas.json",
+        "line": 8,
+        "via": "EAS image"
+      }
+    ]
+  },
+  "verdict": {
+    "code": "rejected",
+    "text": "2 problems App Review or App Store Connect turns away, and 2 warnings to review"
+  },
+  "findings": [
+    {
+      "rule": "RVW101",
+      "severity": "error",
+      "title": "Purpose string missing",
+      "message": "The expo-tracking-transparency package (its config plugin is not in expo.plugins) needs NSUserTrackingUsageDescription (App Tracking Transparency); field-notes has none.",
+      "file": "app.json",
+      "line": null,
+      "target": "field-notes",
+      "fix": {
+        "id": "RVW101/expo-config",
+        "title": "Set the text in app.json",
+        "steps": [
+          "Set the key under expo.ios.infoPlist in app.json, or pass the text to the package's config plugin option, with a sentence that says what the app does with the data.",
+          "Run npx expo prebuild --clean (or the next EAS Build) so the native Info.plist gets it."
+        ],
+        "guide": "https://github.com/muhittincamdali/reviewready/blob/main/docs/guides/purpose-strings.md"
+      },
+      "sources": [
+        {
+          "title": "Apple: Requesting access to protected resources",
+          "url": "https://developer.apple.com/documentation/uikit/requesting-access-to-protected-resources"
+        },
+        {
+          "title": "App Review Guidelines 5.1.1(ii) Permission",
+          "url": "https://developer.apple.com/app-store/review/guidelines/#data-collection-and-storage"
+        }
+      ]
+    },
+    {
+      "rule": "RVW601",
+      "severity": "error",
+      "title": "Xcode older than App Store Connect accepts",
+      "message": "eas.json pins Xcode 16.4 (EAS image); App Store Connect accepts uploads built with Xcode 26 or later since 28 April 2026.",
+      "file": "eas.json",
+      "line": 8,
+      "target": null,
+      "fix": {
+        "id": "RVW601/ci",
+        "title": "Build with Xcode 26 or later",
+        "steps": [
+          "Change the pinned version to Xcode 26 or later (for example 27.1) in the file and line the finding names, and use a runner or build image that has it.",
+          "Fix the build warnings and errors the newer SDK reports before the next upload."
+        ],
+        "guide": "https://github.com/muhittincamdali/reviewready/blob/main/docs/guides/xcode-and-ios-minimums.md"
+      },
+      "sources": [
+        {
+          "title": "Apple: Upcoming Requirements",
+          "url": "https://developer.apple.com/news/upcoming-requirements/"
+        },
+        {
+          "title": "Apple Developer News: Upcoming SDK minimum requirements (3 February 2026)",
+          "url": "https://developer.apple.com/news/?id=ueeok6yw"
+        }
+      ]
+    },
+    {
+      "rule": "RVW104",
+      "severity": "warning",
+      "title": "Purpose string is placeholder or default text",
+      "message": "The expo-location config plugin writes its default text for NSLocationWhenInUseUsageDescription, NSLocationAlwaysAndWhenInUseUsageDescription, NSLocationAlwaysUsageDescription: no option or ios.infoPlist value gives the app's own.",
+      "file": "app.json",
+      "line": null,
+      "target": "field-notes",
+      "fix": {
+        "id": "RVW104/expo-config",
+        "title": "Pass your own text to the config plugin",
+        "steps": [
+          "Add the plugin to expo.plugins with its permission option, for example [\"expo-camera\", { \"cameraPermission\": \"Scan a receipt to add it to your expenses.\" }], or set the key under expo.ios.infoPlist.",
+          "Set the option to false instead if the app never uses that permission: the plugin then leaves the key out."
+        ],
+        "guide": "https://github.com/muhittincamdali/reviewready/blob/main/docs/guides/purpose-strings.md"
+      },
+      "sources": [
+        {
+          "title": "Apple: Adhere to the requirements for purpose strings",
+          "url": "https://developer.apple.com/documentation/uikit/requesting-access-to-protected-resources"
+        },
+        {
+          "title": "App Review Guidelines 5.1.1(ii) Permission",
+          "url": "https://developer.apple.com/app-store/review/guidelines/#data-collection-and-storage"
+        }
+      ]
+    },
+    {
+      "rule": "RVW701",
+      "severity": "warning",
+      "title": "No privacy manifest",
+      "message": "app.json has no ios.privacyManifests, so prebuild writes no privacy manifest for the app.",
+      "file": "app.json",
+      "line": null,
+      "target": "field-notes",
+      "fix": {
+        "id": "RVW701/expo-config",
+        "title": "Add ios.privacyManifests to app.json",
+        "steps": [
+          "Add expo.ios.privacyManifests with NSPrivacyAccessedAPITypes (and the data types the app collects); prebuild writes them into PrivacyInfo.xcprivacy."
+        ],
+        "guide": "https://github.com/muhittincamdali/reviewready/blob/main/docs/guides/privacy-manifest.md"
+      },
+      "sources": [
+        {
+          "title": "Apple: Privacy manifest files",
+          "url": "https://developer.apple.com/documentation/bundleresources/privacy-manifest-files"
+        },
+        {
+          "title": "Apple: Describing use of required reason API",
+          "url": "https://developer.apple.com/documentation/bundleresources/describing-use-of-required-reason-api"
+        }
+      ]
+    }
+  ],
+  "checks": [
+    {
+      "rule": "RVW101",
+      "title": "Purpose string missing",
+      "status": "found"
+    },
+    {
+      "rule": "RVW102",
+      "title": "Purpose string missing for a package feature",
+      "status": "passed"
+    },
+    {
+      "rule": "RVW103",
+      "title": "Purpose string not valid",
+      "status": "passed"
+    },
+    {
+      "rule": "RVW104",
+      "title": "Purpose string is placeholder or default text",
+      "status": "found"
+    },
+    {
+      "rule": "RVW201",
+      "title": "Export compliance not declared",
+      "status": "passed"
+    },
+    {
+      "rule": "RVW301",
+      "title": "Account creation without account deletion",
+      "status": "passed"
+    },
+    {
+      "rule": "RVW401",
+      "title": "Third-party login without an equivalent option",
+      "status": "passed"
+    },
+    {
+      "rule": "RVW501",
+      "title": "No App Store icon",
+      "status": "passed"
+    },
+    {
+      "rule": "RVW502",
+      "title": "App Store icon is not 1024 × 1024",
+      "status": "passed"
+    },
+    {
+      "rule": "RVW503",
+      "title": "App Store icon has an alpha channel",
+      "status": "passed"
+    },
+    {
+      "rule": "RVW601",
+      "title": "Xcode older than App Store Connect accepts",
+      "status": "found"
+    },
+    {
+      "rule": "RVW602",
+      "title": "Deployment target below iOS 13",
+      "status": "not-checked"
+    },
+    {
+      "rule": "RVW701",
+      "title": "No privacy manifest",
+      "status": "found"
+    },
+    {
+      "rule": "RVW702",
+      "title": "Privacy manifest not in the app",
+      "status": "passed"
+    }
+  ],
+  "notes": [],
+  "summary": {
+    "errors": 2,
+    "warnings": 2,
+    "info": 0
+  }
+}

@@ -1,0 +1,249 @@
+{
+  "schemaVersion": 0,
+  "tool": {
+    "name": "reviewready",
+    "version": "0.1.0"
+  },
+  "rules": {
+    "ruleSet": "app-review",
+    "dataVersion": "2026.10.28",
+    "read": "2026-10-28"
+  },
+  "project": {
+    "path": "fixtures/rn-088-camera",
+    "name": "Lens",
+    "ecosystem": "react-native",
+    "versions": [
+      {
+        "name": "react-native",
+        "version": "0.88.1",
+        "source": "declared"
+      }
+    ],
+    "targets": [
+      {
+        "name": "HelloWorld",
+        "infoPlists": [
+          "ios/HelloWorld/Info.plist"
+        ],
+        "deploymentTarget": "15.1"
+      }
+    ],
+    "xcode": []
+  },
+  "verdict": {
+    "code": "rejected",
+    "text": "3 problems App Review or App Store Connect turns away, and 2 warnings to review"
+  },
+  "findings": [
+    {
+      "rule": "RVW101",
+      "severity": "error",
+      "title": "Purpose string missing",
+      "message": "react-native-permissions Microphone (ios/Podfile:23) needs NSMicrophoneUsageDescription (microphone); HelloWorld has none.",
+      "file": "ios/HelloWorld/Info.plist",
+      "line": null,
+      "target": "HelloWorld",
+      "fix": {
+        "id": "RVW101/info-plist",
+        "title": "Add the key to Info.plist",
+        "steps": [
+          "Add the key to the target's Info.plist with one sentence that says what the app does with the data, for example: <key>NSCameraUsageDescription</key><string>Scan the barcode on a receipt to add it to your expenses.</string>",
+          "If the app never uses this feature, remove the code or the package that uses it instead."
+        ],
+        "guide": "https://github.com/muhittincamdali/reviewready/blob/main/docs/guides/purpose-strings.md"
+      },
+      "sources": [
+        {
+          "title": "Apple: Requesting access to protected resources",
+          "url": "https://developer.apple.com/documentation/uikit/requesting-access-to-protected-resources"
+        },
+        {
+          "title": "App Review Guidelines 5.1.1(ii) Permission",
+          "url": "https://developer.apple.com/app-store/review/guidelines/#data-collection-and-storage"
+        }
+      ]
+    },
+    {
+      "rule": "RVW103",
+      "severity": "error",
+      "title": "Purpose string not valid",
+      "message": "NSLocationWhenInUseUsageDescription is empty.",
+      "file": "ios/HelloWorld/Info.plist",
+      "line": 39,
+      "target": "HelloWorld",
+      "fix": {
+        "id": "RVW103/info-plist",
+        "title": "Write a one-sentence string",
+        "steps": [
+          "Make the value a <string> of one complete sentence that says what the app does with the data, well under 4,000 bytes."
+        ],
+        "guide": "https://github.com/muhittincamdali/reviewready/blob/main/docs/guides/purpose-strings.md"
+      },
+      "sources": [
+        {
+          "title": "Apple: Adhere to the requirements for purpose strings",
+          "url": "https://developer.apple.com/documentation/uikit/requesting-access-to-protected-resources"
+        }
+      ]
+    },
+    {
+      "rule": "RVW501",
+      "severity": "error",
+      "title": "No App Store icon",
+      "message": "ios/HelloWorld/Images.xcassets/AppIcon.appiconset has no image in its 1024 × 1024 App Store slot.",
+      "file": "ios/HelloWorld/Images.xcassets/AppIcon.appiconset/Contents.json",
+      "line": null,
+      "target": "HelloWorld",
+      "fix": {
+        "id": "RVW501/info-plist",
+        "title": "Add the 1024 × 1024 image",
+        "steps": [
+          "Open the asset catalog in Xcode, select the app icon and drop a 1024 × 1024 PNG into the App Store (or single-size iOS) slot, or add an Icon Composer .icon file with the name the target builds (ASSETCATALOG_COMPILER_APPICON_NAME)."
+        ],
+        "guide": "https://github.com/muhittincamdali/reviewready/blob/main/docs/guides/app-icon.md"
+      },
+      "sources": [
+        {
+          "title": "Apple: Configuring your app icon",
+          "url": "https://developer.apple.com/documentation/xcode/configuring-your-app-icon"
+        },
+        {
+          "title": "Apple: Asset Catalog Format Reference, App Icon Type",
+          "url": "https://developer.apple.com/library/archive/documentation/Xcode/Reference/xcode_ref-Asset_Catalog_Format/AppIconType.html"
+        }
+      ]
+    },
+    {
+      "rule": "RVW201",
+      "severity": "warning",
+      "title": "Export compliance not declared",
+      "message": "The Info.plist of HelloWorld has no ITSAppUsesNonExemptEncryption, so App Store Connect asks the export compliance questions for every build.",
+      "file": "ios/HelloWorld/Info.plist",
+      "line": null,
+      "target": "HelloWorld",
+      "fix": {
+        "id": "RVW201/info-plist",
+        "title": "Declare the app's encryption",
+        "steps": [
+          "If the app (with its libraries) uses no encryption, or only the encryption built into the operating system such as HTTPS through URLSession, add <key>ITSAppUsesNonExemptEncryption</key><false/>.",
+          "If it uses non-exempt encryption, set it to <true/> and add ITSEncryptionExportComplianceCode with the code Apple gives you after reviewing your documentation."
+        ],
+        "guide": "https://github.com/muhittincamdali/reviewready/blob/main/docs/guides/export-compliance.md"
+      },
+      "sources": [
+        {
+          "title": "Apple: ITSAppUsesNonExemptEncryption",
+          "url": "https://developer.apple.com/documentation/bundleresources/information-property-list/itsappusesnonexemptencryption"
+        },
+        {
+          "title": "Apple: Complying with Encryption Export Regulations",
+          "url": "https://developer.apple.com/documentation/security/complying-with-encryption-export-regulations"
+        }
+      ]
+    },
+    {
+      "rule": "RVW702",
+      "severity": "warning",
+      "title": "Privacy manifest not in the app",
+      "message": "ios/HelloWorld/PrivacyInfo.xcprivacy is not in the Copy Bundle Resources of HelloWorld or in a folder it syncs, so the app ships without it. React Native's pod install adds it to the target (privacy manifest aggregation); commit the project file it changes.",
+      "file": "ios/HelloWorld/PrivacyInfo.xcprivacy",
+      "line": null,
+      "target": "HelloWorld",
+      "fix": {
+        "id": "RVW702/info-plist",
+        "title": "Add the file to the app target",
+        "steps": [
+          "Select PrivacyInfo.xcprivacy in Xcode, open the File inspector and tick the app target under Target Membership, so it appears in Build Phases > Copy Bundle Resources."
+        ],
+        "guide": "https://github.com/muhittincamdali/reviewready/blob/main/docs/guides/privacy-manifest.md"
+      },
+      "sources": [
+        {
+          "title": "Apple: Privacy manifest files",
+          "url": "https://developer.apple.com/documentation/bundleresources/privacy-manifest-files"
+        }
+      ]
+    }
+  ],
+  "checks": [
+    {
+      "rule": "RVW101",
+      "title": "Purpose string missing",
+      "status": "found"
+    },
+    {
+      "rule": "RVW102",
+      "title": "Purpose string missing for a package feature",
+      "status": "passed"
+    },
+    {
+      "rule": "RVW103",
+      "title": "Purpose string not valid",
+      "status": "found"
+    },
+    {
+      "rule": "RVW104",
+      "title": "Purpose string is placeholder or default text",
+      "status": "passed"
+    },
+    {
+      "rule": "RVW201",
+      "title": "Export compliance not declared",
+      "status": "found"
+    },
+    {
+      "rule": "RVW301",
+      "title": "Account creation without account deletion",
+      "status": "passed"
+    },
+    {
+      "rule": "RVW401",
+      "title": "Third-party login without an equivalent option",
+      "status": "passed"
+    },
+    {
+      "rule": "RVW501",
+      "title": "No App Store icon",
+      "status": "found"
+    },
+    {
+      "rule": "RVW502",
+      "title": "App Store icon is not 1024 × 1024",
+      "status": "passed"
+    },
+    {
+      "rule": "RVW503",
+      "title": "App Store icon has an alpha channel",
+      "status": "passed"
+    },
+    {
+      "rule": "RVW601",
+      "title": "Xcode older than App Store Connect accepts",
+      "status": "not-checked"
+    },
+    {
+      "rule": "RVW602",
+      "title": "Deployment target below iOS 13",
+      "status": "passed"
+    },
+    {
+      "rule": "RVW701",
+      "title": "No privacy manifest",
+      "status": "passed"
+    },
+    {
+      "rule": "RVW702",
+      "title": "Privacy manifest not in the app",
+      "status": "found"
+    }
+  ],
+  "notes": [
+    "No build file pins an Xcode version, so the Xcode minimum was not checked: since 28 April 2026, App Store Connect accepts uploads built with Xcode 26 or later."
+  ],
+  "summary": {
+    "errors": 3,
+    "warnings": 2,
+    "info": 0
+  }
+}
