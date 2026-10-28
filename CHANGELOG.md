@@ -7,6 +7,8 @@ All notable changes to reviewready are listed here. The format follows
 
 ## [Unreleased]
 
+## [0.1.0] - 2026-10-28
+
 ### Added
 
 - The `reviewready` command (npm package `@mcamdali/reviewready`) for native iOS, Flutter, React
@@ -32,4 +34,5 @@ All notable changes to reviewready are listed here. The format follows
 - Guides for each rule area and for CI, an API reference site, and examples for JavaScript, `jq`
   and GitHub Actions.
 
-[Unreleased]: https://github.com/muhittincamdali/reviewready/commits/main
+[Unreleased]: https://github.com/muhittincamdali/reviewready/compare/v0.1.0...HEAD
+[0.1.0]: https://github.com/muhittincamdali/reviewready/releases/tag/v0.1.0
