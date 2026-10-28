@@ -10,7 +10,7 @@ ERROR    RVW101 Purpose string missing
          Ledger.xcodeproj/project.pbxproj
          AVCaptureSession (Ledger/ScannerView.swift:6) needs NSCameraUsageDescription (camera);
          Ledger has none.
-         Fix: [A] Add the key in Signing & Capabilities or as a build setting
+         Fix: [A] Add the key in the target's Info tab
          Source:
          https://developer.apple.com/documentation/uikit/requesting-access-to-protected-resources
 
@@ -81,7 +81,7 @@ WARNING  RVW702 Privacy manifest not in the app
 
 How to fix
 
-[A]      Add the key in Signing & Capabilities or as a build setting
+[A]      Add the key in the target's Info tab
          1. In Xcode, select the target, open Info, and add the key with a sentence that says what
             the app does with the data. Xcode stores it as the INFOPLIST_KEY_<key> build setting.
          2. If the app never uses this feature, remove the code or the package that uses it instead.

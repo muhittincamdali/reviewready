@@ -24,7 +24,7 @@
 
 `Ledger.xcodeproj/project.pbxproj`: AVCaptureSession \(Ledger/ScannerView.swift:6\) needs NSCameraUsageDescription \(camera\); Ledger has none.
 
-**Fix: Add the key in Signing \& Capabilities or as a build setting** ([guide](https://github.com/muhittincamdali/reviewready/blob/main/docs/guides/purpose-strings.md))
+**Fix: Add the key in the target's Info tab** ([guide](https://github.com/muhittincamdali/reviewready/blob/main/docs/guides/purpose-strings.md))
 
 1. In Xcode, select the target, open Info, and add the key with a sentence that says what the app does with the data. Xcode stores it as the INFOPLIST\_KEY\_\<key\> build setting.
 2. If the app never uses this feature, remove the code or the package that uses it instead.

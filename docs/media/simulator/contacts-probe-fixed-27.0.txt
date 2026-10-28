@@ -1,0 +1,7 @@
+variant:    fixed
+built with: Xcode 27.1 (27A9275), SDK iphonesimulator27.1
+simulator:  iPhone 17, iOS 27.0
+NSContactsUsageDescription in the built Info.plist: Probe shows which of your friends already use it.
+PrivacyInfo.xcprivacy: in the app
+running 5 seconds after launch: yes
+system message: none
