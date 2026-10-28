@@ -85,7 +85,7 @@ to change, and `--ignore RVW102` turns the finding off.
 
 ## RVW104: placeholder and default text
 
-reviewready flags placeholders (TODO, TBD, FIXME, "lorem ipsum", "placeholder"), the sample texts
+reviewready flags placeholders (`TODO`, `TBD`, `FIXME`, `lorem ipsum`, `placeholder`), the sample texts
 of package READMEs ("your usage description here", "[REASON]") and the default texts of Expo's
 config plugins. Write what the person gets: "Take a photo of your meal to log it", not "This app
 needs camera access".

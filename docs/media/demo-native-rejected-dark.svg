@@ -49,8 +49,8 @@ text{font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,"Liberation Mono",mo
 <text class="t" x="20" y="675" style="animation-delay:4.29s"></text>
 <text class="t" x="20" y="694" style="animation-delay:4.33s"><tspan fill="#8CC4FF" font-weight="700">WARNING  </tspan><tspan fill="#FFFFFF" font-weight="700">RVW104 Purpose string is placeholder or default text</tspan></text>
 <text class="t" x="20" y="713" style="animation-delay:4.36s"><tspan fill="#D0E2F7">         </tspan><tspan fill="#4DA3FF">Ledger.xcodeproj/project.pbxproj:156</tspan></text>
-<text class="t" x="20" y="732" style="animation-delay:4.39s"><tspan fill="#D0E2F7">         NSLocationWhenInUseUsageDescription "TODO: explain location" contains the placeholder</tspan></text>
-<text class="t" x="20" y="751" style="animation-delay:4.43s"><tspan fill="#D0E2F7">         "TODO".</tspan></text>
+<text class="t" x="20" y="732" style="animation-delay:4.39s"><tspan fill="#D0E2F7">         NSLocationWhenInUseUsageDescription "Location placeholder" contains the placeholder</tspan></text>
+<text class="t" x="20" y="751" style="animation-delay:4.43s"><tspan fill="#D0E2F7">         "placeholder".</tspan></text>
 <text class="t" x="20" y="770" style="animation-delay:4.46s"></text>
 <text class="t" x="20" y="789" style="animation-delay:4.50s"><tspan fill="#8CC4FF" font-weight="700">WARNING  </tspan><tspan fill="#FFFFFF" font-weight="700">RVW201 Export compliance not declared</tspan></text>
 <text class="t" x="20" y="808" style="animation-delay:4.54s"><tspan fill="#D0E2F7">         </tspan><tspan fill="#4DA3FF">Ledger.xcodeproj/project.pbxproj</tspan></text>

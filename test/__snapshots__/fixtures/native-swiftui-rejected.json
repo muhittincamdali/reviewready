@@ -170,7 +170,7 @@
       "rule": "RVW104",
       "severity": "warning",
       "title": "Purpose string is placeholder or default text",
-      "message": "NSLocationWhenInUseUsageDescription \"TODO: explain location\" contains the placeholder \"TODO\".",
+      "message": "NSLocationWhenInUseUsageDescription \"Location placeholder\" contains the placeholder \"placeholder\".",
       "file": "Ledger.xcodeproj/project.pbxproj",
       "line": 156,
       "target": "Ledger",

@@ -12,7 +12,7 @@
 | RVW503 | error | `Ledger/Assets.xcassets/AppIcon.appiconset/AppIcon-1024.png` | The App Store icon has an alpha channel. |
 | RVW601 | error | `.xcode-version:1` | .xcode-version pins Xcode 16.4 \(.xcode-version\); App Store Connect accepts uploads built with Xcode 26 or later since 28 April 2026. |
 | RVW602 | error | `Ledger.xcodeproj/project.pbxproj:216` | Ledger targets iOS 12.0; App Store Connect accepts iOS apps that target iOS 13.0 or later since 9 September 2026. |
-| RVW104 | warning | `Ledger.xcodeproj/project.pbxproj:156` | NSLocationWhenInUseUsageDescription "TODO: explain location" contains the placeholder "TODO". |
+| RVW104 | warning | `Ledger.xcodeproj/project.pbxproj:156` | NSLocationWhenInUseUsageDescription "Location placeholder" contains the placeholder "placeholder". |
 | RVW201 | warning | `Ledger.xcodeproj/project.pbxproj` | The Info.plist of Ledger has no ITSAppUsesNonExemptEncryption, so App Store Connect asks the export compliance questions for every build. |
 | RVW301 | warning | `Ledger/SignUpView.swift:13` | Accounts are created \(a createUser\(withEmail:\) call in Ledger/SignUpView.swift:13\), and no account deletion call or "Delete account" text was found in the app's code or strings. |
 | RVW401 | warning | `Ledger/SignUpView.swift:1` | Google Sign-In is used \(import GoogleSignIn in Ledger/SignUpView.swift:1\), and no Sign in with Apple was found: no package, entitlement or AuthenticationServices call. |
@@ -76,7 +76,7 @@ Sources: [Apple: Upcoming Requirements](https://developer.apple.com/news/upcomin
 
 ### RVW104: Purpose string is placeholder or default text
 
-`Ledger.xcodeproj/project.pbxproj:156`: NSLocationWhenInUseUsageDescription "TODO: explain location" contains the placeholder "TODO".
+`Ledger.xcodeproj/project.pbxproj:156`: NSLocationWhenInUseUsageDescription "Location placeholder" contains the placeholder "placeholder".
 
 **Fix: Say why the app needs access** ([guide](https://github.com/muhittincamdali/reviewready/blob/main/docs/guides/purpose-strings.md))
 

@@ -1,0 +1,19 @@
+{
+  "name": "reviewready",
+  "repository": "muhittincamdali/reviewready",
+  "tagline": {
+    "en": "Catches App Review rejections in CI before you submit, with the Apple source of every rule and the fix."
+  },
+  "tags": {
+    "en": ["App Review", "iOS · Flutter · RN", "Rule IDs", "CI exit codes"]
+  },
+  "motif": "phone",
+  "buttons": ["start", "docs", "guides", "examples"],
+  "links": {
+    "docs": "https://muhittincamdali.github.io/reviewready/",
+    "guides": "docs/guides/",
+    "examples": "examples/"
+  },
+  "languages": ["en", "tr", "zh-CN", "ja", "ko", "es", "de", "fr", "pt-BR", "ru"],
+  "socialTheme": "dark"
+}
