@@ -1,10 +1,19 @@
-import { mkdirSync, readFileSync, symlinkSync } from 'node:fs';
+import {
+  chmodSync,
+  cpSync,
+  lstatSync,
+  mkdirSync,
+  readdirSync,
+  readFileSync,
+  symlinkSync,
+  writeFileSync,
+} from 'node:fs';
 import { join } from 'node:path';
 import { describe, expect, it } from 'vitest';
 import { EXIT, failsOn, PACKAGE_NAME, RELEASE_TARBALL_URL } from '../../src/cli/run.js';
 import type { Report } from '../../src/model.js';
 import { VERSION } from '../../src/version.js';
-import { reviewready } from '../helpers/cli.js';
+import { ROOT, reviewready } from '../helpers/cli.js';
 import { pbxproj } from '../helpers/projects.js';
 import { scratchDir } from '../helpers/scratch.js';
 import { infoPlist, tree } from '../helpers/tree.js';
@@ -125,6 +134,91 @@ describe('output', () => {
     );
     expect(readFileSync(file, 'utf8')).toContain('## reviewready: Ledger (native iOS)');
   });
+
+  it('does not write --output through a symbolic link the project brings along', async () => {
+    const folder = scratchDir('output-link');
+    const victim = join(folder, 'victim.txt');
+    writeFileSync(victim, 'outside the project\n');
+    const project = join(folder, 'project');
+    mkdirSync(project);
+    symlinkSync('../victim.txt', join(project, 'reviewready.md'));
+    for (const output of ['reviewready.md', join(project, 'reviewready.md')]) {
+      const result = await reviewready(
+        [join(ROOT, REJECTED), '--format', 'markdown', '--output', output],
+        { cwd: project },
+      );
+      expect(result.code).toBe(EXIT.error);
+      expect(result.stderr).toContain('is a symbolic link; reviewready does not write a report');
+      expect(result.stderr).not.toContain('bug');
+    }
+    expect(readFileSync(victim, 'utf8')).toBe('outside the project\n');
+    expect(lstatSync(join(project, 'reviewready.md')).isSymbolicLink()).toBe(true);
+  });
+
+  it('does not write --output into a folder of the project that links outside it', async () => {
+    const folder = scratchDir('output-folder-link');
+    const elsewhere = join(folder, 'elsewhere');
+    mkdirSync(elsewhere);
+    const project = join(folder, 'project');
+    mkdirSync(join(project, 'deep'), { recursive: true });
+    symlinkSync(elsewhere, join(project, 'reports'));
+    symlinkSync(elsewhere, join(project, 'deep', 'out'));
+    // The project is checked as the current folder and, from outside it, as the path argument.
+    const runs = [
+      { cwd: project, args: ['.', '--output', 'reports/reviewready.md'] },
+      { cwd: project, args: ['.', '--output', 'deep/out/x/reviewready.md'] },
+      { cwd: folder, args: ['project', '--output', 'project/reports/reviewready.md'] },
+    ];
+    for (const { cwd, args } of runs) {
+      cpSync(join(ROOT, REJECTED), project, { recursive: true });
+      const result = await reviewready([...args, '--format', 'markdown'], { cwd });
+      expect(result.code).toBe(EXIT.error);
+      expect(result.stderr).toMatch(/is inside .+, a symbolic link; reviewready does not write/);
+      expect(result.stderr).not.toContain('bug');
+    }
+    expect(readdirSync(elsewhere)).toEqual([]);
+  });
+
+  it('writes the report through a link above the checked folders, and replaces an old report', async () => {
+    const folder = scratchDir('output-machine-link');
+    const real = join(folder, 'real');
+    mkdirSync(real);
+    symlinkSync(real, join(folder, 'alias'));
+    const file = join(folder, 'alias', 'report.md');
+    writeFileSync(join(real, 'report.md'), 'old\n');
+    const cwd = join(folder, 'work');
+    mkdirSync(cwd);
+    const result = await reviewready(
+      [join(ROOT, REJECTED), '--format', 'markdown', '--output', file],
+      { cwd },
+    );
+    expect(result.code).toBe(EXIT.findings);
+    expect(readFileSync(join(real, 'report.md'), 'utf8')).toContain('## reviewready: Ledger');
+    expect(readdirSync(real)).toEqual(['report.md']);
+  });
+
+  // A root user can write into a read-only folder, so the permission case needs another user.
+  it.skipIf(process.getuid?.() === 0)(
+    'says why --output could not be written, without calling it a bug',
+    async () => {
+      const folder = scratchDir('output-denied');
+      const locked = join(folder, 'locked');
+      mkdirSync(locked, { mode: 0o500 });
+      const cases = [
+        [join(locked, 'report.md'), 'permission denied'],
+        [join(folder, 'missing', 'report.md'), 'its folder does not exist'],
+        [folder, 'it is a folder'],
+      ] as const;
+      for (const [output, reason] of cases) {
+        const result = await reviewready([REJECTED, '--output', output]);
+        expect(result.code).toBe(EXIT.error);
+        expect(result.stderr).toBe(
+          `reviewready: cannot write the report to ${output}: ${reason}\n`,
+        );
+      }
+      chmodSync(locked, 0o700);
+    },
+  );
 
   it('colours a terminal unless NO_COLOR is set, and FORCE_COLOR colours a pipe', async () => {
     expect((await reviewready([REJECTED], { tty: true })).stdout).toContain('\u001b[');

@@ -1,4 +1,3 @@
-import { writeFile } from 'node:fs/promises';
 import { resolve } from 'node:path';
 import { Command, CommanderError, InvalidArgumentError, Option } from 'commander';
 import { ProjectError } from '../detect/project.js';
@@ -8,6 +7,7 @@ import { clean, REPOSITORY_URL } from '../report/text.js';
 import { RULE_IDS, type RuleId } from '../rules/data.js';
 import { scan } from '../scan.js';
 import { VERSION } from '../version.js';
+import { OutputError, writeReport } from './output.js';
 
 /** Exit codes; documented in the README and `--help`. */
 export const EXIT = { ok: 0, findings: 1, error: 2 } as const;
@@ -48,7 +48,8 @@ Exit codes:
   0  no findings at or above --fail-on
   1  findings at or above --fail-on, or an app project or config that could not
      be read (so a rejection in it is not known); not with --fail-on none
-  2  bad arguments, no iOS project found, or an unexpected error
+  2  bad arguments, no iOS project found, a report file that could not be
+     written, or an unexpected error
 
 Examples:
   reviewready                           checks the project in the current folder
@@ -149,7 +150,8 @@ export async function run(argv: readonly string[], environment: CliEnvironment):
   if (options.json) options.format = 'json';
   const path = (command.processedArgs[0] as string | undefined) ?? '.';
   try {
-    const report = await scan(resolve(io.cwd, path), { ignore: options.ignore });
+    const root = resolve(io.cwd, path);
+    const report = await scan(root, { ignore: options.ignore });
     report.project.path = path;
     const width = io.stdoutIsTty && io.columns ? Math.min(io.columns, 100) : 100;
     const output = render(report, options.format, {
@@ -158,7 +160,8 @@ export async function run(argv: readonly string[], environment: CliEnvironment):
       brief: options.brief === true,
     });
     if (options.output) {
-      await writeFile(resolve(io.cwd, options.output), output);
+      // The current folder and the checked project may both come from a pull request.
+      await writeReport(resolve(io.cwd, options.output), output, [resolve(io.cwd), root]);
       io.stderr(`Wrote ${options.output}: ${report.verdict.text}\n`);
     } else {
       io.stdout(output);
@@ -167,7 +170,7 @@ export async function run(argv: readonly string[], environment: CliEnvironment):
   } catch (error) {
     const message = error instanceof Error ? error.message : String(error);
     io.stderr(`reviewready: ${message}\n`);
-    if (!(error instanceof ProjectError)) {
+    if (!(error instanceof ProjectError || error instanceof OutputError)) {
       io.stderr(
         `This looks like a bug in reviewready; please report it at ${REPOSITORY_URL}/issues\n`,
       );
