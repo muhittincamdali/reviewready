@@ -1,4 +1,4 @@
-<!-- i18n-source: README.md@e6049c7e87beb535d91e3026106454ba19cd59d1 status=reviewed -->
+<!-- i18n-source: README.md@264c269721da98eaa26e4b481013e8f8fb065c64 status=reviewed -->
 <!-- brand:start -->
 
 <p align="center"><picture><source media="(prefers-color-scheme: dark)" srcset="https://raw.githubusercontent.com/muhittincamdali/reviewready/main/.github/brand/banner-dark.svg"><source media="(prefers-color-scheme: light)" srcset="https://raw.githubusercontent.com/muhittincamdali/reviewready/main/.github/brand/banner-light.svg"><img src="https://raw.githubusercontent.com/muhittincamdali/reviewready/main/.github/brand/banner-light.svg" alt="reviewready: Catches App Review rejections in CI before you submit, with the Apple source of every rule and the fix."></picture></p>
@@ -163,8 +163,8 @@ reviewready [path] [options]
 
 Çıkış kodları: `0` `--fail-on` düzeyinde ya da üstünde hiçbir şey yok, `1` bu düzeyde ya da üstünde
 bulgu var, `2` hatalı argüman, iOS projesi bulunamadı ya da beklenmeyen bir hata. Bir Xcode projesi,
-bir Info.plist ya da Expo yapılandırması okunamadığında karar "Not known" olur ve `--fail-on none`
-verilmedikçe çıkış kodu `1` olur: reviewready, okumadığı dosyalara dayanarak bir uygulamaya asla
+bir Info.plist, Expo yapılandırması ya da bir kaynak klasörü okunamadığında karar "Not known" olur
+ve `--fail-on none` verilmedikçe çıkış kodu `1` olur: reviewready, okumadığı dosyalara dayanarak bir uygulamaya asla
 "hazır" demez.
 
 reviewready iOS uygulamasını kendisi bulur: yerel uygulamalarda kökte ya da bir klasör aşağıda bir
@@ -259,7 +259,9 @@ sürdü. Test paketinde 319 test var (`npm test`, aynı makine).
   çalıştırılan `scripts/simulator-check.sh` betiğinden gelir.
 - **Sınırlı girdi.** Bir proje bir pull request'ten gelebileceği için reviewready, proje dosyası
   başına en fazla 32 MB okur; kaynak dosyalarda ise dosya başına 4 MB, toplamda 20.000 dosya ve
-  128 MB okur. Dışarıda bıraktıkları raporun notlarında listelenir. Desenler, bir milyon karakterlik
+  128 MB okur ve 12 klasör düzeyinden derine inmez. Dışarıda bıraktıkları raporun notlarında
+  listelenir. Daha derinde olduğu ya da içeriği listelenemediği için taranmayan bir kaynak klasörü
+  sonucu "not known" yapar. Desenler, bir milyon karakterlik
   kötü niyetle hazırlanmış dosyalarda test edilmiştir.
 
 ## Dokümantasyon

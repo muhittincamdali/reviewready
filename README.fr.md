@@ -1,4 +1,4 @@
-<!-- i18n-source: README.md@e6049c7e87beb535d91e3026106454ba19cd59d1 status=reviewed -->
+<!-- i18n-source: README.md@264c269721da98eaa26e4b481013e8f8fb065c64 status=reviewed -->
 <!-- brand:start -->
 
 <p align="center"><picture><source media="(prefers-color-scheme: dark)" srcset="https://raw.githubusercontent.com/muhittincamdali/reviewready/main/.github/brand/banner-dark.svg"><source media="(prefers-color-scheme: light)" srcset="https://raw.githubusercontent.com/muhittincamdali/reviewready/main/.github/brand/banner-light.svg"><img src="https://raw.githubusercontent.com/muhittincamdali/reviewready/main/.github/brand/banner-light.svg" alt="reviewready: Catches App Review rejections in CI before you submit, with the Apple source of every rule and the fix."></picture></p>
@@ -126,7 +126,7 @@ reviewready [path] [options]
 | `--brief`               | Rapports terminal et texte : seulement le verdict et les constats                              |
 | `--no-color`            | Texte brut même dans un terminal (`NO_COLOR` et `FORCE_COLOR` sont respectés)                  |
 
-Codes de sortie : `0` rien au niveau de `--fail-on` ou au-dessus, `1` constats à ce niveau ou au-dessus, `2` arguments incorrects, aucun projet iOS trouvé ou erreur inattendue. Quand un projet Xcode, un Info.plist ou la configuration Expo n’a pas pu être lu, le verdict est « Not known » et le code de sortie vaut `1`, sauf avec `--fail-on none` : reviewready ne déclare jamais une app prête sur la base de fichiers qu’il n’a pas lus.
+Codes de sortie : `0` rien au niveau de `--fail-on` ou au-dessus, `1` constats à ce niveau ou au-dessus, `2` arguments incorrects, aucun projet iOS trouvé ou erreur inattendue. Quand un projet Xcode, un Info.plist, la configuration Expo ou un dossier de sources n’a pas pu être lu, le verdict est « Not known » et le code de sortie vaut `1`, sauf avec `--fail-on none` : reviewready ne déclare jamais une app prête sur la base de fichiers qu’il n’a pas lus.
 
 reviewready trouve seul l’app iOS : un `.xcodeproj` à la racine ou un dossier plus bas pour les apps natives, `ios/` pour les apps Flutter, React Native et Expo. Il lit l’Info.plist de chaque cible d’app iOS (XML ou binaire), les build settings et les entitlements, le jeu d’icônes et le manifeste de confidentialité, les fichiers Swift, Objective-C, JavaScript, TypeScript et Dart de l’app et ses fichiers de chaînes (strings), le Podfile et les fichiers qui figent une version de Xcode. Une app Expo sans `ios/` est vérifiée à partir de app.json.
 
@@ -195,7 +195,7 @@ Mesuré le 28 octobre 2026 sur un Mac (Apple silicon, M5 Max) avec Node.js 26.12
 - **Build settings uniquement depuis project.pbxproj.** Les fichiers `.xcconfig` ne sont pas lus. Quand l’Info.plist d’une cible ne peut pas être lu, le résultat est « not known » et le rapport en donne la raison.
 - **Configuration Expo en JSON.** `app.config.js` et `app.config.ts` ne sont pas exécutés ; ils donnent donc le résultat « not known » ; app.json est lu.
 - **Uniquement des fichiers.** reviewready ne compile pas l’app et n’examine pas ses écrans, et App Review décide sur davantage que ce que montrent les fichiers. Les enregistrements du simulateur de ce dépôt viennent de `scripts/simulator-check.sh`, exécuté sur un Mac.
-- **Entrée bornée.** Un projet peut provenir d’une pull request ; reviewready lit donc au plus 32 Mo par fichier de projet et, pour les sources, 4 Mo par fichier, 20 000 fichiers et 128 Mo au total ; ce qu’il laisse de côté est listé dans les notes du rapport. Les motifs sont testés sur des fichiers hostiles d’un million de caractères.
+- **Entrée bornée.** Un projet peut provenir d’une pull request ; reviewready lit donc au plus 32 Mo par fichier de projet et, pour les sources, 4 Mo par fichier, 20 000 fichiers et 128 Mo au total, dans des dossiers jusqu’à 12 niveaux de profondeur ; ce qu’il laisse de côté est listé dans les notes du rapport. Un dossier de sources qu’il n’a pas parcouru, parce qu’il est plus profond ou ne peut pas être listé, donne le résultat « not known ». Les motifs sont testés sur des fichiers hostiles d’un million de caractères.
 
 ## Documentation
 

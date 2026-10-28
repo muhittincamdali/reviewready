@@ -1,8 +1,9 @@
-import { symlinkSync } from 'node:fs';
+import { chmodSync, symlinkSync } from 'node:fs';
 import { join } from 'node:path';
 import { describe, expect, it } from 'vitest';
 import {
   listSourceFiles,
+  MAX_DEPTH,
   readSources,
   SOURCE_LIMITS,
   type SourceLimits,
@@ -25,7 +26,7 @@ describe('listSourceFiles', () => {
       '__tests__/App.test.tsx': '',
       'README.md': '',
     });
-    const files = await listSourceFiles(root, new Set(['js']));
+    const { files } = await listSourceFiles(root, new Set(['js']));
     expect(files.map((file) => file.slice(root.length + 1))).toEqual([
       'App.tsx',
       'src/screens/Home.tsx',
@@ -40,12 +41,31 @@ describe('listSourceFiles', () => {
       'ios/Pods/Lib/Lib.swift': '',
       'ios/AppTests/AppTests.swift': '',
     });
-    const files = await listSourceFiles(join(root, 'ios'), new Set(['swift', 'objc']));
+    const { files } = await listSourceFiles(join(root, 'ios'), new Set(['swift', 'objc']));
     expect(files.map((file) => file.slice(root.length + 1))).toEqual([
       'ios/App/AppDelegate.swift',
       'ios/App/Bridge.h',
       'ios/App/Bridge.m',
     ]);
+  });
+
+  // Folders 1 to `levels` deep under the root, as a relative path.
+  const nested = (levels: number) =>
+    Array.from({ length: levels }, (_, index) => `L${index + 1}`).join('/');
+
+  it(`searches ${MAX_DEPTH} folder levels and returns the folders below them`, async () => {
+    const root = tree({
+      [`${nested(MAX_DEPTH)}/Shallow.swift`]: '',
+      [`${nested(MAX_DEPTH + 1)}/Deep.swift`]: '',
+      [`${nested(MAX_DEPTH)}/Pods/L${MAX_DEPTH + 1}/Lib.swift`]: '',
+    });
+    const listing = await listSourceFiles(root, new Set(['swift']));
+    expect(listing.files.map((file) => file.slice(root.length + 1))).toEqual([
+      `${nested(MAX_DEPTH)}/Shallow.swift`,
+    ]);
+    // A skipped folder is never searched, so it is not missed either.
+    expect(listing.tooDeep).toEqual([join(root, nested(MAX_DEPTH + 1))]);
+    expect(listing.unreadable).toEqual([]);
   });
 });
 
@@ -53,7 +73,7 @@ describe('readSources', () => {
   it('reads each file once, sorted, with its language', async () => {
     const root = tree({ 'lib/main.dart': 'void main() {}', 'lib/a/b.dart': '' });
     const dart = new Set(['dart'] as const);
-    const { files, notes } = await readSources(
+    const { files, notes, foldersNotSearched } = await readSources(
       [
         { folder: join(root, 'lib'), languages: dart },
         { folder: join(root, 'lib', 'a'), languages: dart },
@@ -61,6 +81,7 @@ describe('readSources', () => {
       root,
     );
     expect(notes).toEqual([]);
+    expect(foldersNotSearched).toBe(false);
     expect(files.map((file) => [file.path.slice(root.length + 1), file.language])).toEqual([
       ['lib/a/b.dart', 'dart'],
       ['lib/main.dart', 'dart'],
@@ -149,6 +170,64 @@ describe('readSources', () => {
     expect(files.map((file) => file.path.slice(root.length + 1))).toEqual(['ios/App.swift']);
     expect(notes).toEqual([]);
   });
+
+  it('names the folders it did not search and says the sources are not all known', async () => {
+    const levels = Array.from({ length: MAX_DEPTH + 1 }, (_, index) => `L${index + 1}`);
+    const files: Record<string, string> = { 'ios/App/Main.swift': '' };
+    for (const branch of ['a', 'b', 'c', 'd']) {
+      files[`ios/${branch}/${levels.join('/')}/Contacts.swift`] = 'CNContactStore()';
+    }
+    const root = tree(files);
+    const result = await readSources([{ folder: join(root, 'ios'), languages: swift }], root);
+    expect(result.files.map((file) => file.path.slice(root.length + 1))).toEqual([
+      'ios/App/Main.swift',
+    ]);
+    const deepest = levels.slice(0, MAX_DEPTH).join('/');
+    expect(result.notes).toEqual([
+      `Source folders not searched (more than ${MAX_DEPTH} levels down): ios/a/${deepest}, ios/b/${deepest}, ios/c/${deepest} and 1 more.`,
+    ]);
+    expect(result.foldersNotSearched).toBe(true);
+  });
+
+  // A root user can list a folder without read permission, so this case needs another user.
+  it.skipIf(process.getuid?.() === 0)(
+    'names a folder it could not list and says the sources are not all known',
+    async () => {
+      const root = tree({ 'ios/App/Main.swift': '', 'ios/Locked/Contacts.swift': '' });
+      const locked = join(root, 'ios', 'Locked');
+      chmodSync(locked, 0o000);
+      try {
+        const result = await readSources([{ folder: join(root, 'ios'), languages: swift }], root);
+        expect(result.files.map((file) => file.path.slice(root.length + 1))).toEqual([
+          'ios/App/Main.swift',
+        ]);
+        expect(result.notes).toEqual([
+          'Source folders not searched (could not be listed): ios/Locked.',
+        ]);
+        expect(result.foldersNotSearched).toBe(true);
+      } finally {
+        chmodSync(locked, 0o700);
+      }
+    },
+  );
+
+  it.skipIf(process.getuid?.() === 0)(
+    'names the project folder itself when it could not be listed',
+    async () => {
+      const root = tree({ 'package.json': '{}', 'App.tsx': '' });
+      chmodSync(root, 0o300);
+      try {
+        const result = await readSources([{ folder: root, languages: new Set(['js']) }], root);
+        expect(result.files).toEqual([]);
+        expect(result.notes).toEqual([
+          'Source folders not searched (could not be listed): the project folder.',
+        ]);
+        expect(result.foldersNotSearched).toBe(true);
+      } finally {
+        chmodSync(root, 0o700);
+      }
+    },
+  );
 
   it('gives line numbers by offset', () => {
     const file = sourceFile('/a.swift', 'one\ntwo\nthree');

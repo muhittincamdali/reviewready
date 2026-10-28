@@ -1,4 +1,4 @@
-<!-- i18n-source: README.md@e6049c7e87beb535d91e3026106454ba19cd59d1 status=reviewed -->
+<!-- i18n-source: README.md@264c269721da98eaa26e4b481013e8f8fb065c64 status=reviewed -->
 <!-- brand:start -->
 
 <p align="center"><picture><source media="(prefers-color-scheme: dark)" srcset="https://raw.githubusercontent.com/muhittincamdali/reviewready/main/.github/brand/banner-dark.svg"><source media="(prefers-color-scheme: light)" srcset="https://raw.githubusercontent.com/muhittincamdali/reviewready/main/.github/brand/banner-light.svg"><img src="https://raw.githubusercontent.com/muhittincamdali/reviewready/main/.github/brand/banner-light.svg" alt="reviewready: Catches App Review rejections in CI before you submit, with the Apple source of every rule and the fix."></picture></p>
@@ -127,7 +127,7 @@ reviewready [path] [options]
 | `--brief`               | 终端和文本报告：只显示结论和问题                                   |
 | `--no-color`            | 即使在终端中也输出纯文本（遵循 `NO_COLOR` 和 `FORCE_COLOR`）       |
 
-退出码：`0` 表示没有达到或高于 `--fail-on` 级别的问题，`1` 表示存在达到或高于该级别的问题，`2` 表示参数错误、未找到 iOS 项目或发生意外错误。如果无法读取 Xcode 项目、Info.plist 或 Expo 配置，结论为 “Not known”，且除非指定 `--fail-on none`，退出码为 `1`：reviewready 绝不会基于没有读取到的文件，就判定一个应用已经就绪。
+退出码：`0` 表示没有达到或高于 `--fail-on` 级别的问题，`1` 表示存在达到或高于该级别的问题，`2` 表示参数错误、未找到 iOS 项目或发生意外错误。如果无法读取 Xcode 项目、Info.plist、Expo 配置或某个源代码文件夹，结论为 “Not known”，且除非指定 `--fail-on none`，退出码为 `1`：reviewready 绝不会基于没有读取到的文件，就判定一个应用已经就绪。
 
 reviewready 会自动找到 iOS 应用：原生应用是根目录或下一级文件夹中的 `.xcodeproj`，Flutter、React Native 和 Expo 应用则是 `ios/`。它会读取每个 iOS 应用 target 的 Info.plist（XML 或二进制）、build setting 和 entitlement、图标集和隐私清单，应用的 Swift、Objective-C、JavaScript、TypeScript 和 Dart 文件以及 strings 文件，Podfile，还有固定 Xcode 版本的文件。没有 `ios/` 的 Expo 应用则根据 app.json 检查。
 
@@ -196,7 +196,7 @@ console.log(render(report, 'markdown'));
 - **build setting 只读取 project.pbxproj。** 不读取 `.xcconfig` 文件。当无法读取某个 target 的 Info.plist 时，结果为 “not known”，报告中会说明原因。
 - **Expo 配置按 JSON 读取。** 不会运行 `app.config.js` 和 `app.config.ts`，因此它们会让结果变为 “not known”；app.json 则会被读取。
 - **只看文件。** reviewready 不会构建应用，也不会查看它的界面，而 App Review 的判断依据比文件所能显示的更多。本仓库中的模拟器录屏来自在 Mac 上运行的 `scripts/simulator-check.sh`。
-- **输入有上限。** 项目可能来自 pull request，因此 reviewready 对每个项目文件最多读取 32 MB；对于源代码，每个文件最多 4 MB，总共最多 20,000 个文件和 128 MB；被略过的内容会列在报告的备注中。这些匹配模式已在包含一百万个字符的恶意构造文件上测试过。
+- **输入有上限。** 项目可能来自 pull request，因此 reviewready 对每个项目文件最多读取 32 MB；对于源代码，每个文件最多 4 MB，总共最多 20,000 个文件和 128 MB，并且只读取最多 12 层深的文件夹；被略过的内容会列在报告的备注中。如果某个源代码文件夹因为层级更深或无法列出内容而没有被搜索，结果为 “not known”。这些匹配模式已在包含一百万个字符的恶意构造文件上测试过。
 
 ## 文档
 

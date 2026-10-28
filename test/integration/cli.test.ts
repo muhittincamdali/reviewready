@@ -80,8 +80,16 @@ describe('exit codes', () => {
       'app.config.ts': 'export default { ios: { infoPlist: {} } };',
     });
 
+    // The ready app with a Swift file one folder level deeper than reviewready searches.
+    const deepSource = scratchDir('deep-source');
+    cpSync(READY, deepSource, { recursive: true });
+    const levels = Array.from({ length: 13 }, (_, index) => `L${index + 1}`).join('/');
+    mkdirSync(join(deepSource, levels), { recursive: true });
+    writeFileSync(join(deepSource, levels, 'Contacts.swift'), 'let store = CNContactStore()\n');
+
     it.each([
       ['an Info.plist with a conflict marker', conflict],
+      ['a source folder more than 12 levels down', deepSource],
       ['an Info.plist linked outside the project', linkedPlist],
       ['an ios/ folder linked outside the project', linkedIos],
       ['an Expo config written as code', configJs],
