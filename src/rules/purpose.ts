@@ -138,7 +138,8 @@ function expoPluginNeeds(app: AppModel, target: AppTarget): ExpoPluginResult {
   return result;
 }
 
-const capitalized = (text: string) => text.charAt(0).toUpperCase() + text.slice(1);
+/** A reason that starts with "the" ("the camera package") starts the sentence with "The". */
+const capitalized = (text: string) => (text.startsWith('the ') ? `The ${text.slice(4)}` : text);
 
 const keyLabel = (key: string) => `${key} (${RULE_DATA.purposeKeys[key] ?? 'protected resource'})`;
 
@@ -182,11 +183,15 @@ const normalized = (text: string) => text.trim().replace(/\s+/g, ' ').toLowerCas
 const EXACT = new Map(
   RULE_DATA.placeholders.exact.map((item) => [normalized(item.text), item.from] as const),
 );
-const DEFAULTS = new Map(
-  RULE_DATA.expoPlugins.flatMap((plugin) =>
-    plugin.keys.map((key) => [normalized(key.default), plugin.name] as const),
-  ),
-);
+/** Each config plugin default text, with the plugins that write it. */
+const DEFAULTS = new Map<string, string[]>();
+for (const plugin of RULE_DATA.expoPlugins) {
+  for (const key of plugin.keys) {
+    const text = normalized(key.default);
+    const plugins = DEFAULTS.get(text) ?? [];
+    if (!plugins.includes(plugin.name)) DEFAULTS.set(text, [...plugins, plugin.name]);
+  }
+}
 
 /** Why a purpose string is not valid (RVW103), or null. */
 function invalidReason(value: unknown): string | null {
@@ -205,8 +210,11 @@ function placeholderReason(value: string): string | null {
   const text = normalized(value);
   const sample = EXACT.get(text);
   if (sample) return `is the sample text from ${sample}`;
-  const plugin = DEFAULTS.get(text);
-  if (plugin) return `is the default text of the ${plugin} config plugin`;
+  const plugins = DEFAULTS.get(text);
+  if (plugins) {
+    const names = plugins.join(', ');
+    return `is the default text of the ${names} config plugin${plugins.length > 1 ? 's' : ''}`;
+  }
   const word = PLACEHOLDER_WORDS.exec(value)?.[0];
   if (word) return `contains the placeholder "${word}"`;
   return null;
