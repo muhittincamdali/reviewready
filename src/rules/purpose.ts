@@ -124,7 +124,7 @@ function expoPluginNeeds(app: AppModel, target: AppTarget): ExpoPluginResult {
       if (!applied) {
         result.needs.push({
           keys: [key.key],
-          reason: `the ${plugin.name} package, whose config plugin is not in expo.plugins`,
+          reason: `the ${plugin.name} package (its config plugin is not in expo.plugins)`,
           ...(key.when ? { when: key.when } : {}),
         });
         continue;
@@ -137,6 +137,8 @@ function expoPluginNeeds(app: AppModel, target: AppTarget): ExpoPluginResult {
   }
   return result;
 }
+
+const capitalized = (text: string) => text.charAt(0).toUpperCase() + text.slice(1);
 
 const keyLabel = (key: string) => `${key} (${RULE_DATA.purposeKeys[key] ?? 'protected resource'})`;
 
@@ -166,7 +168,7 @@ function missingHits(target: AppTarget, needs: Need[]): Hit[] {
       line: null,
       variant: place.variant,
       target: target.name,
-      message: `${named}${more} needs ${keyLabel(key)}${either}${when}; ${target.name} has none.`,
+      message: `${capitalized(named)}${more} needs ${keyLabel(key)}${either}${when}; ${target.name} has none.`,
     });
   }
   return hits;

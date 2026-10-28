@@ -462,7 +462,7 @@
     "NSBluetoothPeripheralUsageDescription": "Bluetooth (before iOS 13)",
     "NSFaceIDUsageDescription": "Face ID",
     "NSSpeechRecognitionUsageDescription": "speech recognition",
-    "NSUserTrackingUsageDescription": "tracking (App Tracking Transparency)",
+    "NSUserTrackingUsageDescription": "App Tracking Transparency",
     "NSMotionUsageDescription": "motion and fitness data",
     "NSHealthShareUsageDescription": "reading health data",
     "NSHealthUpdateUsageDescription": "writing health data",
@@ -1130,20 +1130,20 @@
   "accounts": {
     "creation": [
       {
-        "label": "Firebase createUser(withEmail:)",
+        "label": "a createUser(withEmail:) call",
         "pattern": "\\bcreateUser\\s*\\(\\s*withEmail\\b"
       },
       {
-        "label": "Firebase createUserWithEmailAndPassword",
+        "label": "a createUserWithEmailAndPassword call",
         "pattern": "\\bcreateUserWithEmailAndPassword\\b"
       },
-      { "label": "Supabase auth.signUp", "pattern": "\\.\\s*auth\\s*\\.\\s*signUp\\s*\\(" },
+      { "label": "an auth.signUp call", "pattern": "\\.\\s*auth\\s*\\.\\s*signUp\\s*\\(" },
       {
-        "label": "Amplify Auth.signUp",
+        "label": "an Amplify.Auth.signUp call",
         "pattern": "\\bAmplify\\s*\\.\\s*Auth\\s*\\.\\s*signUp\\b"
       },
       {
-        "label": "Clerk sign-up",
+        "label": "a Clerk sign-up call",
         "pattern": "\\buseSignUp\\s*\\(|\\bsignUp\\s*\\.\\s*create\\s*\\("
       }
     ],
@@ -1154,7 +1154,7 @@
         "pattern": "\\b(?:deleteAccount|deleteUser|deleteMyAccount|removeAccount|delete_account|delete_user)\\b"
       },
       {
-        "label": "Firebase user.delete()",
+        "label": "a user.delete() call",
         "pattern": "\\b(?:currentUser|user)\\s*[?!]?\\s*\\.\\s*delete\\s*\\("
       }
     ],
