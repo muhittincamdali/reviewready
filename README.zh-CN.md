@@ -1,4 +1,4 @@
-<!-- i18n-source: README.md@264c269721da98eaa26e4b481013e8f8fb065c64 status=reviewed -->
+<!-- i18n-source: README.md@e6df98d52e28f2cab4ebd87b40c1410d705319f5 status=reviewed -->
 <!-- brand:start -->
 
 <p align="center"><picture><source media="(prefers-color-scheme: dark)" srcset="https://raw.githubusercontent.com/muhittincamdali/reviewready/main/.github/brand/banner-dark.svg"><source media="(prefers-color-scheme: light)" srcset="https://raw.githubusercontent.com/muhittincamdali/reviewready/main/.github/brand/banner-light.svg"><img src="https://raw.githubusercontent.com/muhittincamdali/reviewready/main/.github/brand/banner-light.svg" alt="reviewready：在提交前于 CI 中发现 App Review 拒审原因，并给出每条规则的 Apple 来源和修复方法。"></picture></p>
@@ -173,7 +173,7 @@ console.log(render(report, 'markdown'));
 | 通过所有检查的 UIKit 应用                                                              | [浅色](docs/media/demo-native-ready-light.svg) · [深色](docs/media/demo-native-ready-dark.svg)                                                    |
 | 在 iOS 27.0 上运行 `scripts/simulator-check.sh`，修复前与修复后                        | [缺失](docs/media/demo-simulator-contacts-probe-missing-27.0-light.svg) · [已修复](docs/media/demo-simulator-contacts-probe-fixed-27.0-light.svg) |
 
-测量于 2026 年 10 月 28 日，设备为 Mac（Apple silicon，M5 Max），Node.js 26.12：对六个 fixture 运行 `node dist/cli/main.js --json`，共三组、每组 100 次，包含 Node.js 的启动时间。三组的中位数分别为 0.110、0.112 和 0.109 秒；最慢的一次耗时 0.24 秒。测试套件共有 319 个测试（`npm test`，同一台机器）。
+测量于 2026 年 10 月 28 日，设备为 Mac（Apple silicon，M5 Max），Node.js 26.12：对六个 fixture 运行 `node dist/cli/main.js --json`，共三组、每组 100 次，包含 Node.js 的启动时间。三组的中位数分别为 0.110、0.112 和 0.109 秒；最慢的一次耗时 0.24 秒。测试套件共有 324 个测试（`npm test`，同一台机器）。
 
 ## 状态
 

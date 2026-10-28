@@ -1,4 +1,4 @@
-<!-- i18n-source: README.md@264c269721da98eaa26e4b481013e8f8fb065c64 status=reviewed -->
+<!-- i18n-source: README.md@e6df98d52e28f2cab4ebd87b40c1410d705319f5 status=reviewed -->
 <!-- brand:start -->
 
 <p align="center"><picture><source media="(prefers-color-scheme: dark)" srcset="https://raw.githubusercontent.com/muhittincamdali/reviewready/main/.github/brand/banner-dark.svg"><source media="(prefers-color-scheme: light)" srcset="https://raw.githubusercontent.com/muhittincamdali/reviewready/main/.github/brand/banner-light.svg"><img src="https://raw.githubusercontent.com/muhittincamdali/reviewready/main/.github/brand/banner-light.svg" alt="reviewready: находит причины отклонения App Review в CI до отправки, с источником Apple для каждого правила и исправлением."></picture></p>
@@ -172,7 +172,7 @@ console.log(render(report, 'markdown'));
 | Приложение на UIKit, проходящее все проверки                                             | [светлая](docs/media/demo-native-ready-light.svg) · [тёмная](docs/media/demo-native-ready-dark.svg)                                                        |
 | `scripts/simulator-check.sh` на iOS 27.0, без исправлений и с ними                       | [без ключа](docs/media/demo-simulator-contacts-probe-missing-27.0-light.svg) · [исправлено](docs/media/demo-simulator-contacts-probe-fixed-27.0-light.svg) |
 
-Измерено 28 октября 2026 года на Mac (Apple silicon, M5 Max) с Node.js 26.12: три серии по 100 запусков `node dist/cli/main.js --json` на шести фикстурах, включая запуск Node.js. Медианы трёх серий составили 0,110, 0,112 и 0,109 секунды; самый медленный запуск занял 0,24 секунды. В наборе тестов 319 тестов (`npm test`, на той же машине).
+Измерено 28 октября 2026 года на Mac (Apple silicon, M5 Max) с Node.js 26.12: три серии по 100 запусков `node dist/cli/main.js --json` на шести фикстурах, включая запуск Node.js. Медианы трёх серий составили 0,110, 0,112 и 0,109 секунды; самый медленный запуск занял 0,24 секунды. В наборе тестов 324 теста (`npm test`, на той же машине).
 
 ## Статус
 
