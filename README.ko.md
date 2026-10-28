@@ -1,4 +1,4 @@
-<!-- i18n-source: README.md@264c269721da98eaa26e4b481013e8f8fb065c64 status=reviewed -->
+<!-- i18n-source: README.md@e6df98d52e28f2cab4ebd87b40c1410d705319f5 status=reviewed -->
 <!-- brand:start -->
 
 <p align="center"><picture><source media="(prefers-color-scheme: dark)" srcset="https://raw.githubusercontent.com/muhittincamdali/reviewready/main/.github/brand/banner-dark.svg"><source media="(prefers-color-scheme: light)" srcset="https://raw.githubusercontent.com/muhittincamdali/reviewready/main/.github/brand/banner-light.svg"><img src="https://raw.githubusercontent.com/muhittincamdali/reviewready/main/.github/brand/banner-light.svg" alt="reviewready: 제출하기 전에 CI에서 App Review 거절 사유를 잡아내고, 규칙마다 근거가 되는 Apple 출처와 해결 방법을 보여 줍니다."></picture></p>
@@ -173,7 +173,7 @@ console.log(render(report, 'markdown'));
 | 모든 검사를 통과하는 UIKit 앱                                                         | [라이트](docs/media/demo-native-ready-light.svg) · [다크](docs/media/demo-native-ready-dark.svg)                                                  |
 | iOS 27.0에서 실행한 `scripts/simulator-check.sh`, 수정 전과 수정 후                   | [누락](docs/media/demo-simulator-contacts-probe-missing-27.0-light.svg) · [수정됨](docs/media/demo-simulator-contacts-probe-fixed-27.0-light.svg) |
 
-2026년 10월 28일 Mac(Apple silicon, M5 Max)에서 Node.js 26.12로 측정했습니다. 여섯 개의 fixture에 대해 `node dist/cli/main.js --json`을 100회 실행하는 세트를 세 번 진행했으며, Node.js 시작 시간을 포함합니다. 세 세트의 중앙값은 0.110초, 0.112초, 0.109초였고, 가장 느린 실행은 0.24초였습니다. 테스트 스위트에는 319개의 테스트가 있습니다(`npm test`, 같은 기기).
+2026년 10월 28일 Mac(Apple silicon, M5 Max)에서 Node.js 26.12로 측정했습니다. 여섯 개의 fixture에 대해 `node dist/cli/main.js --json`을 100회 실행하는 세트를 세 번 진행했으며, Node.js 시작 시간을 포함합니다. 세 세트의 중앙값은 0.110초, 0.112초, 0.109초였고, 가장 느린 실행은 0.24초였습니다. 테스트 스위트에는 324개의 테스트가 있습니다(`npm test`, 같은 기기).
 
 ## 상태
 
