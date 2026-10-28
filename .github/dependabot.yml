@@ -16,6 +16,11 @@ updates:
       interval: "monthly"
     commit-message:
       prefix: "chore"
+    ignore:
+      # @types/node follows the Node.js lines the package supports and CI runs (22 and 24); types
+      # for a newer line would let code use APIs those versions do not have.
+      - dependency-name: "@types/node"
+        update-types: ["version-update:semver-major"]
     groups:
       npm:
         patterns:
