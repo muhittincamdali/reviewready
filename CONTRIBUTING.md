@@ -20,7 +20,8 @@ npm test          # builds dist/ first, then runs every test
 
 CI runs `npm run lint`, `npm run typecheck`, `npm test` and `npm run build` on Node.js 22 and 24;
 if they pass locally they pass on your pull request. Tests read only files in the repository and
-write only to `.test-work/`; they need neither the network nor Xcode.
+write only to `.test-work/`, which is removed when the run ends; they need neither the network
+nor Xcode.
 
 | Command                                           | What it does                                                                                       |
 | ------------------------------------------------- | -------------------------------------------------------------------------------------------------- |
