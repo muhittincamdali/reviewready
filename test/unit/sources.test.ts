@@ -186,6 +186,36 @@ describe('readSources', () => {
     expect(notes).toEqual(['ios is outside the project; its source files were not read.']);
   });
 
+  it('reads a linked source file inside the project and names one linked outside it', async () => {
+    const outside = tree({ 'Secret.swift': 'let secret = 1' });
+    const root = tree({ 'ios/App/Main.swift': '', 'Shared/Contacts.swift': 'CNContactStore()' });
+    symlinkSync(join(root, 'Shared', 'Contacts.swift'), join(root, 'ios', 'App', 'Contacts.swift'));
+    symlinkSync(join(outside, 'Secret.swift'), join(root, 'ios', 'App', 'Secret.swift'));
+    const result = await readSources([{ folder: join(root, 'ios'), languages: swift }], root);
+    expect(result.files.map((file) => [file.path.slice(root.length + 1), file.text])).toEqual([
+      ['ios/App/Contacts.swift', 'CNContactStore()'],
+      ['ios/App/Main.swift', ''],
+    ]);
+    expect(result.notes).toEqual([
+      'Source files not read (linked outside the project): ios/App/Secret.swift.',
+    ]);
+    expect(result.incomplete).toBe(true);
+  });
+
+  it('names a linked folder under a source root, which it does not follow', async () => {
+    const root = tree({ 'ios/App/Main.swift': '', 'Shared/Contacts.swift': 'CNContactStore()' });
+    symlinkSync(join(root, 'Shared'), join(root, 'ios', 'App', 'Shared'));
+    // A link with a skipped folder name and a dangling link are not named.
+    symlinkSync(join(root, 'Shared'), join(root, 'ios', 'App', 'Pods'));
+    symlinkSync(join(root, 'missing'), join(root, 'ios', 'App', 'Gone'));
+    const result = await readSources([{ folder: join(root, 'ios'), languages: swift }], root);
+    expect(result.files.map((file) => file.path.slice(root.length + 1))).toEqual([
+      'ios/App/Main.swift',
+    ]);
+    expect(result.notes).toEqual(['Source folders not searched (symbolic links): ios/App/Shared.']);
+    expect(result.incomplete).toBe(true);
+  });
+
   it('does not read a source folder given as a .. path out of the project', async () => {
     const parent = tree({ 'other/Secret.swift': 'let secret = 1', 'app/Main.swift': '' });
     const root = join(parent, 'app');
