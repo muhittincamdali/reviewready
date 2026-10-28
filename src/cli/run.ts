@@ -33,6 +33,7 @@ interface Options {
   output?: string;
   failOn: FailOn;
   ignore: RuleId[];
+  brief?: boolean;
   color: boolean;
 }
 
@@ -101,6 +102,7 @@ function program(io: CliEnvironment): Command {
       ignoreList,
       [],
     )
+    .option('--brief', 'terminal and text reports: only the verdict and the findings')
     .option('--no-color', 'plain text even in a terminal')
     .addHelpText('after', HELP_AFTER)
     .showHelpAfterError('(add --help for usage)')
@@ -150,7 +152,11 @@ export async function run(argv: readonly string[], environment: CliEnvironment):
     const report = await scan(resolve(io.cwd, path), { ignore: options.ignore });
     report.project.path = path;
     const width = io.stdoutIsTty && io.columns ? Math.min(io.columns, 100) : 100;
-    const output = render(report, options.format, { color: useColor(options, io), width });
+    const output = render(report, options.format, {
+      color: useColor(options, io),
+      width,
+      brief: options.brief === true,
+    });
     if (options.output) {
       await writeFile(resolve(io.cwd, options.output), output);
       io.stderr(`Wrote ${options.output}: ${report.verdict.text}\n`);

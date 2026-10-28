@@ -102,6 +102,20 @@ describe('render', () => {
     expect(text).not.toContain('\u001b[');
   });
 
+  it('leaves out fixes, sources and checks in the brief report', () => {
+    const brief = render(sample, 'text', { color: false, brief: true });
+    expect(brief).toContain('ERROR    RVW101 Purpose string missing');
+    expect(brief).toContain('AVCaptureSession needs NSCameraUsageDescription.');
+    expect(brief).not.toContain('Fix: [');
+    expect(brief).not.toContain('Source:');
+    expect(brief).not.toContain('How to fix');
+    expect(brief).not.toContain('Checks');
+    expect(brief).toContain('Run it without --brief for the fix and source of each finding.');
+    expect(render(report([]), 'text', { color: false, brief: true })).toContain(
+      'Rules and sources:',
+    );
+  });
+
   it('colours the tty report only when asked', () => {
     expect(render(sample, 'tty', { color: true })).toContain('\u001b[31m');
     expect(render(sample, 'tty', { color: false })).toBe(render(sample, 'text'));
