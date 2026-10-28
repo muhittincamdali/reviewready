@@ -1,4 +1,4 @@
-<!-- i18n-source: README.md@3e9e5e61a6bac2815ed0be778cb9ad84a37754cf status=reviewed -->
+<!-- i18n-source: README.md@e6049c7e87beb535d91e3026106454ba19cd59d1 status=reviewed -->
 <!-- brand:start -->
 
 <p align="center"><picture><source media="(prefers-color-scheme: dark)" srcset="https://raw.githubusercontent.com/muhittincamdali/reviewready/main/.github/brand/banner-dark.svg"><source media="(prefers-color-scheme: light)" srcset="https://raw.githubusercontent.com/muhittincamdali/reviewready/main/.github/brand/banner-light.svg"><img src="https://raw.githubusercontent.com/muhittincamdali/reviewready/main/.github/brand/banner-light.svg" alt="reviewready: Catches App Review rejections in CI before you submit, with the Apple source of every rule and the fix."></picture></p>
@@ -61,7 +61,7 @@ reviewready
 
 Начните с замечаний **ERROR**: App Review или App Store Connect отклонят приложение из-за них. Затем разберите замечания **WARNING**, на которые App Review может указать. Для каждого замечания исправление описано в списке «How to fix», а ссылка ведёт на страницу Apple, из которой оно взято.
 
-Homebrew (`brew install muhittincamdali/tap/reviewready`) и реестр npm (`npx @mcamdali/reviewready`) планируются для того же пакета.
+Homebrew устанавливает тот же пакет вместе с Node.js: `brew install muhittincamdali/tap/reviewready`. Реестр npm (`npx @mcamdali/reviewready`) планируется.
 
 ## Что проверяет reviewready
 
@@ -184,7 +184,8 @@ console.log(render(report, 'markdown'));
 | Внешние ссылки на оплату и In-App Purchase (guideline 3.1.1), вопросы о возрастном рейтинге                                                              | планируется (0.2) |
 | Build settings из `.xcconfig`, пакеты Swift и Pods приложения, `app.config.js`                                                                           | планируется (0.2) |
 | Вывод в формате SARIF и GitHub Action                                                                                                                    | планируется (0.3) |
-| Реестр npm и Homebrew                                                                                                                                    | планируется       |
+| Homebrew (`muhittincamdali/tap`)                                                                                                                         | работает          |
+| Реестр npm                                                                                                                                               | планируется       |
 | Стабильная схема правил и формат JSON                                                                                                                    | планируется (1.0) |
 
 ## Ограничения

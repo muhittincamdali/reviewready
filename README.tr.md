@@ -1,4 +1,4 @@
-<!-- i18n-source: README.md@3e9e5e61a6bac2815ed0be778cb9ad84a37754cf status=reviewed -->
+<!-- i18n-source: README.md@e6049c7e87beb535d91e3026106454ba19cd59d1 status=reviewed -->
 <!-- brand:start -->
 
 <p align="center"><picture><source media="(prefers-color-scheme: dark)" srcset="https://raw.githubusercontent.com/muhittincamdali/reviewready/main/.github/brand/banner-dark.svg"><source media="(prefers-color-scheme: light)" srcset="https://raw.githubusercontent.com/muhittincamdali/reviewready/main/.github/brand/banner-light.svg"><img src="https://raw.githubusercontent.com/muhittincamdali/reviewready/main/.github/brand/banner-light.svg" alt="reviewready: Catches App Review rejections in CI before you submit, with the Apple source of every rule and the fix."></picture></p>
@@ -84,8 +84,8 @@ reviewready
 App Review'ün işaretleyebileceği **WARNING** bulgularına geçin. Her bulgu, çözümünü "How to fix"
 listesinde belirtir ve dayandığı Apple sayfasına bağlanır.
 
-Aynı paket için Homebrew (`brew install muhittincamdali/tap/reviewready`) ve npm registry
-(`npx @mcamdali/reviewready`) planlanıyor.
+Homebrew aynı paketi Node.js ile birlikte kurar: `brew install muhittincamdali/tap/reviewready`.
+npm registry (`npx @mcamdali/reviewready`) planlanıyor.
 
 ## reviewready neleri kontrol eder
 
@@ -237,7 +237,8 @@ sürdü. Test paketinde 319 test var (`npm test`, aynı makine).
 | Harici ödeme bağlantıları ve In-App Purchase (guideline 3.1.1), yaş derecelendirmesi soruları                                                                  | planlanıyor (0.2) |
 | `.xcconfig` build setting'leri, uygulamanın Swift paketleri ve Pod'ları, `app.config.js`                                                                       | planlanıyor (0.2) |
 | SARIF çıktısı ve bir GitHub Action                                                                                                                             | planlanıyor (0.3) |
-| npm registry ve Homebrew                                                                                                                                       | planlanıyor       |
+| Homebrew (`muhittincamdali/tap`)                                                                                                                               | çalışıyor         |
+| npm registry                                                                                                                                                   | planlanıyor       |
 | Kararlı kural şeması ve JSON düzeni                                                                                                                            | planlanıyor (1.0) |
 
 ## Sınırlar

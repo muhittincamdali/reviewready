@@ -1,4 +1,4 @@
-<!-- i18n-source: README.md@3e9e5e61a6bac2815ed0be778cb9ad84a37754cf status=reviewed -->
+<!-- i18n-source: README.md@e6049c7e87beb535d91e3026106454ba19cd59d1 status=reviewed -->
 <!-- brand:start -->
 
 <p align="center"><picture><source media="(prefers-color-scheme: dark)" srcset="https://raw.githubusercontent.com/muhittincamdali/reviewready/main/.github/brand/banner-dark.svg"><source media="(prefers-color-scheme: light)" srcset="https://raw.githubusercontent.com/muhittincamdali/reviewready/main/.github/brand/banner-light.svg"><img src="https://raw.githubusercontent.com/muhittincamdali/reviewready/main/.github/brand/banner-light.svg" alt="reviewready: Catches App Review rejections in CI before you submit, with the Apple source of every rule and the fix."></picture></p>
@@ -61,7 +61,7 @@ reviewready
 
 Commencez par les constats **ERROR** : App Review ou App Store Connect les refusent. Passez ensuite aux constats **WARNING**, qu’App Review peut signaler. Chaque constat indique sa correction dans la liste « How to fix » et renvoie à la page Apple dont il provient.
 
-Homebrew (`brew install muhittincamdali/tap/reviewready`) et le registre npm (`npx @mcamdali/reviewready`) sont prévus pour le même paquet.
+Homebrew installe le même paquet avec Node.js : `brew install muhittincamdali/tap/reviewready`. Le registre npm (`npx @mcamdali/reviewready`) est prévu.
 
 ## Ce que vérifie reviewready
 
@@ -184,7 +184,8 @@ Mesuré le 28 octobre 2026 sur un Mac (Apple silicon, M5 Max) avec Node.js 26.12
 | Liens de paiement externes et In-App Purchase (guideline 3.1.1), questions de classification par âge                                                                                    | prévu (0.2) |
 | Build settings `.xcconfig`, paquets Swift et Pods de l’app, `app.config.js`                                                                                                             | prévu (0.2) |
 | Sortie SARIF et une GitHub Action                                                                                                                                                       | prévu (0.3) |
-| Registre npm et Homebrew                                                                                                                                                                | prévu       |
+| Homebrew (`muhittincamdali/tap`)                                                                                                                                                        | fonctionne  |
+| Registre npm                                                                                                                                                                            | prévu       |
 | Schéma de règles et structure JSON stables                                                                                                                                              | prévu (1.0) |
 
 ## Limites

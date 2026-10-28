@@ -1,4 +1,4 @@
-<!-- i18n-source: README.md@3e9e5e61a6bac2815ed0be778cb9ad84a37754cf status=reviewed -->
+<!-- i18n-source: README.md@e6049c7e87beb535d91e3026106454ba19cd59d1 status=reviewed -->
 <!-- brand:start -->
 
 <p align="center"><picture><source media="(prefers-color-scheme: dark)" srcset="https://raw.githubusercontent.com/muhittincamdali/reviewready/main/.github/brand/banner-dark.svg"><source media="(prefers-color-scheme: light)" srcset="https://raw.githubusercontent.com/muhittincamdali/reviewready/main/.github/brand/banner-light.svg"><img src="https://raw.githubusercontent.com/muhittincamdali/reviewready/main/.github/brand/banner-light.svg" alt="reviewready: Catches App Review rejections in CI before you submit, with the Apple source of every rule and the fix."></picture></p>
@@ -62,7 +62,7 @@ reviewready
 
 先处理 **ERROR** 级别的问题：App Review 或 App Store Connect 会直接拒绝这些。然后处理 **WARNING** 级别的问题，App Review 可能会指出它们。每个问题都会在 “How to fix” 列表中给出修复方法，并链接到它所依据的 Apple 页面。
 
-同一个软件包的 Homebrew 安装（`brew install muhittincamdali/tap/reviewready`）和 npm registry 安装（`npx @mcamdali/reviewready`）正在计划中。
+Homebrew 会连同 Node.js 一起安装同一个软件包：`brew install muhittincamdali/tap/reviewready`。npm registry 安装（`npx @mcamdali/reviewready`）正在计划中。
 
 ## reviewready 检查哪些内容
 
@@ -185,7 +185,8 @@ console.log(render(report, 'markdown'));
 | 外部支付链接和 In-App Purchase（guideline 3.1.1）、年龄分级问题                                                  | 计划中（0.2） |
 | `.xcconfig` build setting、应用的 Swift package 和 Pod、`app.config.js`                                          | 计划中（0.2） |
 | SARIF 输出和 GitHub Action                                                                                       | 计划中（0.3） |
-| npm registry 和 Homebrew                                                                                         | 计划中        |
+| Homebrew（`muhittincamdali/tap`）                                                                                | 已可用        |
+| npm registry                                                                                                     | 计划中        |
 | 稳定的规则 schema 和 JSON 结构                                                                                   | 计划中（1.0） |
 
 ## 局限
