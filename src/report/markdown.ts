@@ -1,0 +1,142 @@
+// The Markdown report, for a pull request comment, a job summary or a file kept with the code.
+// render() has already replaced the control characters in every string of the report.
+import type { FixAdvice, Finding, Report } from '../model.js';
+import { countsLine, ECOSYSTEM_LABELS, REPOSITORY_URL, RULES_URL, toolchainLine } from './text.js';
+
+// Every character that can start Markdown or HTML markup inline: links and images ([ ] ( ) !),
+// emphasis (* _ ~), code (`), headings (#), HTML and autolinks (< >), entities (&), table cells
+// (|) and the backslash itself. A backslash in front makes each one plain text.
+const MARKUP = /[\\`*_[\]()#!<>|~&]/g;
+// GitHub turns bare URLs, www. addresses, e-mail addresses, @names and issue references (#1,
+// owner/repo#1, GH-1) into links or mentions without any markup, also right after a letter or an
+// underscore (x_https://...). A word joiner (U+2060, invisible) after the scheme, the www, the @,
+// the # or the GH stops that and leaves the text as it reads.
+const BARE_LINKS = /(?:https?|ftp)(?=:\/\/)|www(?=\.)|gh(?=-\d)|#(?=\d)|@/gi;
+// A list marker ('- ', '+ ', '12. ') or the start of a rule ('---') at the start of a line.
+const LIST_OR_RULE = /^(?:[-+](?=\s|$)|-(?=-))/;
+const ORDERED_LIST = /^(\d+)\.(?=\s|$)/;
+const WORD_JOINER = '\u2060';
+const BACKTICK_RUNS = /`+/g;
+
+/**
+ * Text from the checked project (names, versions, paths, plist values) as plain text in a
+ * paragraph, heading or table cell: no line breaks, markup or bare links. Notes and fix steps
+ * start a line, so a leading list marker or `---` is escaped too (it would open a list or a rule),
+ * and leading spaces are dropped (four of them would open a code block).
+ */
+const md = (text: string) =>
+  text
+    .replace(/\s*\n\s*/g, ' ')
+    .trimStart()
+    .replace(MARKUP, '\\$&')
+    .replace(LIST_OR_RULE, '\\$&')
+    .replace(ORDERED_LIST, '$1\\.')
+    .replace(BARE_LINKS, `$&${WORD_JOINER}`);
+
+/**
+ * Inline code that the value cannot close early: the fence is one backtick longer than the
+ * longest run of backticks in it, and a space pads a value that starts or ends with a backtick or
+ * a space (Markdown strips one space from each side).
+ */
+const code = (text: string) => {
+  const value = text.replace(/\n/g, ' ');
+  if (!value) return '';
+  const longestRun = Math.max(0, ...(value.match(BACKTICK_RUNS) ?? []).map((run) => run.length));
+  const fence = '`'.repeat(longestRun + 1);
+  const padding = /^[ `]|[ `]$/.test(value) && value.trim() !== '' ? ' ' : '';
+  return `${fence}${padding}${value}${padding}${fence}`;
+};
+/** GitHub splits a table row on every `|` that has no backslash, inside code spans too. */
+const cell = (text: string) => text.replace(/\|/g, '\\|');
+const where = (item: Finding) => code(`${item.file}${item.line ? `:${item.line}` : ''}`);
+
+function fixLines(fix: FixAdvice): string[] {
+  return [
+    `**Fix: ${md(fix.title)}** ([guide](${fix.guide}))`,
+    '',
+    ...fix.steps.map((step, index) => `${index + 1}. ${md(step)}`),
+    '',
+  ];
+}
+
+function facts(report: Report): string[] {
+  const { project } = report;
+  const toolchain = toolchainLine(report);
+  return [
+    ...(toolchain ? [md(toolchain)] : []),
+    ...project.targets.map((target) => {
+      const plists = target.infoPlists.map(code).join(', ');
+      return `Target ${code(target.name)}${plists ? ` (${plists})` : ''}`;
+    }),
+    ...project.versions.map(
+      (version) =>
+        `${code(version.name)} ${md(version.version ?? 'unknown')} (${md(version.source)})`,
+    ),
+  ];
+}
+
+function details(findings: readonly Finding[]): string[] {
+  const out = ['<details><summary>What each finding means and how to fix it</summary>', ''];
+  const printed = new Set<string>();
+  for (const item of findings) {
+    out.push(`### ${item.rule}: ${md(item.title)}`, '', `${where(item)}: ${md(item.message)}`, '');
+    if (item.fix && printed.has(item.fix.id))
+      out.push(`**Fix: ${md(item.fix.title)}** (steps above)`, '');
+    else if (item.fix) out.push(...fixLines(item.fix));
+    if (item.fix) printed.add(item.fix.id);
+    out.push(
+      `Sources: ${item.sources.map((source) => `[${md(source.title)}](${source.url})`).join(', ')}`,
+      '',
+    );
+  }
+  out.push('</details>', '');
+  return out;
+}
+
+const STATUS_LABEL = {
+  found: 'found',
+  passed: 'passed',
+  'not-checked': 'not checked',
+  ignored: 'ignored',
+} as const;
+
+function checks(report: Report): string[] {
+  const out = [
+    '<details><summary>Checks</summary>',
+    '',
+    '| Rule | Check | Result |',
+    '| --- | --- | --- |',
+  ];
+  for (const check of report.checks) {
+    out.push(`| ${check.rule} | ${md(check.title)} | ${STATUS_LABEL[check.status]} |`);
+  }
+  out.push('', '</details>', '');
+  return out;
+}
+
+export function renderMarkdown(report: Report): string {
+  const { project, rules } = report;
+  const out = [
+    `## reviewready: ${md(project.name)} (${ECOSYSTEM_LABELS[project.ecosystem]})`,
+    '',
+    `**${md(report.verdict.text)}**`,
+    '',
+    ...facts(report).map((fact) => `- ${fact}`),
+    '',
+  ];
+  if (report.findings.length > 0) {
+    out.push('| Rule | Severity | Where | Finding |', '| --- | --- | --- | --- |');
+    for (const item of report.findings) {
+      out.push(`| ${item.rule} | ${item.severity} | ${cell(where(item))} | ${md(item.message)} |`);
+    }
+    out.push('', ...details(report.findings));
+  }
+  out.push(...checks(report));
+  for (const note of report.notes) out.push(`> ${md(note)}`, '');
+  out.push(
+    `${countsLine(report)}. [Rules and sources](${RULES_URL}).`,
+    '',
+    `<sub>[reviewready](${REPOSITORY_URL}) ${report.tool.version}, rules ${rules.ruleSet}@${rules.dataVersion} (sources read ${rules.read}). Reads the project's files; it does not build, run or change the app.</sub>`,
+  );
+  return `${out.join('\n')}\n`;
+}
