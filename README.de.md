@@ -1,4 +1,4 @@
-<!-- i18n-source: README.md@3e9e5e61a6bac2815ed0be778cb9ad84a37754cf status=reviewed -->
+<!-- i18n-source: README.md@e6049c7e87beb535d91e3026106454ba19cd59d1 status=reviewed -->
 <!-- brand:start -->
 
 <p align="center"><picture><source media="(prefers-color-scheme: dark)" srcset="https://raw.githubusercontent.com/muhittincamdali/reviewready/main/.github/brand/banner-dark.svg"><source media="(prefers-color-scheme: light)" srcset="https://raw.githubusercontent.com/muhittincamdali/reviewready/main/.github/brand/banner-light.svg"><img src="https://raw.githubusercontent.com/muhittincamdali/reviewready/main/.github/brand/banner-light.svg" alt="reviewready: Catches App Review rejections in CI before you submit, with the Apple source of every rule and the fix."></picture></p>
@@ -61,7 +61,7 @@ reviewready
 
 Fang mit den **ERROR**-Befunden an: App Review oder App Store Connect weisen diese ab. Danach kommen die **WARNING**-Befunde, die App Review beanstanden kann. Jeder Befund nennt seine Lösung in der Liste „How to fix“ und verlinkt die Apple-Seite, aus der er stammt.
 
-Homebrew (`brew install muhittincamdali/tap/reviewready`) und die npm-Registry (`npx @mcamdali/reviewready`) sind für dasselbe Paket geplant.
+Homebrew installiert dasselbe Paket zusammen mit Node.js: `brew install muhittincamdali/tap/reviewready`. Die npm-Registry (`npx @mcamdali/reviewready`) ist geplant.
 
 ## Was reviewready prüft
 
@@ -184,7 +184,8 @@ Gemessen am 28. Oktober 2026 auf einem Mac (Apple silicon, M5 Max) mit Node.js 2
 | Externe Zahlungslinks und In-App Purchase (guideline 3.1.1), Fragen zur Altersfreigabe                                                          | geplant (0.2) |
 | `.xcconfig`-Build-Settings, Swift-Pakete und Pods der App, `app.config.js`                                                                      | geplant (0.2) |
 | SARIF-Ausgabe und eine GitHub Action                                                                                                            | geplant (0.3) |
-| npm-Registry und Homebrew                                                                                                                       | geplant       |
+| Homebrew (`muhittincamdali/tap`)                                                                                                                | funktioniert  |
+| npm-Registry                                                                                                                                    | geplant       |
 | Stabiles Regelschema und stabiles JSON-Format                                                                                                   | geplant (1.0) |
 
 ## Grenzen

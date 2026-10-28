@@ -1,4 +1,4 @@
-<!-- i18n-source: README.md@3e9e5e61a6bac2815ed0be778cb9ad84a37754cf status=reviewed -->
+<!-- i18n-source: README.md@e6049c7e87beb535d91e3026106454ba19cd59d1 status=reviewed -->
 <!-- brand:start -->
 
 <p align="center"><picture><source media="(prefers-color-scheme: dark)" srcset="https://raw.githubusercontent.com/muhittincamdali/reviewready/main/.github/brand/banner-dark.svg"><source media="(prefers-color-scheme: light)" srcset="https://raw.githubusercontent.com/muhittincamdali/reviewready/main/.github/brand/banner-light.svg"><img src="https://raw.githubusercontent.com/muhittincamdali/reviewready/main/.github/brand/banner-light.svg" alt="reviewready: Catches App Review rejections in CI before you submit, with the Apple source of every rule and the fix."></picture></p>
@@ -62,7 +62,7 @@ reviewready
 
 まず **ERROR** の項目から対処してください。これらは App Review または App Store Connect で差し戻されます。次に、App Review が指摘する可能性のある **WARNING** の項目に進みます。各項目には対処方法が “How to fix” リストに示され、根拠となる Apple のページへのリンクが付いています。
 
-Homebrew（`brew install muhittincamdali/tap/reviewready`）と npm レジストリ（`npx @mcamdali/reviewready`）での提供は、同じパッケージで計画中です。
+Homebrew では同じパッケージを Node.js とともにインストールできます：`brew install muhittincamdali/tap/reviewready`。npm レジストリ（`npx @mcamdali/reviewready`）での提供は計画中です。
 
 ## reviewready がチェックする内容
 
@@ -185,7 +185,8 @@ console.log(render(report, 'markdown'));
 | 外部決済リンクと In-App Purchase（guideline 3.1.1）、年齢制限レーティングの質問                                                               | 計画中（0.2） |
 | `.xcconfig` の build setting、アプリの Swift パッケージと Pod、`app.config.js`                                                                | 計画中（0.2） |
 | SARIF 出力と GitHub Action                                                                                                                    | 計画中（0.3） |
-| npm レジストリと Homebrew                                                                                                                     | 計画中        |
+| Homebrew（`muhittincamdali/tap`）                                                                                                             | 動作します    |
+| npm レジストリ                                                                                                                                | 計画中        |
 | 安定したルールスキーマと JSON の構造                                                                                                          | 計画中（1.0） |
 
 ## 制限事項

@@ -1,4 +1,4 @@
-<!-- i18n-source: README.md@3e9e5e61a6bac2815ed0be778cb9ad84a37754cf status=reviewed -->
+<!-- i18n-source: README.md@e6049c7e87beb535d91e3026106454ba19cd59d1 status=reviewed -->
 <!-- brand:start -->
 
 <p align="center"><picture><source media="(prefers-color-scheme: dark)" srcset="https://raw.githubusercontent.com/muhittincamdali/reviewready/main/.github/brand/banner-dark.svg"><source media="(prefers-color-scheme: light)" srcset="https://raw.githubusercontent.com/muhittincamdali/reviewready/main/.github/brand/banner-light.svg"><img src="https://raw.githubusercontent.com/muhittincamdali/reviewready/main/.github/brand/banner-light.svg" alt="reviewready: Catches App Review rejections in CI before you submit, with the Apple source of every rule and the fix."></picture></p>
@@ -62,7 +62,7 @@ reviewready
 
 먼저 **ERROR** 항목부터 처리하세요. App Review나 App Store Connect가 이 항목들 때문에 앱을 반려합니다. 그다음으로 App Review가 지적할 수 있는 **WARNING** 항목을 처리하세요. 각 항목은 해결 방법을 “How to fix” 목록에 알려 주고, 근거가 된 Apple 페이지로 연결됩니다.
 
-같은 패키지에 대해 Homebrew(`brew install muhittincamdali/tap/reviewready`)와 npm 레지스트리(`npx @mcamdali/reviewready`) 지원을 계획하고 있습니다.
+Homebrew는 같은 패키지를 Node.js와 함께 설치합니다: `brew install muhittincamdali/tap/reviewready`. npm 레지스트리(`npx @mcamdali/reviewready`) 지원은 계획하고 있습니다.
 
 ## reviewready가 검사하는 항목
 
@@ -185,7 +185,8 @@ console.log(render(report, 'markdown'));
 | 외부 결제 링크와 In-App Purchase(guideline 3.1.1), 연령 등급 질문                                                                       | 계획됨(0.2) |
 | `.xcconfig` build setting, 앱의 Swift 패키지와 Pod, `app.config.js`                                                                     | 계획됨(0.2) |
 | SARIF 출력과 GitHub Action                                                                                                              | 계획됨(0.3) |
-| npm 레지스트리와 Homebrew                                                                                                               | 계획됨      |
+| Homebrew(`muhittincamdali/tap`)                                                                                                         | 동작함      |
+| npm 레지스트리                                                                                                                          | 계획됨      |
 | 안정적인 규칙 스키마와 JSON 구조                                                                                                        | 계획됨(1.0) |
 
 ## 한계

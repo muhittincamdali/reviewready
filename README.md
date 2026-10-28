@@ -79,8 +79,8 @@ Start with the **ERROR** findings: App Review or App Store Connect turns those a
 **WARNING** findings, which App Review may flag. Each finding names its fix in the "How to fix"
 list and links the Apple page it comes from.
 
-Homebrew (`brew install muhittincamdali/tap/reviewready`) and the npm registry
-(`npx @mcamdali/reviewready`) are planned for the same package.
+Homebrew installs the same package, with Node.js: `brew install muhittincamdali/tap/reviewready`.
+The npm registry (`npx @mcamdali/reviewready`) is planned.
 
 ## What reviewready checks
 
@@ -229,7 +229,8 @@ The test suite has 319 tests (`npm test`, same machine).
 | External payment links and In-App Purchase (guideline 3.1.1), age rating questions                                                 | planned (0.2) |
 | `.xcconfig` build settings, Swift packages and Pods of the app, `app.config.js`                                                    | planned (0.2) |
 | SARIF output and a GitHub Action                                                                                                   | planned (0.3) |
-| npm registry and Homebrew                                                                                                          | planned       |
+| Homebrew (`muhittincamdali/tap`)                                                                                                   | works         |
+| npm registry                                                                                                                       | planned       |
 | Stable rule schema and JSON layout                                                                                                 | planned (1.0) |
 
 ## Limits

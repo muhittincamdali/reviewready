@@ -1,4 +1,4 @@
-<!-- i18n-source: README.md@3e9e5e61a6bac2815ed0be778cb9ad84a37754cf status=reviewed -->
+<!-- i18n-source: README.md@e6049c7e87beb535d91e3026106454ba19cd59d1 status=reviewed -->
 <!-- brand:start -->
 
 <p align="center"><picture><source media="(prefers-color-scheme: dark)" srcset="https://raw.githubusercontent.com/muhittincamdali/reviewready/main/.github/brand/banner-dark.svg"><source media="(prefers-color-scheme: light)" srcset="https://raw.githubusercontent.com/muhittincamdali/reviewready/main/.github/brand/banner-light.svg"><img src="https://raw.githubusercontent.com/muhittincamdali/reviewready/main/.github/brand/banner-light.svg" alt="reviewready: Catches App Review rejections in CI before you submit, with the Apple source of every rule and the fix."></picture></p>
@@ -61,7 +61,7 @@ reviewready
 
 Comece pelos achados **ERROR**: o App Review ou o App Store Connect recusam esses casos. Depois veja os achados **WARNING**, que o App Review pode apontar. Cada achado indica a correção na lista “How to fix” e linka a página da Apple de onde vem.
 
-Homebrew (`brew install muhittincamdali/tap/reviewready`) e o registro do npm (`npx @mcamdali/reviewready`) estão planejados para o mesmo pacote.
+O Homebrew instala o mesmo pacote junto com o Node.js: `brew install muhittincamdali/tap/reviewready`. O registro do npm (`npx @mcamdali/reviewready`) está planejado.
 
 ## O que o reviewready verifica
 
@@ -184,7 +184,8 @@ Medido em 28 de outubro de 2026 em um Mac (Apple silicon, M5 Max) com Node.js 26
 | Links de pagamento externos e In-App Purchase (guideline 3.1.1), perguntas de classificação etária                                                       | planejado (0.2) |
 | Build settings de `.xcconfig`, pacotes Swift e Pods do app, `app.config.js`                                                                              | planejado (0.2) |
 | Saída SARIF e uma GitHub Action                                                                                                                          | planejado (0.3) |
-| Registro do npm e Homebrew                                                                                                                               | planejado       |
+| Homebrew (`muhittincamdali/tap`)                                                                                                                         | funciona        |
+| Registro do npm                                                                                                                                          | planejado       |
 | Esquema de regras e formato JSON estáveis                                                                                                                | planejado (1.0) |
 
 ## Limites
