@@ -13,6 +13,7 @@ _work/
 # Written by the repository kit (apply.mjs); reformatting them would make every re-run a change.
 .github/workflows/ci.yml
 .github/workflows/quality.yml
+.github/dependabot.yml
 docs/media/
 package-lock.json
 CHANGELOG.md
