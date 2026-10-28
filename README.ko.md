@@ -1,4 +1,4 @@
-<!-- i18n-source: README.md@4f0c5c0678109a70c5b44246d1e07e9b463cafe3 status=reviewed -->
+<!-- i18n-source: README.md@838014780258973fb32ae6831b958dd6cf214ee5 status=reviewed -->
 <!-- brand:start -->
 
 <p align="center"><picture><source media="(prefers-color-scheme: dark)" srcset="https://raw.githubusercontent.com/muhittincamdali/reviewready/main/.github/brand/banner-dark.svg"><source media="(prefers-color-scheme: light)" srcset="https://raw.githubusercontent.com/muhittincamdali/reviewready/main/.github/brand/banner-light.svg"><img src="https://raw.githubusercontent.com/muhittincamdali/reviewready/main/.github/brand/banner-light.svg" alt="reviewready: 제출하기 전에 CI에서 App Review 거절 사유를 잡아내고, 규칙마다 근거가 되는 Apple 출처와 해결 방법을 보여 줍니다."></picture></p>
@@ -42,7 +42,7 @@ fixture</a>로, 규칙마다 문제 하나씩을 넣어 테스트용으로 작�
 
 ## 빠른 시작
 
-**1. reviewready를 설치하세요.** [Node.js](https://nodejs.org/) 22.12 이상이 필요합니다(`node --version`으로 확인할 수 있고, Mac에서는 `brew install node`로 설치합니다). 그런 다음 [npm](https://www.npmjs.com/package/@mcamdali/reviewready)에서 패키지를 설치하세요.
+**1. reviewready를 설치하세요.** [Node.js](https://nodejs.org/) 22.12 이상이 필요합니다(`node --version`으로 확인할 수 있고, Mac에서는 `brew install node`로 설치합니다). 그런 다음 npm에서 패키지를 설치하세요.
 
 ```sh
 npm i -g @mcamdali/reviewready

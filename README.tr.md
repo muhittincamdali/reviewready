@@ -1,4 +1,4 @@
-<!-- i18n-source: README.md@4f0c5c0678109a70c5b44246d1e07e9b463cafe3 status=reviewed -->
+<!-- i18n-source: README.md@838014780258973fb32ae6831b958dd6cf214ee5 status=reviewed -->
 <!-- brand:start -->
 
 <p align="center"><picture><source media="(prefers-color-scheme: dark)" srcset="https://raw.githubusercontent.com/muhittincamdali/reviewready/main/.github/brand/banner-dark.svg"><source media="(prefers-color-scheme: light)" srcset="https://raw.githubusercontent.com/muhittincamdali/reviewready/main/.github/brand/banner-light.svg"><img src="https://raw.githubusercontent.com/muhittincamdali/reviewready/main/.github/brand/banner-light.svg" alt="reviewready: App Review ret sebeplerini göndermeden önce CI'da yakalar; her kuralın Apple kaynağını ve düzeltmesini verir."></picture></p>
@@ -61,7 +61,7 @@ fixture</a>, testler için yazılmış ve kural başına bir sorun içeren bir S
 
 **1. reviewready'yi kurun.** [Node.js](https://nodejs.org/) 22.12 veya üstü gerekir
 (`node --version` sürümü gösterir; Mac'te `brew install node` kurar). Ardından paketi
-[npm'den](https://www.npmjs.com/package/@mcamdali/reviewready) kurun:
+npm'den kurun:
 
 ```sh
 npm i -g @mcamdali/reviewready

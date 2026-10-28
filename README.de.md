@@ -1,4 +1,4 @@
-<!-- i18n-source: README.md@4f0c5c0678109a70c5b44246d1e07e9b463cafe3 status=reviewed -->
+<!-- i18n-source: README.md@838014780258973fb32ae6831b958dd6cf214ee5 status=reviewed -->
 <!-- brand:start -->
 
 <p align="center"><picture><source media="(prefers-color-scheme: dark)" srcset="https://raw.githubusercontent.com/muhittincamdali/reviewready/main/.github/brand/banner-dark.svg"><source media="(prefers-color-scheme: light)" srcset="https://raw.githubusercontent.com/muhittincamdali/reviewready/main/.github/brand/banner-light.svg"><img src="https://raw.githubusercontent.com/muhittincamdali/reviewready/main/.github/brand/banner-light.svg" alt="reviewready: fängt Ablehnungen durch App Review schon in CI ab, bevor du einreichst, mit der Apple-Quelle jeder Regel und der Lösung."></picture></p>
@@ -41,7 +41,7 @@ Ablehnungen durch App Review, die die Dateien eines Projekts bereits verraten (e
 
 ## Schnellstart
 
-**1. Installiere reviewready.** Du brauchst [Node.js](https://nodejs.org/) 22.12 oder neuer (`node --version` zeigt die Version an; auf einem Mac installiert `brew install node` es). Installiere dann das Paket aus [npm](https://www.npmjs.com/package/@mcamdali/reviewready):
+**1. Installiere reviewready.** Du brauchst [Node.js](https://nodejs.org/) 22.12 oder neuer (`node --version` zeigt die Version an; auf einem Mac installiert `brew install node` es). Installiere dann das Paket aus npm:
 
 ```sh
 npm i -g @mcamdali/reviewready

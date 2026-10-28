@@ -56,7 +56,7 @@ fixture</a>, a SwiftUI app written for the tests with one problem per rule (<cod
 
 **1. Install reviewready.** You need [Node.js](https://nodejs.org/) 22.12 or later
 (`node --version` prints it; on a Mac, `brew install node` installs it). Then install the package
-from [npm](https://www.npmjs.com/package/@mcamdali/reviewready):
+from npm:
 
 ```sh
 npm i -g @mcamdali/reviewready

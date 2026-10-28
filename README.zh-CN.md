@@ -1,4 +1,4 @@
-<!-- i18n-source: README.md@4f0c5c0678109a70c5b44246d1e07e9b463cafe3 status=reviewed -->
+<!-- i18n-source: README.md@838014780258973fb32ae6831b958dd6cf214ee5 status=reviewed -->
 <!-- brand:start -->
 
 <p align="center"><picture><source media="(prefers-color-scheme: dark)" srcset="https://raw.githubusercontent.com/muhittincamdali/reviewready/main/.github/brand/banner-dark.svg"><source media="(prefers-color-scheme: light)" srcset="https://raw.githubusercontent.com/muhittincamdali/reviewready/main/.github/brand/banner-light.svg"><img src="https://raw.githubusercontent.com/muhittincamdali/reviewready/main/.github/brand/banner-light.svg" alt="reviewready：在提交前于 CI 中发现 App Review 拒审原因，并给出每条规则的 Apple 来源和修复方法。"></picture></p>
@@ -42,7 +42,7 @@ fixture</a>：一个为测试编写的 SwiftUI 应用，每条规则对应一个
 
 ## 快速开始
 
-**1. 安装 reviewready。** 需要 [Node.js](https://nodejs.org/) 22.12 或更高版本（`node --version` 可查看版本；在 Mac 上可用 `brew install node` 安装）。然后从 [npm](https://www.npmjs.com/package/@mcamdali/reviewready) 安装该软件包：
+**1. 安装 reviewready。** 需要 [Node.js](https://nodejs.org/) 22.12 或更高版本（`node --version` 可查看版本；在 Mac 上可用 `brew install node` 安装）。然后从 npm 安装该软件包：
 
 ```sh
 npm i -g @mcamdali/reviewready

@@ -1,4 +1,4 @@
-<!-- i18n-source: README.md@4f0c5c0678109a70c5b44246d1e07e9b463cafe3 status=reviewed -->
+<!-- i18n-source: README.md@838014780258973fb32ae6831b958dd6cf214ee5 status=reviewed -->
 <!-- brand:start -->
 
 <p align="center"><picture><source media="(prefers-color-scheme: dark)" srcset="https://raw.githubusercontent.com/muhittincamdali/reviewready/main/.github/brand/banner-dark.svg"><source media="(prefers-color-scheme: light)" srcset="https://raw.githubusercontent.com/muhittincamdali/reviewready/main/.github/brand/banner-light.svg"><img src="https://raw.githubusercontent.com/muhittincamdali/reviewready/main/.github/brand/banner-light.svg" alt="reviewready : repère en CI les rejets d’App Review avant l’envoi, avec la source Apple de chaque règle et la correction."></picture></p>
@@ -41,7 +41,7 @@ Les rejets d’App Review que les fichiers d’un projet laissent déjà voir (u
 
 ## Démarrage rapide
 
-**1. Installez reviewready.** Vous avez besoin de [Node.js](https://nodejs.org/) 22.12 ou plus récent (`node --version` affiche la version ; sur un Mac, `brew install node` l’installe). Installez ensuite le paquet depuis [npm](https://www.npmjs.com/package/@mcamdali/reviewready) :
+**1. Installez reviewready.** Vous avez besoin de [Node.js](https://nodejs.org/) 22.12 ou plus récent (`node --version` affiche la version ; sur un Mac, `brew install node` l’installe). Installez ensuite le paquet depuis npm :
 
 ```sh
 npm i -g @mcamdali/reviewready
