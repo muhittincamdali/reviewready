@@ -352,7 +352,7 @@
         "ci": {
           "title": "Build with Xcode 26 or later",
           "steps": [
-            "Change the pinned version to Xcode 26 or later (27.1 is the current release) in the file and line the finding names, and use a runner or build image that has it.",
+            "Change the pinned version to Xcode 26 or later (for example 27.1) in the file and line the finding names, and use a runner or build image that has it.",
             "Fix the build warnings and errors the newer SDK reports before the next upload."
           ],
           "guide": "docs/guides/xcode-and-ios-minimums.md"
