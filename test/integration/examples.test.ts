@@ -80,7 +80,7 @@ describe('examples/github-actions/reviewready.yml', () => {
 
   describe('the download step', () => {
     const download = stepScript('Download reviewready and check its checksum') ?? '';
-    const tarball = 'reviewready-0.1.0.tgz';
+    const tarball = 'reviewready-0.1.1.tgz';
 
     // A folder that stands for the release, served to curl as file:// URLs.
     const runDownload = (sums: (hash: string) => string) => {
@@ -98,7 +98,7 @@ describe('examples/github-actions/reviewready.yml', () => {
 
     it('downloads the tarball the check step runs, from the same release as the workflow', () => {
       expect(workflow).toContain(
-        'RELEASE: https://github.com/muhittincamdali/reviewready/releases/download/v0.1.0',
+        'RELEASE: https://github.com/muhittincamdali/reviewready/releases/download/v0.1.1',
       );
       expect(workflow).toContain(`--package="$RUNNER_TEMP/${tarball}"`);
       expect(download).toContain('sha256sum --check --strict SHA256SUMS');

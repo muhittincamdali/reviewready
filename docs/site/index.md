@@ -8,7 +8,7 @@ page it rests on, and every finding comes with its fix. It reads files; it does 
 change anything.
 
 ```sh
-npm i -g https://github.com/muhittincamdali/reviewready/releases/download/v0.1.0/reviewready-0.1.0.tgz
+npm i -g https://github.com/muhittincamdali/reviewready/releases/download/v0.1.1/reviewready-0.1.1.tgz
 reviewready
 ```
 
