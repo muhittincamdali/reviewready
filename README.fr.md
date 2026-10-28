@@ -1,4 +1,4 @@
-<!-- i18n-source: README.md@e3810ae0705b6913776ebab7be1d27df41028f3f status=reviewed -->
+<!-- i18n-source: README.md@3e9e5e61a6bac2815ed0be778cb9ad84a37754cf status=reviewed -->
 <!-- brand:start -->
 
 <p align="center"><picture><source media="(prefers-color-scheme: dark)" srcset="https://raw.githubusercontent.com/muhittincamdali/reviewready/main/.github/brand/banner-dark.svg"><source media="(prefers-color-scheme: light)" srcset="https://raw.githubusercontent.com/muhittincamdali/reviewready/main/.github/brand/banner-light.svg"><img src="https://raw.githubusercontent.com/muhittincamdali/reviewready/main/.github/brand/banner-light.svg" alt="reviewready: Catches App Review rejections in CI before you submit, with the Apple source of every rule and the fix."></picture></p>
@@ -172,7 +172,7 @@ Les enregistrements du terminal viennent de la CLI sur les [fixtures](fixtures/R
 | App UIKit qui réussit toutes les vérifications                                     | [clair](docs/media/demo-native-ready-light.svg) · [sombre](docs/media/demo-native-ready-dark.svg)                                                      |
 | `scripts/simulator-check.sh` sous iOS 27.0, sans puis avec les corrections         | [manquant](docs/media/demo-simulator-contacts-probe-missing-27.0-light.svg) · [corrigé](docs/media/demo-simulator-contacts-probe-fixed-27.0-light.svg) |
 
-Mesuré le 28 octobre 2026 sur un Mac (Apple silicon, M5 Max) avec Node.js 26.12 : trois séries de 100 exécutions de `node dist/cli/main.js --json` sur les six fixtures, démarrage de Node.js compris. Les médianes des trois séries étaient de 0,110, 0,112 et 0,109 seconde ; l’exécution la plus lente a pris 0,24 seconde. La suite de tests compte 311 tests (`npm test`, même machine).
+Mesuré le 28 octobre 2026 sur un Mac (Apple silicon, M5 Max) avec Node.js 26.12 : trois séries de 100 exécutions de `node dist/cli/main.js --json` sur les six fixtures, démarrage de Node.js compris. Les médianes des trois séries étaient de 0,110, 0,112 et 0,109 seconde ; l’exécution la plus lente a pris 0,24 seconde. La suite de tests compte 319 tests (`npm test`, même machine).
 
 ## Statut
 

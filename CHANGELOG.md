@@ -34,5 +34,14 @@ All notable changes to reviewready are listed here. The format follows
 - Guides for each rule area and for CI, an API reference site, and examples for JavaScript, `jq`
   and GitHub Actions.
 
+### Security
+
+- `--output` does not write through a symbolic link: a project from a pull request can bring a
+  `reviewready.md` that links outside it. The path is checked with `lstat` and opened with
+  `O_NOFOLLOW`; a report file that cannot be written exits with 2 and says why.
+- The Markdown report escapes `$`, so text from the project cannot open GitHub math.
+- The GitHub Actions example writes the report to `$RUNNER_TEMP` instead of the checkout and checks
+  the release tarball against the release's `SHA256SUMS` before it runs it.
+
 [Unreleased]: https://github.com/muhittincamdali/reviewready/compare/v0.1.0...HEAD
 [0.1.0]: https://github.com/muhittincamdali/reviewready/releases/tag/v0.1.0
