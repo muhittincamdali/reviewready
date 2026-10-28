@@ -73,7 +73,7 @@ describe('readSources', () => {
   it('reads each file once, sorted, with its language', async () => {
     const root = tree({ 'lib/main.dart': 'void main() {}', 'lib/a/b.dart': '' });
     const dart = new Set(['dart'] as const);
-    const { files, notes, foldersNotSearched } = await readSources(
+    const { files, notes, incomplete } = await readSources(
       [
         { folder: join(root, 'lib'), languages: dart },
         { folder: join(root, 'lib', 'a'), languages: dart },
@@ -81,7 +81,7 @@ describe('readSources', () => {
       root,
     );
     expect(notes).toEqual([]);
-    expect(foldersNotSearched).toBe(false);
+    expect(incomplete).toBe(false);
     expect(files.map((file) => [file.path.slice(root.length + 1), file.language])).toEqual([
       ['lib/a/b.dart', 'dart'],
       ['lib/main.dart', 'dart'],
@@ -101,6 +101,43 @@ describe('readSources', () => {
     expect(files.map((file) => file.path.slice(root.length + 1))).toEqual(['ios/App/A.swift']);
     expect(notes).toEqual(['Source files not read (larger than 0 MB each): ios/App/Big.swift.']);
   });
+
+  it('says the sources are not all known when a limit leaves a file out', async () => {
+    const root = tree(
+      Object.fromEntries(
+        Array.from({ length: 4 }, (_, index) => [`ios/F${index}.swift`, 'x'.repeat(10)]),
+      ),
+    );
+    const read = (limits: Partial<SourceLimits>) =>
+      readSources([{ folder: join(root, 'ios'), languages: swift }], root, limited(limits));
+    expect((await read({})).incomplete).toBe(false);
+    // Exactly at each limit, every file is read.
+    expect((await read({ fileBytes: 10, files: 4, totalBytes: 40 })).incomplete).toBe(false);
+    expect((await read({ fileBytes: 9 })).incomplete).toBe(true);
+    expect((await read({ files: 3 })).incomplete).toBe(true);
+    expect((await read({ totalBytes: 39 })).incomplete).toBe(true);
+  });
+
+  it.skipIf(process.getuid?.() === 0)(
+    'names a file it could not read and says the sources are not all known',
+    async () => {
+      const root = tree({ 'ios/App/Main.swift': '', 'ios/App/Contacts.swift': 'CNContactStore()' });
+      const locked = join(root, 'ios', 'App', 'Contacts.swift');
+      chmodSync(locked, 0o000);
+      try {
+        const result = await readSources([{ folder: join(root, 'ios'), languages: swift }], root);
+        expect(result.files.map((file) => file.path.slice(root.length + 1))).toEqual([
+          'ios/App/Main.swift',
+        ]);
+        expect(result.notes).toEqual([
+          'Source files not read (could not be read): ios/App/Contacts.swift.',
+        ]);
+        expect(result.incomplete).toBe(true);
+      } finally {
+        chmodSync(locked, 0o600);
+      }
+    },
+  );
 
   it('reads the first files by path up to the file count', async () => {
     const root = tree(
@@ -186,7 +223,7 @@ describe('readSources', () => {
     expect(result.notes).toEqual([
       `Source folders not searched (more than ${MAX_DEPTH} levels down): ios/a/${deepest}, ios/b/${deepest}, ios/c/${deepest} and 1 more.`,
     ]);
-    expect(result.foldersNotSearched).toBe(true);
+    expect(result.incomplete).toBe(true);
   });
 
   // A root user can list a folder without read permission, so this case needs another user.
@@ -204,7 +241,7 @@ describe('readSources', () => {
         expect(result.notes).toEqual([
           'Source folders not searched (could not be listed): ios/Locked.',
         ]);
-        expect(result.foldersNotSearched).toBe(true);
+        expect(result.incomplete).toBe(true);
       } finally {
         chmodSync(locked, 0o700);
       }
@@ -222,7 +259,7 @@ describe('readSources', () => {
         expect(result.notes).toEqual([
           'Source folders not searched (could not be listed): the project folder.',
         ]);
-        expect(result.foldersNotSearched).toBe(true);
+        expect(result.incomplete).toBe(true);
       } finally {
         chmodSync(root, 0o700);
       }

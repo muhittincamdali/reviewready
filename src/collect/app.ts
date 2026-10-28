@@ -79,8 +79,11 @@ export interface AppModel {
    * build settings were not checked.
    */
   appNotChecked: boolean;
-  /** Whether a source folder was too deep or could not be listed, so its files were not checked. */
-  sourcesNotSearched: boolean;
+  /**
+   * Whether a source file was not read (its folder too deep or not listed, the file over a limit
+   * or not readable), so the APIs the app calls are not all known.
+   */
+  sourcesIncomplete: boolean;
   notes: string[];
 }
 
@@ -340,7 +343,7 @@ export async function collectApp(project: Project): Promise<AppModel> {
     xcodePins: await xcodePins(project.root, project.xcodeVersionFile),
     strayPrivacyManifests: native.strayPrivacyManifests,
     appNotChecked: native.appNotChecked || (project.iosDir === null && expo === null),
-    sourcesNotSearched: sources.foldersNotSearched,
+    sourcesIncomplete: sources.incomplete,
     notes,
   };
 }

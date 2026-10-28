@@ -62,7 +62,7 @@ function byPlace(left: Finding, right: Finding): number {
 
 /**
  * The one-line verdict. `appKnown` is false when part of the app could not be read (its Xcode
- * project, Expo config or Info.plist, or a source folder): then the app is never called ready,
+ * project, Expo config or Info.plist, or a source file or folder): then the app is never called ready,
  * whatever else was found.
  */
 export function verdictOf(findings: readonly Finding[], appKnown = true): Verdict {
@@ -146,7 +146,7 @@ export async function scan(path: string, options: ScanOptions = {}): Promise<Rep
     verdict: verdictOf(
       findings,
       !app.appNotChecked &&
-        !app.sourcesNotSearched &&
+        !app.sourcesIncomplete &&
         !app.targets.some((target) => target.unreadInfoPlist),
     ),
     findings,

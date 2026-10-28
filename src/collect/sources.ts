@@ -152,10 +152,11 @@ export interface SourceSet {
   /** Files and folders that were not read, for the report. */
   notes: string[];
   /**
-   * Whether a source folder was too deep or could not be listed. Its files are not known, and one
-   * of them may call an API that needs a purpose string, so the result is not known either.
+   * Whether a source file was left out: in a folder too deep or that could not be listed, over the
+   * size, count or total limit, or one that could not be read. Any of them may call an API that
+   * needs a purpose string, so the result is not known either.
    */
-  foldersNotSearched: boolean;
+  incomplete: boolean;
 }
 
 /** "Source files not read (why): a, b, c and 4 more." */
@@ -169,6 +170,8 @@ interface ReadResult {
   files: SourceFile[];
   tooLarge: string[];
   overBudget: string[];
+  /** Files that were listed but could not be read, for example for lack of permission. */
+  unread: string[];
 }
 
 /**
@@ -180,7 +183,7 @@ async function readWithin(
   root: string,
   limits: Readonly<SourceLimits>,
 ): Promise<ReadResult> {
-  const result: ReadResult = { files: [], tooLarge: [], overBudget: [] };
+  const result: ReadResult = { files: [], tooLarge: [], overBudget: [], unread: [] };
   let total = 0;
   for (let start = 0; start < paths.length; start += READ_BATCH) {
     const batch = paths.slice(start, start + READ_BATCH);
@@ -190,7 +193,7 @@ async function readWithin(
     reads.forEach((read, index) => {
       const path = batch[index] ?? '';
       if (!read.found) {
-        if (read.reason === 'too-large') result.tooLarge.push(path);
+        (read.reason === 'too-large' ? result.tooLarge : result.unread).push(path);
       } else if (total + read.bytes.length > limits.totalBytes) {
         result.overBudget.push(path);
       } else {
@@ -267,7 +270,7 @@ export async function readSources(
       `The project has ${paths.length} source files; reviewready read the first ${limits.files} by path.`,
     );
   }
-  const { files, tooLarge, overBudget } = await readWithin(
+  const { files, tooLarge, overBudget, unread } = await readWithin(
     paths.slice(0, limits.files),
     projectRoot,
     limits,
@@ -280,5 +283,13 @@ export async function readSources(
       skippedNote(shown(overBudget), `after the first ${megabytes(limits.totalBytes)} of source`),
     );
   }
-  return { files, notes, foldersNotSearched: tooDeep.length > 0 || unreadable.length > 0 };
+  if (unread.length > 0) notes.push(skippedNote(shown(unread), 'could not be read'));
+  const incomplete =
+    tooDeep.length > 0 ||
+    unreadable.length > 0 ||
+    paths.length > limits.files ||
+    tooLarge.length > 0 ||
+    overBudget.length > 0 ||
+    unread.length > 0;
+  return { files, notes, incomplete };
 }
