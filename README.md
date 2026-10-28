@@ -56,10 +56,10 @@ fixture</a>, a SwiftUI app written for the tests with one problem per rule (<cod
 
 **1. Install reviewready.** You need [Node.js](https://nodejs.org/) 22.12 or later
 (`node --version` prints it; on a Mac, `brew install node` installs it). Then install the package
-from its [GitHub release](https://github.com/muhittincamdali/reviewready/releases):
+from npm:
 
 ```sh
-npm i -g https://github.com/muhittincamdali/reviewready/releases/download/v0.1.1/reviewready-0.1.1.tgz
+npm i -g @mcamdali/reviewready
 ```
 
 **2. Open a terminal in your app's folder**, the one with the `.xcodeproj`, `pubspec.yaml` or
@@ -80,7 +80,7 @@ Start with the **ERROR** findings: App Review or App Store Connect turns those a
 list and links the Apple page it comes from.
 
 Homebrew installs the same package, with Node.js: `brew install muhittincamdali/tap/reviewready`.
-The npm registry (`npx @mcamdali/reviewready`) is planned.
+Without installing, `npx @mcamdali/reviewready` runs it from npm.
 
 ## What reviewready checks
 
@@ -127,11 +127,11 @@ The full output of both runs is in [docs/media/simulator](docs/media/simulator).
 
 ## Installation
 
-The command under Quick start installs the `reviewready` command from the release tarball. To add
-it to a project instead:
+The command under Quick start installs the `reviewready` command globally. To add it to a
+project instead:
 
 ```sh
-npm install --save-dev https://github.com/muhittincamdali/reviewready/releases/download/v0.1.1/reviewready-0.1.1.tgz
+npm install --save-dev @mcamdali/reviewready
 ```
 
 `npx reviewready` then runs that copy. The package's name is `@mcamdali/reviewready`, the name the
@@ -230,7 +230,7 @@ The test suite has 331 tests (`npm test`, same machine).
 | `.xcconfig` build settings, Swift packages and Pods of the app, `app.config.js`                                                    | planned (0.2) |
 | SARIF output and a GitHub Action                                                                                                   | planned (0.3) |
 | Homebrew (`muhittincamdali/tap`)                                                                                                   | works         |
-| npm registry                                                                                                                       | planned       |
+| npm registry                                                                                                                       | works         |
 | Stable rule schema and JSON layout                                                                                                 | planned (1.0) |
 
 ## Limits

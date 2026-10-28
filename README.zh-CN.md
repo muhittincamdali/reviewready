@@ -1,4 +1,4 @@
-<!-- i18n-source: README.md@8664c42f034f901757599afc006cc06fa47c80ca status=reviewed -->
+<!-- i18n-source: README.md@838014780258973fb32ae6831b958dd6cf214ee5 status=reviewed -->
 <!-- brand:start -->
 
 <p align="center"><picture><source media="(prefers-color-scheme: dark)" srcset="https://raw.githubusercontent.com/muhittincamdali/reviewready/main/.github/brand/banner-dark.svg"><source media="(prefers-color-scheme: light)" srcset="https://raw.githubusercontent.com/muhittincamdali/reviewready/main/.github/brand/banner-light.svg"><img src="https://raw.githubusercontent.com/muhittincamdali/reviewready/main/.github/brand/banner-light.svg" alt="reviewready：在提交前于 CI 中发现 App Review 拒审原因，并给出每条规则的 Apple 来源和修复方法。"></picture></p>
@@ -42,10 +42,10 @@ fixture</a>：一个为测试编写的 SwiftUI 应用，每条规则对应一个
 
 ## 快速开始
 
-**1. 安装 reviewready。** 需要 [Node.js](https://nodejs.org/) 22.12 或更高版本（`node --version` 可查看版本；在 Mac 上可用 `brew install node` 安装）。然后从 [GitHub release](https://github.com/muhittincamdali/reviewready/releases) 安装该软件包：
+**1. 安装 reviewready。** 需要 [Node.js](https://nodejs.org/) 22.12 或更高版本（`node --version` 可查看版本；在 Mac 上可用 `brew install node` 安装）。然后从 npm 安装该软件包：
 
 ```sh
-npm i -g https://github.com/muhittincamdali/reviewready/releases/download/v0.1.1/reviewready-0.1.1.tgz
+npm i -g @mcamdali/reviewready
 ```
 
 **2. 在应用所在的文件夹中打开终端**，也就是包含 `.xcodeproj`、`pubspec.yaml` 或 `package.json` 的那个文件夹：
@@ -62,7 +62,7 @@ reviewready
 
 先处理 **ERROR** 级别的问题：App Review 或 App Store Connect 会直接拒绝这些。然后处理 **WARNING** 级别的问题，App Review 可能会指出它们。每个问题都会在 “How to fix” 列表中给出修复方法，并链接到它所依据的 Apple 页面。
 
-Homebrew 会连同 Node.js 一起安装同一个软件包：`brew install muhittincamdali/tap/reviewready`。npm registry 安装（`npx @mcamdali/reviewready`）正在计划中。
+Homebrew 会连同 Node.js 一起安装同一个软件包：`brew install muhittincamdali/tap/reviewready`。无需安装，也可以用 `npx @mcamdali/reviewready` 直接从 npm 运行。
 
 ## reviewready 检查哪些内容
 
@@ -102,10 +102,10 @@ RVW301 和 RVW401 是基于应用的调用、字符串和包做出的启发式�
 
 ## 安装
 
-“快速开始”中的命令会从 release 压缩包安装 `reviewready` 命令。如果想把它添加到某个项目中：
+“快速开始”中的命令会全局安装 `reviewready` 命令。如果想把它添加到某个项目中：
 
 ```sh
-npm install --save-dev https://github.com/muhittincamdali/reviewready/releases/download/v0.1.1/reviewready-0.1.1.tgz
+npm install --save-dev @mcamdali/reviewready
 ```
 
 之后 `npx reviewready` 会运行这份副本。软件包的名称是 `@mcamdali/reviewready`，也就是下面的 JavaScript API 所导入的名称。每个 GitHub release 都以 `reviewready-<version>.tgz` 的形式提供该软件包，并附有用于校验的 `SHA256SUMS` 文件。
@@ -186,7 +186,7 @@ console.log(render(report, 'markdown'));
 | `.xcconfig` build setting、应用的 Swift package 和 Pod、`app.config.js`                                          | 计划中（0.2） |
 | SARIF 输出和 GitHub Action                                                                                       | 计划中（0.3） |
 | Homebrew（`muhittincamdali/tap`）                                                                                | 已可用        |
-| npm registry                                                                                                     | 计划中        |
+| npm registry                                                                                                     | 已可用        |
 | 稳定的规则 schema 和 JSON 结构                                                                                   | 计划中（1.0） |
 
 ## 局限

@@ -1,4 +1,4 @@
-<!-- i18n-source: README.md@8664c42f034f901757599afc006cc06fa47c80ca status=reviewed -->
+<!-- i18n-source: README.md@838014780258973fb32ae6831b958dd6cf214ee5 status=reviewed -->
 <!-- brand:start -->
 
 <p align="center"><picture><source media="(prefers-color-scheme: dark)" srcset="https://raw.githubusercontent.com/muhittincamdali/reviewready/main/.github/brand/banner-dark.svg"><source media="(prefers-color-scheme: light)" srcset="https://raw.githubusercontent.com/muhittincamdali/reviewready/main/.github/brand/banner-light.svg"><img src="https://raw.githubusercontent.com/muhittincamdali/reviewready/main/.github/brand/banner-light.svg" alt="reviewready : repère en CI les rejets d’App Review avant l’envoi, avec la source Apple de chaque règle et la correction."></picture></p>
@@ -41,10 +41,10 @@ Les rejets d’App Review que les fichiers d’un projet laissent déjà voir (u
 
 ## Démarrage rapide
 
-**1. Installez reviewready.** Vous avez besoin de [Node.js](https://nodejs.org/) 22.12 ou plus récent (`node --version` affiche la version ; sur un Mac, `brew install node` l’installe). Installez ensuite le paquet depuis sa [release GitHub](https://github.com/muhittincamdali/reviewready/releases) :
+**1. Installez reviewready.** Vous avez besoin de [Node.js](https://nodejs.org/) 22.12 ou plus récent (`node --version` affiche la version ; sur un Mac, `brew install node` l’installe). Installez ensuite le paquet depuis npm :
 
 ```sh
-npm i -g https://github.com/muhittincamdali/reviewready/releases/download/v0.1.1/reviewready-0.1.1.tgz
+npm i -g @mcamdali/reviewready
 ```
 
 **2. Ouvrez un terminal dans le dossier de votre app**, celui qui contient le `.xcodeproj`, `pubspec.yaml` ou `package.json` :
@@ -61,7 +61,7 @@ reviewready
 
 Commencez par les constats **ERROR** : App Review ou App Store Connect les refusent. Passez ensuite aux constats **WARNING**, qu’App Review peut signaler. Chaque constat indique sa correction dans la liste « How to fix » et renvoie à la page Apple dont il provient.
 
-Homebrew installe le même paquet avec Node.js : `brew install muhittincamdali/tap/reviewready`. Le registre npm (`npx @mcamdali/reviewready`) est prévu.
+Homebrew installe le même paquet avec Node.js : `brew install muhittincamdali/tap/reviewready`. Sans installation, `npx @mcamdali/reviewready` le lance depuis npm.
 
 ## Ce que vérifie reviewready
 
@@ -101,10 +101,10 @@ La sortie complète des deux exécutions se trouve dans [docs/media/simulator](d
 
 ## Installation
 
-La commande du Démarrage rapide installe la commande `reviewready` depuis l’archive tarball de la release. Pour l’ajouter plutôt à un projet :
+La commande du Démarrage rapide installe la commande `reviewready` globalement. Pour l’ajouter plutôt à un projet :
 
 ```sh
-npm install --save-dev https://github.com/muhittincamdali/reviewready/releases/download/v0.1.1/reviewready-0.1.1.tgz
+npm install --save-dev @mcamdali/reviewready
 ```
 
 `npx reviewready` exécute ensuite cette copie. Le paquet s’appelle `@mcamdali/reviewready`, le nom qu’importe l’API JavaScript ci-dessous. Chaque release GitHub contient le paquet sous la forme `reviewready-<version>.tgz`, avec un fichier `SHA256SUMS` pour le vérifier.
@@ -185,7 +185,7 @@ Mesuré le 28 octobre 2026 sur un Mac (Apple silicon, M5 Max) avec Node.js 26.12
 | Build settings `.xcconfig`, paquets Swift et Pods de l’app, `app.config.js`                                                                                                             | prévu (0.2) |
 | Sortie SARIF et une GitHub Action                                                                                                                                                       | prévu (0.3) |
 | Homebrew (`muhittincamdali/tap`)                                                                                                                                                        | fonctionne  |
-| Registre npm                                                                                                                                                                            | prévu       |
+| Registre npm                                                                                                                                                                            | fonctionne |
 | Schéma de règles et structure JSON stables                                                                                                                                              | prévu (1.0) |
 
 ## Limites
