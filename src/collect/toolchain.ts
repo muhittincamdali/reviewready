@@ -19,7 +19,10 @@ export interface XcodePin {
 /** Patterns over one line of a CI file; group 1 is the version. */
 const LINE_PATTERNS: readonly { via: string; pattern: RegExp }[] = [
   { via: 'xcode-version input', pattern: /\bxcode-version:\s*['"]?(\d+(?:\.\d+){0,2})\b/ },
-  { via: 'Xcode app path', pattern: /\/Applications\/Xcode[_-](\d+(?:\.\d+){0,2})[\w.-]*\.app\b/ },
+  {
+    via: 'Xcode app path',
+    pattern: /\/Applications\/Xcode[_-](\d+(?:\.\d+){0,2})[\w.-]{0,40}\.app\b/,
+  },
   { via: 'xcode key', pattern: /^\s*xcode:\s*['"]?(\d+(?:\.\d+){0,2})\b/ },
   { via: 'Bitrise stack', pattern: /\bstack:\s*['"]?(?:osx-)?xcode-(\d+(?:\.\d+){0,2})/ },
   {
