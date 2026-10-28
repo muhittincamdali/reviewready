@@ -1,10 +1,10 @@
-import { mkdirSync, readFileSync, symlinkSync } from 'node:fs';
+import { lstatSync, mkdirSync, readFileSync, symlinkSync, writeFileSync } from 'node:fs';
 import { join } from 'node:path';
 import { describe, expect, it } from 'vitest';
 import { EXIT, failsOn, PACKAGE_NAME, RELEASE_TARBALL_URL } from '../../src/cli/run.js';
 import type { Report } from '../../src/model.js';
 import { VERSION } from '../../src/version.js';
-import { reviewready } from '../helpers/cli.js';
+import { ROOT, reviewready } from '../helpers/cli.js';
 import { pbxproj } from '../helpers/projects.js';
 import { scratchDir } from '../helpers/scratch.js';
 import { infoPlist, tree } from '../helpers/tree.js';
@@ -124,6 +124,26 @@ describe('output', () => {
       `Wrote ${file}: 5 problems App Review or App Store Connect turns away`,
     );
     expect(readFileSync(file, 'utf8')).toContain('## reviewready: Ledger (native iOS)');
+  });
+
+  it('does not write --output through a symbolic link the project brings along', async () => {
+    const folder = scratchDir('output-link');
+    const victim = join(folder, 'victim.txt');
+    writeFileSync(victim, 'outside the project\n');
+    const project = join(folder, 'project');
+    mkdirSync(project);
+    symlinkSync('../victim.txt', join(project, 'reviewready.md'));
+    for (const output of ['reviewready.md', join(project, 'reviewready.md')]) {
+      const result = await reviewready(
+        [join(ROOT, REJECTED), '--format', 'markdown', '--output', output],
+        { cwd: project },
+      );
+      expect(result.code).toBe(EXIT.error);
+      expect(result.stderr).toContain('is a symbolic link; reviewready does not write a report');
+      expect(result.stderr).not.toContain('bug');
+    }
+    expect(readFileSync(victim, 'utf8')).toBe('outside the project\n');
+    expect(lstatSync(join(project, 'reviewready.md')).isSymbolicLink()).toBe(true);
   });
 
   it('colours a terminal unless NO_COLOR is set, and FORCE_COLOR colours a pipe', async () => {
