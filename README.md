@@ -217,7 +217,7 @@ each toolchain:
 Measured on 28 October 2026 on a Mac (Apple silicon, M5 Max) with Node.js 26.12: three sets of 100
 runs of `node dist/cli/main.js --json` over the six fixtures, Node.js start-up included. The
 medians of the three sets were 0.110, 0.112 and 0.109 seconds; the slowest run took 0.24 seconds.
-The test suite has 302 tests.
+The test suite has 311 tests (`npm test`, same machine).
 
 ## Status
 
@@ -249,8 +249,7 @@ The test suite has 302 tests.
   `scripts/simulator-check.sh`, run on a Mac.
 - **Bounded input.** A project can come from a pull request, so reviewready reads at most 32 MB
   per project file and, of the sources, 4 MB per file, 20,000 files and 128 MB in total; what it
-  leaves out is listed in the report's notes. Every pattern is tested on hostile files of a million
-  characters.
+  leaves out is listed in the report's notes. The patterns are tested on hostile files of a million characters.
 
 ## Documentation
 
