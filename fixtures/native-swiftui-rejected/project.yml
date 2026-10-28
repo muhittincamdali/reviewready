@@ -29,4 +29,4 @@ targets:
         INFOPLIST_KEY_UILaunchScreen_Generation: "YES"
         INFOPLIST_KEY_CFBundleDisplayName: Ledger
         INFOPLIST_KEY_NSPhotoLibraryUsageDescription: ""
-        INFOPLIST_KEY_NSLocationWhenInUseUsageDescription: "TODO: explain location"
+        INFOPLIST_KEY_NSLocationWhenInUseUsageDescription: "Location placeholder"

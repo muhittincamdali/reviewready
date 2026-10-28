@@ -43,8 +43,8 @@ ERROR    RVW602 Deployment target below iOS 13
 
 WARNING  RVW104 Purpose string is placeholder or default text
          Ledger.xcodeproj/project.pbxproj:156
-         NSLocationWhenInUseUsageDescription "TODO: explain location" contains the placeholder
-         "TODO".
+         NSLocationWhenInUseUsageDescription "Location placeholder" contains the placeholder
+         "placeholder".
          Fix: [F] Say why the app needs access
          Source:
          https://developer.apple.com/documentation/uikit/requesting-access-to-protected-resources
