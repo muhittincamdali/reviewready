@@ -3,6 +3,7 @@ dist/
 coverage/
 site/
 fixtures/
+test/simulator/
 test/__snapshots__/
 test/data/
 .github/brand/
