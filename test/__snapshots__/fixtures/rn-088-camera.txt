@@ -1,0 +1,103 @@
+reviewready 0.1.0 · rules app-review@2026.10.28 (sources read 2026-10-28)
+
+Lens · React Native · fixtures/rn-088-camera
+deployment target iOS 15.1
+react-native 0.88.1 (declared)
+target HelloWorld (ios/HelloWorld/Info.plist)
+
+3 problems App Review or App Store Connect turns away, and 2 warnings to review
+
+ERROR    RVW101 Purpose string missing
+         ios/HelloWorld/Info.plist
+         react-native-permissions Microphone (ios/Podfile:23) needs NSMicrophoneUsageDescription
+         (microphone); HelloWorld has none.
+         Fix: [A] Add the key to Info.plist
+         Source:
+         https://developer.apple.com/documentation/uikit/requesting-access-to-protected-resources
+
+ERROR    RVW103 Purpose string not valid
+         ios/HelloWorld/Info.plist:39
+         NSLocationWhenInUseUsageDescription is empty.
+         Fix: [B] Write a one-sentence string
+         Source:
+         https://developer.apple.com/documentation/uikit/requesting-access-to-protected-resources
+
+ERROR    RVW501 No App Store icon
+         ios/HelloWorld/Images.xcassets/AppIcon.appiconset/Contents.json
+         ios/HelloWorld/Images.xcassets/AppIcon.appiconset has no image in its 1024 × 1024 App Store
+         slot.
+         Fix: [C] Add the 1024 × 1024 image
+         Source: https://developer.apple.com/documentation/xcode/configuring-your-app-icon
+
+WARNING  RVW201 Export compliance not declared
+         ios/HelloWorld/Info.plist
+         The Info.plist of HelloWorld has no ITSAppUsesNonExemptEncryption, so App Store Connect
+         asks the export compliance questions for every build.
+         Fix: [D] Declare the app's encryption
+         Source:
+         https://developer.apple.com/documentation/bundleresources/information-property-list/itsappusesnonexemptencryption
+
+WARNING  RVW702 Privacy manifest not in the app
+         ios/HelloWorld/PrivacyInfo.xcprivacy
+         ios/HelloWorld/PrivacyInfo.xcprivacy is not in the Copy Bundle Resources of HelloWorld or
+         in a folder it syncs, so the app ships without it. React Native's pod install adds it to
+         the target (privacy manifest aggregation); commit the project file it changes.
+         Fix: [E] Add the file to the app target
+         Source: https://developer.apple.com/documentation/bundleresources/privacy-manifest-files
+
+How to fix
+
+[A]      Add the key to Info.plist
+         1. Add the key to the target's Info.plist with one sentence that says what the app does
+            with the data, for example: <key>NSCameraUsageDescription</key><string>Scan the barcode
+            on a receipt to add it to your expenses.</string>
+         2. If the app never uses this feature, remove the code or the package that uses it instead.
+         https://github.com/muhittincamdali/reviewready/blob/main/docs/guides/purpose-strings.md
+
+[B]      Write a one-sentence string
+         1. Make the value a <string> of one complete sentence that says what the app does with the
+            data, well under 4,000 bytes.
+         https://github.com/muhittincamdali/reviewready/blob/main/docs/guides/purpose-strings.md
+
+[C]      Add the 1024 × 1024 image
+         1. Open the asset catalog in Xcode, select the app icon and drop a 1024 × 1024 PNG into the
+            App Store (or single-size iOS) slot, or add an Icon Composer .icon file with the name
+            the target builds (ASSETCATALOG_COMPILER_APPICON_NAME).
+         https://github.com/muhittincamdali/reviewready/blob/main/docs/guides/app-icon.md
+
+[D]      Declare the app's encryption
+         1. If the app (with its libraries) uses no encryption, or only the encryption built into
+            the operating system such as HTTPS through URLSession, add
+            <key>ITSAppUsesNonExemptEncryption</key><false/>.
+         2. If it uses non-exempt encryption, set it to <true/> and add
+            ITSEncryptionExportComplianceCode with the code Apple gives you after reviewing your
+            documentation.
+         https://github.com/muhittincamdali/reviewready/blob/main/docs/guides/export-compliance.md
+
+[E]      Add the file to the app target
+         1. Select PrivacyInfo.xcprivacy in Xcode, open the File inspector and tick the app target
+            under Target Membership, so it appears in Build Phases > Copy Bundle Resources.
+         https://github.com/muhittincamdali/reviewready/blob/main/docs/guides/privacy-manifest.md
+
+Checks
+
+  ✗ RVW101  Purpose string missing
+  ✓ RVW102  Purpose string missing for a package feature
+  ✗ RVW103  Purpose string not valid
+  ✓ RVW104  Purpose string is placeholder or default text
+  ✗ RVW201  Export compliance not declared
+  ✓ RVW301  Account creation without account deletion
+  ✓ RVW401  Third-party login without an equivalent option
+  ✗ RVW501  No App Store icon
+  ✓ RVW502  App Store icon is not 1024 × 1024
+  ✓ RVW503  App Store icon has an alpha channel
+  – RVW601  Xcode older than App Store Connect accepts (not-checked)
+  ✓ RVW602  Deployment target below iOS 13
+  ✓ RVW701  No privacy manifest
+  ✗ RVW702  Privacy manifest not in the app
+
+Note: No build file pins an Xcode version, so the Xcode minimum was not checked: since 28 April
+2026, App Store Connect accepts uploads built with Xcode 26 or later.
+
+3 errors, 2 warnings, 8 checks passed
+Rules and sources: https://github.com/muhittincamdali/reviewready#what-reviewready-checks

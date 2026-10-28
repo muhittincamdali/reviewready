@@ -1,0 +1,59 @@
+reviewready 0.1.0 · rules app-review@2026.10.28 (sources read 2026-10-28)
+
+hello-world · Expo · fixtures/expo-58-default
+react-native 0.88.0 (declared)
+expo 58.0.20 (declared)
+target hello-world
+
+2 warnings App Review may flag
+
+WARNING  RVW201 Export compliance not declared
+         app.json
+         app.json sets neither ios.config.usesNonExemptEncryption nor
+         ios.infoPlist.ITSAppUsesNonExemptEncryption, so App Store Connect asks the export
+         compliance questions for every build.
+         Fix: [A] Declare the app's encryption in app.json
+         Source:
+         https://developer.apple.com/documentation/bundleresources/information-property-list/itsappusesnonexemptencryption
+
+WARNING  RVW701 No privacy manifest
+         app.json
+         app.json has no ios.privacyManifests, so prebuild writes no privacy manifest for the app.
+         Fix: [B] Add ios.privacyManifests to app.json
+         Source: https://developer.apple.com/documentation/bundleresources/privacy-manifest-files
+
+How to fix
+
+[A]      Declare the app's encryption in app.json
+         1. Set expo.ios.config.usesNonExemptEncryption to false if the app uses no encryption or
+            only exempt encryption such as HTTPS, or to true and follow Apple's documentation
+            otherwise.
+         https://github.com/muhittincamdali/reviewready/blob/main/docs/guides/export-compliance.md
+
+[B]      Add ios.privacyManifests to app.json
+         1. Add expo.ios.privacyManifests with NSPrivacyAccessedAPITypes (and the data types the app
+            collects); prebuild writes them into PrivacyInfo.xcprivacy.
+         https://github.com/muhittincamdali/reviewready/blob/main/docs/guides/privacy-manifest.md
+
+Checks
+
+  ✓ RVW101  Purpose string missing
+  ✓ RVW102  Purpose string missing for a package feature
+  ✓ RVW103  Purpose string not valid
+  ✓ RVW104  Purpose string is placeholder or default text
+  ✗ RVW201  Export compliance not declared
+  ✓ RVW301  Account creation without account deletion
+  ✓ RVW401  Third-party login without an equivalent option
+  ✓ RVW501  No App Store icon
+  ✓ RVW502  App Store icon is not 1024 × 1024
+  ✓ RVW503  App Store icon has an alpha channel
+  – RVW601  Xcode older than App Store Connect accepts (not-checked)
+  – RVW602  Deployment target below iOS 13 (not-checked)
+  ✗ RVW701  No privacy manifest
+  ✓ RVW702  Privacy manifest not in the app
+
+Note: No build file pins an Xcode version, so the Xcode minimum was not checked: since 28 April
+2026, App Store Connect accepts uploads built with Xcode 26 or later.
+
+0 errors, 2 warnings, 10 checks passed
+Rules and sources: https://github.com/muhittincamdali/reviewready#what-reviewready-checks

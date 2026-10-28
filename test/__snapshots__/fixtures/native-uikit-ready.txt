@@ -1,0 +1,27 @@
+reviewready 0.1.0 · rules app-review@2026.10.28 (sources read 2026-10-28)
+
+Atlas · native iOS · fixtures/native-uikit-ready
+Xcode 27.1 pinned · deployment target iOS 17.0
+target Atlas (Atlas/Info.plist)
+
+No rejection found in the files reviewready reads
+
+Checks
+
+  ✓ RVW101  Purpose string missing
+  ✓ RVW102  Purpose string missing for a package feature
+  ✓ RVW103  Purpose string not valid
+  ✓ RVW104  Purpose string is placeholder or default text
+  ✓ RVW201  Export compliance not declared
+  ✓ RVW301  Account creation without account deletion
+  ✓ RVW401  Third-party login without an equivalent option
+  ✓ RVW501  No App Store icon
+  ✓ RVW502  App Store icon is not 1024 × 1024
+  ✓ RVW503  App Store icon has an alpha channel
+  ✓ RVW601  Xcode older than App Store Connect accepts
+  ✓ RVW602  Deployment target below iOS 13
+  ✓ RVW701  No privacy manifest
+  ✓ RVW702  Privacy manifest not in the app
+
+0 errors, 0 warnings, 14 checks passed
+Rules and sources: https://github.com/muhittincamdali/reviewready#what-reviewready-checks
