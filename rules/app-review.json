@@ -1,0 +1,1163 @@
+{
+  "$schema": "./schema.json",
+  "ruleSet": "app-review",
+  "dataVersion": "2026.10.28",
+  "read": "2026-10-28",
+  "requirements": {
+    "xcode": {
+      "minimum": "26",
+      "since": "2026-04-28",
+      "text": "Apps uploaded to App Store Connect must be built with Xcode 26 or later using the iOS 26 SDK."
+    },
+    "deploymentTarget": {
+      "minimum": "13.0",
+      "since": "2026-09-09",
+      "text": "iOS and iPadOS apps uploaded to App Store Connect must target iOS 13 or later."
+    }
+  },
+  "rules": [
+    {
+      "id": "RVW101",
+      "severity": "error",
+      "title": "Purpose string missing",
+      "summary": "The app's code or a package it ships uses a protected resource, and the Info.plist has no purpose string for it. App Review rejects apps that contain code accessing a protected resource without one, including code in libraries the app does not call, and the app can crash when it asks for access.",
+      "sources": [
+        {
+          "title": "Apple: Requesting access to protected resources",
+          "url": "https://developer.apple.com/documentation/uikit/requesting-access-to-protected-resources"
+        },
+        {
+          "title": "App Review Guidelines 5.1.1(ii) Permission",
+          "url": "https://developer.apple.com/app-store/review/guidelines/#data-collection-and-storage"
+        }
+      ],
+      "fixes": {
+        "info-plist": {
+          "title": "Add the key to Info.plist",
+          "steps": [
+            "Add the key to the target's Info.plist with one sentence that says what the app does with the data, for example: <key>NSCameraUsageDescription</key><string>Scan the barcode on a receipt to add it to your expenses.</string>",
+            "If the app never uses this feature, remove the code or the package that uses it instead."
+          ],
+          "guide": "docs/guides/purpose-strings.md"
+        },
+        "build-setting": {
+          "title": "Add the key in Signing & Capabilities or as a build setting",
+          "steps": [
+            "In Xcode, select the target, open Info, and add the key with a sentence that says what the app does with the data. Xcode stores it as the INFOPLIST_KEY_<key> build setting.",
+            "If the app never uses this feature, remove the code or the package that uses it instead."
+          ],
+          "guide": "docs/guides/purpose-strings.md"
+        },
+        "expo-config": {
+          "title": "Set the text in app.json",
+          "steps": [
+            "Set the key under expo.ios.infoPlist in app.json, or pass the text to the package's config plugin option, with a sentence that says what the app does with the data.",
+            "Run npx expo prebuild --clean (or the next EAS Build) so the native Info.plist gets it."
+          ],
+          "guide": "docs/guides/purpose-strings.md"
+        }
+      }
+    },
+    {
+      "id": "RVW102",
+      "severity": "warning",
+      "title": "Purpose string missing for a package feature",
+      "summary": "A package the app ships needs a purpose string for one of its features (for example recording video with the camera picker). If the app uses that feature, the key is required; if it does not, nothing needs to change.",
+      "sources": [
+        {
+          "title": "Apple: Requesting access to protected resources",
+          "url": "https://developer.apple.com/documentation/uikit/requesting-access-to-protected-resources"
+        }
+      ],
+      "fixes": {
+        "info-plist": {
+          "title": "Add the key if the app uses the feature",
+          "steps": [
+            "If the app uses the feature the finding names, add the key to Info.plist with a sentence that says what the app does with the data.",
+            "If it does not, leave the Info.plist as it is and turn the finding off with --ignore RVW102."
+          ],
+          "guide": "docs/guides/purpose-strings.md"
+        },
+        "expo-config": {
+          "title": "Set the text in app.json if the app uses the feature",
+          "steps": [
+            "If the app uses the feature, set the key under expo.ios.infoPlist in app.json or through the package's config plugin option.",
+            "If it does not, leave app.json as it is and turn the finding off with --ignore RVW102."
+          ],
+          "guide": "docs/guides/purpose-strings.md"
+        }
+      }
+    },
+    {
+      "id": "RVW103",
+      "severity": "error",
+      "title": "Purpose string not valid",
+      "summary": "Apple's requirements for a purpose string: it is not blank or only whitespace, it is shorter than 4,000 bytes, and it has the type the key requires (a string).",
+      "sources": [
+        {
+          "title": "Apple: Adhere to the requirements for purpose strings",
+          "url": "https://developer.apple.com/documentation/uikit/requesting-access-to-protected-resources"
+        }
+      ],
+      "fixes": {
+        "info-plist": {
+          "title": "Write a one-sentence string",
+          "steps": [
+            "Make the value a <string> of one complete sentence that says what the app does with the data, well under 4,000 bytes."
+          ],
+          "guide": "docs/guides/purpose-strings.md"
+        },
+        "build-setting": {
+          "title": "Write a one-sentence string",
+          "steps": [
+            "Set the INFOPLIST_KEY_<key> build setting (target > Info in Xcode) to one complete sentence that says what the app does with the data."
+          ],
+          "guide": "docs/guides/purpose-strings.md"
+        },
+        "expo-config": {
+          "title": "Write a one-sentence string",
+          "steps": [
+            "Set the key in expo.ios.infoPlist to a string of one complete sentence that says what the app does with the data."
+          ],
+          "guide": "docs/guides/purpose-strings.md"
+        }
+      }
+    },
+    {
+      "id": "RVW104",
+      "severity": "warning",
+      "title": "Purpose string is placeholder or default text",
+      "summary": "The purpose string is a placeholder, a sample from a package's README, or the default text a config plugin writes when the app gives none. Apple asks for a description that is accurate, meaningful and specific about why the app needs access, and guideline 5.1.1(ii) asks purpose strings to clearly and completely describe the use of the data.",
+      "sources": [
+        {
+          "title": "Apple: Adhere to the requirements for purpose strings",
+          "url": "https://developer.apple.com/documentation/uikit/requesting-access-to-protected-resources"
+        },
+        {
+          "title": "App Review Guidelines 5.1.1(ii) Permission",
+          "url": "https://developer.apple.com/app-store/review/guidelines/#data-collection-and-storage"
+        }
+      ],
+      "fixes": {
+        "info-plist": {
+          "title": "Say why the app needs access",
+          "steps": [
+            "Replace the text with one sentence that names what the app does with the data, for example \"Take a photo of your meal to log it\" rather than \"needs camera access\"."
+          ],
+          "guide": "docs/guides/purpose-strings.md"
+        },
+        "expo-config": {
+          "title": "Pass your own text to the config plugin",
+          "steps": [
+            "Add the plugin to expo.plugins with its permission option, for example [\"expo-camera\", { \"cameraPermission\": \"Scan a receipt to add it to your expenses.\" }], or set the key under expo.ios.infoPlist.",
+            "Set the option to false instead if the app never uses that permission: the plugin then leaves the key out."
+          ],
+          "guide": "docs/guides/purpose-strings.md"
+        }
+      }
+    },
+    {
+      "id": "RVW201",
+      "severity": "warning",
+      "title": "Export compliance not declared",
+      "summary": "The Info.plist has no ITSAppUsesNonExemptEncryption key, so App Store Connect walks you through the export compliance questions every time you upload a new version, and the build waits for the answer before it can go to TestFlight or review.",
+      "sources": [
+        {
+          "title": "Apple: ITSAppUsesNonExemptEncryption",
+          "url": "https://developer.apple.com/documentation/bundleresources/information-property-list/itsappusesnonexemptencryption"
+        },
+        {
+          "title": "Apple: Complying with Encryption Export Regulations",
+          "url": "https://developer.apple.com/documentation/security/complying-with-encryption-export-regulations"
+        }
+      ],
+      "fixes": {
+        "info-plist": {
+          "title": "Declare the app's encryption",
+          "steps": [
+            "If the app (with its libraries) uses no encryption, or only the encryption built into the operating system such as HTTPS through URLSession, add <key>ITSAppUsesNonExemptEncryption</key><false/>.",
+            "If it uses non-exempt encryption, set it to <true/> and add ITSEncryptionExportComplianceCode with the code Apple gives you after reviewing your documentation."
+          ],
+          "guide": "docs/guides/export-compliance.md"
+        },
+        "build-setting": {
+          "title": "Declare the app's encryption",
+          "steps": [
+            "Set the INFOPLIST_KEY_ITSAppUsesNonExemptEncryption build setting to NO if the app uses no encryption or only exempt encryption such as HTTPS, or to YES with ITSEncryptionExportComplianceCode otherwise."
+          ],
+          "guide": "docs/guides/export-compliance.md"
+        },
+        "expo-config": {
+          "title": "Declare the app's encryption in app.json",
+          "steps": [
+            "Set expo.ios.config.usesNonExemptEncryption to false if the app uses no encryption or only exempt encryption such as HTTPS, or to true and follow Apple's documentation otherwise."
+          ],
+          "guide": "docs/guides/export-compliance.md"
+        }
+      }
+    },
+    {
+      "id": "RVW301",
+      "severity": "warning",
+      "title": "Account creation without account deletion",
+      "summary": "The app's code creates accounts, and reviewready found no way to delete one in the code or the app's strings. Guideline 5.1.1(v): if an app supports account creation, it must also offer account deletion within the app. This is a heuristic: it reads calls and words, not screens.",
+      "sources": [
+        {
+          "title": "App Review Guidelines 5.1.1(v) Account Sign-In",
+          "url": "https://developer.apple.com/app-store/review/guidelines/#data-collection-and-storage"
+        },
+        {
+          "title": "Apple: Offering account deletion in your app",
+          "url": "https://developer.apple.com/support/offering-account-deletion-in-your-app/"
+        }
+      ],
+      "fixes": {
+        "code": {
+          "title": "Let people delete their account in the app",
+          "steps": [
+            "Add a Delete account action that is easy to find, usually in the account settings, and that deletes the account record with its personal data, not only deactivates it.",
+            "If deletion finishes on a website, link straight to that page. With Sign in with Apple, also revoke the user's tokens.",
+            "If the app already has it under words reviewready does not know, turn the finding off with --ignore RVW301."
+          ],
+          "guide": "docs/guides/accounts-and-sign-in.md"
+        }
+      }
+    },
+    {
+      "id": "RVW401",
+      "severity": "warning",
+      "title": "Third-party login without an equivalent option",
+      "summary": "The app ships a third-party or social login service and reviewready found no Sign in with Apple. Guideline 4.8: an app that uses such a service for the user's primary account must also offer an equivalent login service that limits data collection to name and email, lets users keep their email private, and does not collect interactions for advertising without consent. Sign in with Apple is one such service. The guideline lists exceptions (own account system only, education or enterprise accounts, government ID, clients for a specific third-party service).",
+      "sources": [
+        {
+          "title": "App Review Guidelines 4.8 Login Services",
+          "url": "https://developer.apple.com/app-store/review/guidelines/#login-services"
+        },
+        {
+          "title": "Apple: Sign in with Apple",
+          "url": "https://developer.apple.com/sign-in-with-apple/"
+        }
+      ],
+      "fixes": {
+        "code": {
+          "title": "Offer Sign in with Apple next to the other login",
+          "steps": [
+            "Add Sign in with Apple (AuthenticationServices on iOS, sign_in_with_apple on Flutter, expo-apple-authentication or @invertase/react-native-apple-authentication on React Native) and the Sign in with Apple capability.",
+            "If the app falls under one of the exceptions of guideline 4.8, or offers another login service with the listed features, turn the finding off with --ignore RVW401."
+          ],
+          "guide": "docs/guides/accounts-and-sign-in.md"
+        }
+      }
+    },
+    {
+      "id": "RVW501",
+      "severity": "error",
+      "title": "No App Store icon",
+      "summary": "The target's app icon set has no 1024 × 1024 App Store image, or there is no icon set with the name the target builds. Xcode generates every size from a single 1024 × 1024 image, and the asset catalog's 1024 × 1024 image is the App Store icon.",
+      "sources": [
+        {
+          "title": "Apple: Configuring your app icon",
+          "url": "https://developer.apple.com/documentation/xcode/configuring-your-app-icon"
+        },
+        {
+          "title": "Apple: Asset Catalog Format Reference, App Icon Type",
+          "url": "https://developer.apple.com/library/archive/documentation/Xcode/Reference/xcode_ref-Asset_Catalog_Format/AppIconType.html"
+        }
+      ],
+      "fixes": {
+        "info-plist": {
+          "title": "Add the 1024 × 1024 image",
+          "steps": [
+            "Open the asset catalog in Xcode, select the app icon and drop a 1024 × 1024 PNG into the App Store (or single-size iOS) slot, or add an Icon Composer .icon file with the name the target builds (ASSETCATALOG_COMPILER_APPICON_NAME)."
+          ],
+          "guide": "docs/guides/app-icon.md"
+        },
+        "expo-config": {
+          "title": "Set the icon in app.json",
+          "steps": ["Set expo.icon (or expo.ios.icon) to a 1024 × 1024 PNG in the project."],
+          "guide": "docs/guides/app-icon.md"
+        }
+      }
+    },
+    {
+      "id": "RVW502",
+      "severity": "error",
+      "title": "App Store icon is not 1024 × 1024",
+      "summary": "The App Store image of the icon set is not 1024 × 1024 pixels. Xcode 27.1's asset catalog compiler warns that the image \"should be 1024x1024\" and, with no other image, fails with \"did not have any applicable content\".",
+      "sources": [
+        {
+          "title": "Apple: Configuring your app icon",
+          "url": "https://developer.apple.com/documentation/xcode/configuring-your-app-icon"
+        }
+      ],
+      "fixes": {
+        "info-plist": {
+          "title": "Export the icon at 1024 × 1024",
+          "steps": [
+            "Export the icon as a 1024 × 1024 PNG and put it in the App Store slot of the icon set."
+          ],
+          "guide": "docs/guides/app-icon.md"
+        },
+        "expo-config": {
+          "title": "Use a 1024 × 1024 PNG",
+          "steps": [
+            "Point expo.icon (or expo.ios.icon) at a 1024 × 1024 PNG; Expo recommends that size."
+          ],
+          "guide": "docs/guides/app-icon.md"
+        }
+      }
+    },
+    {
+      "id": "RVW503",
+      "severity": "error",
+      "title": "App Store icon has an alpha channel",
+      "summary": "The App Store image of the icon set has an alpha channel or a transparent colour. App Store Connect's upload check refuses it with \"The large app icon in the asset catalog can't be transparent or contain an alpha channel\" (asset validation 90717). Xcode 27.1's asset catalog compiler does not warn about it.",
+      "sources": [
+        {
+          "title": "Apple Developer Forums: Icon composer icon contains alpha channel upload error (the 90717 message, with a DTS engineer)",
+          "url": "https://developer.apple.com/forums/thread/795411"
+        },
+        {
+          "title": "Apple: Human Interface Guidelines, App icons",
+          "url": "https://developer.apple.com/design/human-interface-guidelines/app-icons"
+        }
+      ],
+      "fixes": {
+        "info-plist": {
+          "title": "Export the icon without transparency",
+          "steps": [
+            "Export the 1024 × 1024 icon as an opaque PNG: give it a solid background and turn off \"Transparency\" or \"Alpha\" in the export settings (in Preview: File > Export, untick Alpha).",
+            "Check it with: sips -g hasAlpha path/to/icon.png (it should print hasAlpha: no)."
+          ],
+          "guide": "docs/guides/app-icon.md"
+        }
+      }
+    },
+    {
+      "id": "RVW601",
+      "severity": "error",
+      "title": "Xcode older than App Store Connect accepts",
+      "summary": "A build file pins an Xcode version older than Xcode 26. Since 28 April 2026, apps uploaded to App Store Connect must be built with Xcode 26 or later using the iOS 26 SDK.",
+      "sources": [
+        {
+          "title": "Apple: Upcoming Requirements",
+          "url": "https://developer.apple.com/news/upcoming-requirements/"
+        },
+        {
+          "title": "Apple Developer News: Upcoming SDK minimum requirements (3 February 2026)",
+          "url": "https://developer.apple.com/news/?id=ueeok6yw"
+        }
+      ],
+      "fixes": {
+        "ci": {
+          "title": "Build with Xcode 26 or later",
+          "steps": [
+            "Change the pinned version to Xcode 26 or later (27.1 is the current release) in the file and line the finding names, and use a runner or build image that has it.",
+            "Fix the build warnings and errors the newer SDK reports before the next upload."
+          ],
+          "guide": "docs/guides/xcode-and-ios-minimums.md"
+        }
+      }
+    },
+    {
+      "id": "RVW602",
+      "severity": "error",
+      "title": "Deployment target below iOS 13",
+      "summary": "The app's iOS deployment target is lower than iOS 13. Since 9 September 2026, iOS and iPadOS apps uploaded to App Store Connect must target iOS 13 or later.",
+      "sources": [
+        {
+          "title": "Apple: Upcoming Requirements",
+          "url": "https://developer.apple.com/news/upcoming-requirements/"
+        }
+      ],
+      "fixes": {
+        "info-plist": {
+          "title": "Raise the deployment target",
+          "steps": [
+            "Set IPHONEOS_DEPLOYMENT_TARGET of the app target to 13.0 or later (target > General > Minimum Deployments in Xcode), and raise platform :ios in the Podfile to match.",
+            "Remove the code paths that only ran on older iOS versions."
+          ],
+          "guide": "docs/guides/xcode-and-ios-minimums.md"
+        },
+        "expo-config": {
+          "title": "Raise the deployment target",
+          "steps": [
+            "Set ios.deploymentTarget of the expo-build-properties plugin to 13.0 or later, or remove it to use the Expo SDK's default."
+          ],
+          "guide": "docs/guides/xcode-and-ios-minimums.md"
+        }
+      }
+    },
+    {
+      "id": "RVW701",
+      "severity": "warning",
+      "title": "No privacy manifest",
+      "summary": "The app has no PrivacyInfo.xcprivacy. Apple asks every app to record the data it collects in its privacy manifest, and since 1 May 2024 App Store Connect does not accept apps that use a required reason API (such as UserDefaults or file timestamps) without describing the reason in the app's privacy manifest.",
+      "sources": [
+        {
+          "title": "Apple: Privacy manifest files",
+          "url": "https://developer.apple.com/documentation/bundleresources/privacy-manifest-files"
+        },
+        {
+          "title": "Apple: Describing use of required reason API",
+          "url": "https://developer.apple.com/documentation/bundleresources/describing-use-of-required-reason-api"
+        }
+      ],
+      "fixes": {
+        "info-plist": {
+          "title": "Add a privacy manifest to the app target",
+          "steps": [
+            "In Xcode choose File > New > File from Template, pick App Privacy, name it PrivacyInfo.xcprivacy and tick the app target.",
+            "Record the data the app collects (NSPrivacyCollectedDataTypes) and the reasons for each required reason API the app's own code uses (NSPrivacyAccessedAPITypes). SDKs ship their own manifests."
+          ],
+          "guide": "docs/guides/privacy-manifest.md"
+        },
+        "expo-config": {
+          "title": "Add ios.privacyManifests to app.json",
+          "steps": [
+            "Add expo.ios.privacyManifests with NSPrivacyAccessedAPITypes (and the data types the app collects); prebuild writes them into PrivacyInfo.xcprivacy."
+          ],
+          "guide": "docs/guides/privacy-manifest.md"
+        }
+      }
+    },
+    {
+      "id": "RVW702",
+      "severity": "warning",
+      "title": "Privacy manifest not in the app",
+      "summary": "A PrivacyInfo.xcprivacy file is in the iOS folder, but no app target copies it into the app, so the uploaded app has no privacy manifest.",
+      "sources": [
+        {
+          "title": "Apple: Privacy manifest files",
+          "url": "https://developer.apple.com/documentation/bundleresources/privacy-manifest-files"
+        }
+      ],
+      "fixes": {
+        "info-plist": {
+          "title": "Add the file to the app target",
+          "steps": [
+            "Select PrivacyInfo.xcprivacy in Xcode, open the File inspector and tick the app target under Target Membership, so it appears in Build Phases > Copy Bundle Resources."
+          ],
+          "guide": "docs/guides/privacy-manifest.md"
+        }
+      }
+    }
+  ],
+  "purposeKeys": {
+    "NSCameraUsageDescription": "camera",
+    "NSMicrophoneUsageDescription": "microphone",
+    "NSPhotoLibraryUsageDescription": "photo library",
+    "NSPhotoLibraryAddUsageDescription": "adding to the photo library",
+    "NSLocationWhenInUseUsageDescription": "location while the app is in use",
+    "NSLocationAlwaysAndWhenInUseUsageDescription": "location at all times",
+    "NSLocationAlwaysUsageDescription": "location at all times (before iOS 11)",
+    "NSLocationUsageDescription": "location (macOS)",
+    "NSContactsUsageDescription": "contacts",
+    "NSCalendarsUsageDescription": "calendars (before iOS 17)",
+    "NSCalendarsFullAccessUsageDescription": "calendars",
+    "NSCalendarsWriteOnlyAccessUsageDescription": "adding calendar events",
+    "NSRemindersUsageDescription": "reminders (before iOS 17)",
+    "NSRemindersFullAccessUsageDescription": "reminders",
+    "NSBluetoothAlwaysUsageDescription": "Bluetooth",
+    "NSBluetoothPeripheralUsageDescription": "Bluetooth (before iOS 13)",
+    "NSFaceIDUsageDescription": "Face ID",
+    "NSSpeechRecognitionUsageDescription": "speech recognition",
+    "NSUserTrackingUsageDescription": "tracking (App Tracking Transparency)",
+    "NSMotionUsageDescription": "motion and fitness data",
+    "NSHealthShareUsageDescription": "reading health data",
+    "NSHealthUpdateUsageDescription": "writing health data",
+    "NSHealthClinicalHealthRecordsShareUsageDescription": "clinical health records",
+    "NFCReaderUsageDescription": "NFC",
+    "NSHomeKitUsageDescription": "HomeKit",
+    "NSAppleMusicUsageDescription": "the media library",
+    "NSLocalNetworkUsageDescription": "the local network",
+    "NSSiriUsageDescription": "Siri"
+  },
+  "nativeApis": [
+    {
+      "label": "AVCaptureSession",
+      "pattern": "\\bAVCaptureSession\\b|\\bAVCaptureDeviceInput\\b|\\bAVCaptureDevice\\s*\\.\\s*requestAccess\\s*\\(\\s*for\\s*:\\s*\\.video\\b|\\[\\s*AVCaptureDevice\\s+requestAccessForMediaType\\s*:\\s*AVMediaTypeVideo\\b",
+      "keys": ["NSCameraUsageDescription"]
+    },
+    {
+      "label": "DataScannerViewController",
+      "pattern": "\\bDataScannerViewController\\b",
+      "keys": ["NSCameraUsageDescription"]
+    },
+    {
+      "label": "UIImagePickerController camera",
+      "pattern": "sourceType\\s*=\\s*\\.camera\\b|UIImagePickerControllerSourceTypeCamera\\b",
+      "keys": ["NSCameraUsageDescription"]
+    },
+    {
+      "label": "microphone recording",
+      "pattern": "\\bAVAudioRecorder\\b|\\brequestRecordPermission\\b|\\bAVCaptureDevice\\s*\\.\\s*requestAccess\\s*\\(\\s*for\\s*:\\s*\\.audio\\b|requestAccessForMediaType\\s*:\\s*AVMediaTypeAudio\\b",
+      "keys": ["NSMicrophoneUsageDescription"]
+    },
+    {
+      "label": "PHPhotoLibrary add-only access",
+      "pattern": "\\bPHPhotoLibrary\\s*\\.\\s*requestAuthorization\\s*\\(\\s*for\\s*:\\s*\\.addOnly\\b|\\bUIImageWriteToSavedPhotosAlbum\\b|\\bUISaveVideoAtPathToSavedPhotosAlbum\\b|PHAccessLevelAddOnly\\b",
+      "keys": ["NSPhotoLibraryAddUsageDescription"]
+    },
+    {
+      "label": "PHPhotoLibrary access",
+      "pattern": "\\bPHPhotoLibrary\\s*\\.\\s*requestAuthorization\\s*(\\(\\s*for\\s*:\\s*\\.readWrite\\b|\\{|\\(\\s*\\{|\\(\\s*\\))|\\[\\s*PHPhotoLibrary\\s+requestAuthorization\\s*:|\\bPHAsset\\s*\\.\\s*fetchAssets\\b|\\[\\s*PHAsset\\s+fetchAssets",
+      "keys": ["NSPhotoLibraryUsageDescription"]
+    },
+    {
+      "label": "CLLocationManager when-in-use",
+      "pattern": "\\brequestWhenInUseAuthorization\\b",
+      "keys": ["NSLocationWhenInUseUsageDescription"]
+    },
+    {
+      "label": "CLLocationManager always",
+      "pattern": "\\brequestAlwaysAuthorization\\b",
+      "keys": ["NSLocationAlwaysAndWhenInUseUsageDescription"]
+    },
+    {
+      "label": "CNContactStore",
+      "pattern": "\\bCNContactStore\\b",
+      "keys": ["NSContactsUsageDescription"]
+    },
+    {
+      "label": "EKEventStore full access to events",
+      "pattern": "\\brequestFullAccessToEvents\\b|\\brequestAccess\\s*\\(\\s*to\\s*:\\s*\\.event\\b|requestAccessToEntityType\\s*:\\s*EKEntityTypeEvent\\b",
+      "keys": ["NSCalendarsFullAccessUsageDescription"]
+    },
+    {
+      "label": "EKEventStore write-only access",
+      "pattern": "\\brequestWriteOnlyAccessToEvents\\b",
+      "keys": ["NSCalendarsWriteOnlyAccessUsageDescription"]
+    },
+    {
+      "label": "EKEventStore reminders",
+      "pattern": "\\brequestFullAccessToReminders\\b|\\brequestAccess\\s*\\(\\s*to\\s*:\\s*\\.reminder\\b|requestAccessToEntityType\\s*:\\s*EKEntityTypeReminder\\b",
+      "keys": ["NSRemindersFullAccessUsageDescription"]
+    },
+    {
+      "label": "Core Bluetooth",
+      "pattern": "\\bCBCentralManager\\b|\\bCBPeripheralManager\\b",
+      "keys": ["NSBluetoothAlwaysUsageDescription"]
+    },
+    {
+      "label": "LAContext evaluatePolicy",
+      "pattern": "\\bevaluatePolicy\\s*(\\(|:)",
+      "keys": ["NSFaceIDUsageDescription"]
+    },
+    {
+      "label": "SFSpeechRecognizer",
+      "pattern": "\\bSFSpeechRecognizer\\s*(\\.\\s*|\\s+)requestAuthorization\\b",
+      "keys": ["NSSpeechRecognitionUsageDescription"]
+    },
+    {
+      "label": "ATTrackingManager",
+      "pattern": "\\bATTrackingManager\\s*(\\.\\s*|\\s+)requestTrackingAuthorization",
+      "keys": ["NSUserTrackingUsageDescription"]
+    },
+    {
+      "label": "Core Motion",
+      "pattern": "\\bCMMotionActivityManager\\b|\\bCMPedometer\\b|\\bCMSensorRecorder\\b|\\bCMMovementDisorderManager\\b",
+      "keys": ["NSMotionUsageDescription"]
+    },
+    {
+      "label": "Core NFC",
+      "pattern": "\\bNFCNDEFReaderSession\\b|\\bNFCTagReaderSession\\b|\\bNFCVASReaderSession\\b",
+      "keys": ["NFCReaderUsageDescription"]
+    },
+    {
+      "label": "HMHomeManager",
+      "pattern": "\\bHMHomeManager\\b",
+      "keys": ["NSHomeKitUsageDescription"]
+    },
+    {
+      "label": "MPMediaLibrary",
+      "pattern": "\\bMPMediaLibrary\\s*(\\.\\s*|\\s+)requestAuthorization\\b|\\bMPMediaQuery\\b",
+      "keys": ["NSAppleMusicUsageDescription"]
+    },
+    {
+      "label": "INPreferences Siri",
+      "pattern": "\\brequestSiriAuthorization\\b",
+      "keys": ["NSSiriUsageDescription"]
+    },
+    {
+      "label": "Bonjour browsing",
+      "pattern": "\\bNWBrowser\\b|\\bNetServiceBrowser\\b|\\bNSNetServiceBrowser\\b",
+      "keys": ["NSLocalNetworkUsageDescription"]
+    }
+  ],
+  "packages": [
+    {
+      "ecosystem": "flutter",
+      "name": "camera",
+      "version": "0.12.2",
+      "source": "https://pub.dev/packages/camera",
+      "needs": [
+        { "keys": ["NSCameraUsageDescription"] },
+        { "keys": ["NSMicrophoneUsageDescription"] }
+      ]
+    },
+    {
+      "ecosystem": "flutter",
+      "name": "image_picker",
+      "version": "1.2.4",
+      "source": "https://pub.dev/packages/image_picker",
+      "needs": [
+        { "keys": ["NSPhotoLibraryUsageDescription"] },
+        { "keys": ["NSCameraUsageDescription"] },
+        { "keys": ["NSMicrophoneUsageDescription"], "when": "recording videos" }
+      ]
+    },
+    {
+      "ecosystem": "flutter",
+      "name": "mobile_scanner",
+      "version": "7.4.2",
+      "source": "https://pub.dev/packages/mobile_scanner",
+      "needs": [{ "keys": ["NSCameraUsageDescription"] }]
+    },
+    {
+      "ecosystem": "flutter",
+      "name": "geolocator",
+      "version": "14.1.2",
+      "source": "https://pub.dev/packages/geolocator",
+      "needs": [
+        { "keys": ["NSLocationWhenInUseUsageDescription"] },
+        {
+          "keys": ["NSLocationAlwaysAndWhenInUseUsageDescription"],
+          "when": "location updates in the background, unless BYPASS_PERMISSION_LOCATION_ALWAYS=1 is set"
+        }
+      ]
+    },
+    {
+      "ecosystem": "flutter",
+      "name": "location",
+      "version": "10.0.2",
+      "source": "https://pub.dev/packages/location",
+      "needs": [
+        { "keys": ["NSLocationWhenInUseUsageDescription"] },
+        {
+          "keys": ["NSLocationAlwaysAndWhenInUseUsageDescription"],
+          "when": "location in the background"
+        }
+      ]
+    },
+    {
+      "ecosystem": "flutter",
+      "name": "record",
+      "version": "7.1.2",
+      "source": "https://pub.dev/packages/record",
+      "needs": [{ "keys": ["NSMicrophoneUsageDescription"] }]
+    },
+    {
+      "ecosystem": "flutter",
+      "name": "speech_to_text",
+      "version": "7.5.0",
+      "source": "https://pub.dev/packages/speech_to_text",
+      "needs": [
+        { "keys": ["NSSpeechRecognitionUsageDescription"] },
+        { "keys": ["NSMicrophoneUsageDescription"] }
+      ]
+    },
+    {
+      "ecosystem": "flutter",
+      "name": "photo_manager",
+      "version": "3.12.0",
+      "source": "https://pub.dev/packages/photo_manager",
+      "needs": [
+        { "keys": ["NSPhotoLibraryUsageDescription"] },
+        {
+          "keys": ["NSPhotoLibraryAddUsageDescription"],
+          "when": "write-only access to the photo library"
+        }
+      ]
+    },
+    {
+      "ecosystem": "flutter",
+      "name": "device_calendar",
+      "version": "4.3.3",
+      "source": "https://pub.dev/packages/device_calendar",
+      "needs": [
+        { "keys": ["NSCalendarsFullAccessUsageDescription"] },
+        { "keys": ["NSContactsUsageDescription"], "when": "editing event attendees" }
+      ]
+    },
+    {
+      "ecosystem": "flutter",
+      "name": "health",
+      "version": "13.3.2",
+      "source": "https://pub.dev/packages/health",
+      "needs": [
+        { "keys": ["NSHealthShareUsageDescription"] },
+        { "keys": ["NSHealthUpdateUsageDescription"] }
+      ]
+    },
+    {
+      "ecosystem": "flutter",
+      "name": "flutter_blue_plus",
+      "version": "2.3.14",
+      "source": "https://pub.dev/packages/flutter_blue_plus",
+      "needs": [{ "keys": ["NSBluetoothAlwaysUsageDescription"] }]
+    },
+    {
+      "ecosystem": "flutter",
+      "name": "nfc_manager",
+      "version": "4.2.1",
+      "source": "https://pub.dev/packages/nfc_manager",
+      "needs": [{ "keys": ["NFCReaderUsageDescription"] }]
+    },
+    {
+      "ecosystem": "flutter",
+      "name": "flutter_contacts",
+      "version": "2.6.0",
+      "source": "https://pub.dev/packages/flutter_contacts",
+      "needs": [{ "keys": ["NSContactsUsageDescription"] }]
+    },
+    {
+      "ecosystem": "flutter",
+      "name": "app_tracking_transparency",
+      "version": "2.0.7",
+      "source": "https://pub.dev/packages/app_tracking_transparency",
+      "needs": [{ "keys": ["NSUserTrackingUsageDescription"] }]
+    },
+    {
+      "ecosystem": "flutter",
+      "name": "local_auth",
+      "version": "3.0.2",
+      "source": "https://pub.dev/packages/local_auth_darwin",
+      "needs": [{ "keys": ["NSFaceIDUsageDescription"] }]
+    },
+    {
+      "ecosystem": "npm",
+      "name": "react-native-vision-camera",
+      "version": "5.2.3",
+      "source": "https://react-native-vision-camera.com/docs/guides/permissions",
+      "needs": [
+        { "keys": ["NSCameraUsageDescription"] },
+        { "keys": ["NSMicrophoneUsageDescription"], "when": "recording video with audio" }
+      ]
+    },
+    {
+      "ecosystem": "npm",
+      "name": "react-native-image-picker",
+      "version": "8.3.0",
+      "source": "https://github.com/react-native-image-picker/react-native-image-picker#ios",
+      "needs": [
+        {
+          "keys": ["NSPhotoLibraryUsageDescription"],
+          "when": "selecting images or videos from photos"
+        },
+        { "keys": ["NSCameraUsageDescription"], "when": "capturing images or videos" },
+        { "keys": ["NSMicrophoneUsageDescription"], "when": "capturing video" }
+      ]
+    },
+    {
+      "ecosystem": "npm",
+      "name": "@react-native-camera-roll/camera-roll",
+      "version": "7.10.2",
+      "source": "https://www.npmjs.com/package/@react-native-camera-roll/camera-roll",
+      "needs": [
+        { "keys": ["NSPhotoLibraryUsageDescription"] },
+        { "keys": ["NSPhotoLibraryAddUsageDescription"] }
+      ]
+    },
+    {
+      "ecosystem": "npm",
+      "name": "@react-native-community/geolocation",
+      "version": "3.4.0",
+      "source": "https://www.npmjs.com/package/@react-native-community/geolocation",
+      "needs": [
+        { "keys": ["NSLocationWhenInUseUsageDescription"] },
+        { "keys": ["NSLocationAlwaysAndWhenInUseUsageDescription"] }
+      ]
+    },
+    {
+      "ecosystem": "npm",
+      "name": "react-native-contacts",
+      "version": "8.0.10",
+      "source": "https://github.com/morenoh149/react-native-contacts#ios",
+      "needs": [{ "keys": ["NSContactsUsageDescription"] }]
+    },
+    {
+      "ecosystem": "npm",
+      "name": "react-native-biometrics",
+      "version": "3.0.1",
+      "source": "https://www.npmjs.com/package/react-native-biometrics",
+      "needs": [{ "keys": ["NSFaceIDUsageDescription"] }]
+    },
+    {
+      "ecosystem": "npm",
+      "name": "react-native-ble-plx",
+      "version": "3.5.1",
+      "source": "https://www.npmjs.com/package/react-native-ble-plx",
+      "needs": [{ "keys": ["NSBluetoothAlwaysUsageDescription"] }],
+      "plugin": "@config-plugins/react-native-ble-plx"
+    },
+    {
+      "ecosystem": "npm",
+      "name": "react-native-tracking-transparency",
+      "version": "0.1.2",
+      "source": "https://www.npmjs.com/package/react-native-tracking-transparency",
+      "needs": [{ "keys": ["NSUserTrackingUsageDescription"] }]
+    },
+    {
+      "ecosystem": "npm",
+      "name": "@react-native-voice/voice",
+      "version": "3.2.4",
+      "source": "https://www.npmjs.com/package/@react-native-voice/voice",
+      "needs": [
+        { "keys": ["NSSpeechRecognitionUsageDescription"] },
+        { "keys": ["NSMicrophoneUsageDescription"] }
+      ],
+      "plugin": "@react-native-voice/voice"
+    },
+    {
+      "ecosystem": "npm",
+      "name": "react-native-health",
+      "version": "1.19.0",
+      "source": "https://www.npmjs.com/package/react-native-health",
+      "needs": [
+        { "keys": ["NSHealthShareUsageDescription"] },
+        { "keys": ["NSHealthUpdateUsageDescription"] }
+      ],
+      "plugin": "react-native-health"
+    }
+  ],
+  "expoPlugins": [
+    {
+      "name": "expo-camera",
+      "version": "58.0.13",
+      "auto": true,
+      "keys": [
+        {
+          "key": "NSCameraUsageDescription",
+          "option": "cameraPermission",
+          "default": "Allow $(PRODUCT_NAME) to access your camera"
+        },
+        {
+          "key": "NSMicrophoneUsageDescription",
+          "option": "microphonePermission",
+          "default": "Allow $(PRODUCT_NAME) to access your microphone",
+          "when": "recording video with audio"
+        }
+      ]
+    },
+    {
+      "name": "expo-image-picker",
+      "version": "58.0.10",
+      "auto": true,
+      "keys": [
+        {
+          "key": "NSPhotoLibraryUsageDescription",
+          "option": "photosPermission",
+          "default": "Allow $(PRODUCT_NAME) to access your photos"
+        },
+        {
+          "key": "NSCameraUsageDescription",
+          "option": "cameraPermission",
+          "default": "Allow $(PRODUCT_NAME) to access your camera",
+          "when": "taking photos"
+        },
+        {
+          "key": "NSMicrophoneUsageDescription",
+          "option": "microphonePermission",
+          "default": "Allow $(PRODUCT_NAME) to access your microphone",
+          "when": "recording video"
+        }
+      ]
+    },
+    {
+      "name": "expo-location",
+      "version": "58.0.19",
+      "auto": true,
+      "keys": [
+        {
+          "key": "NSLocationWhenInUseUsageDescription",
+          "option": "locationWhenInUsePermission",
+          "default": "Allow $(PRODUCT_NAME) to access your location"
+        },
+        {
+          "key": "NSLocationAlwaysAndWhenInUseUsageDescription",
+          "option": "locationAlwaysAndWhenInUsePermission",
+          "default": "Allow $(PRODUCT_NAME) to access your location",
+          "when": "location in the background"
+        },
+        {
+          "key": "NSLocationAlwaysUsageDescription",
+          "option": "locationAlwaysPermission",
+          "default": "Allow $(PRODUCT_NAME) to access your location",
+          "when": "location in the background"
+        }
+      ]
+    },
+    {
+      "name": "expo-media-library",
+      "version": "58.0.12",
+      "auto": true,
+      "keys": [
+        {
+          "key": "NSPhotoLibraryUsageDescription",
+          "option": "photosPermission",
+          "default": "Allow $(PRODUCT_NAME) to access your photos"
+        },
+        {
+          "key": "NSPhotoLibraryAddUsageDescription",
+          "option": "savePhotosPermission",
+          "default": "Allow $(PRODUCT_NAME) to save photos"
+        }
+      ]
+    },
+    {
+      "name": "expo-calendar",
+      "version": "58.0.6",
+      "auto": true,
+      "keys": [
+        {
+          "key": "NSCalendarsFullAccessUsageDescription",
+          "option": "calendarPermission",
+          "default": "Allow $(PRODUCT_NAME) to access your calendars"
+        },
+        {
+          "key": "NSRemindersFullAccessUsageDescription",
+          "option": "remindersPermission",
+          "default": "Allow $(PRODUCT_NAME) to access your reminders",
+          "when": "reading reminders"
+        }
+      ]
+    },
+    {
+      "name": "expo-sensors",
+      "version": "58.0.4",
+      "auto": true,
+      "keys": [
+        {
+          "key": "NSMotionUsageDescription",
+          "option": "motionPermission",
+          "default": "Allow $(PRODUCT_NAME) to access your device motion"
+        }
+      ]
+    },
+    {
+      "name": "expo-local-authentication",
+      "version": "58.0.2",
+      "auto": true,
+      "keys": [
+        {
+          "key": "NSFaceIDUsageDescription",
+          "option": "faceIDPermission",
+          "default": "Allow $(PRODUCT_NAME) to use Face ID"
+        }
+      ]
+    },
+    {
+      "name": "expo-contacts",
+      "version": "58.0.9",
+      "auto": true,
+      "keys": [
+        {
+          "key": "NSContactsUsageDescription",
+          "option": "contactsPermission",
+          "default": "Allow $(PRODUCT_NAME) to access your contacts"
+        }
+      ]
+    },
+    {
+      "name": "expo-av",
+      "version": "16.0.8",
+      "auto": true,
+      "keys": [
+        {
+          "key": "NSMicrophoneUsageDescription",
+          "option": "microphonePermission",
+          "default": "Allow $(PRODUCT_NAME) to access your microphone",
+          "when": "recording audio"
+        }
+      ]
+    },
+    {
+      "name": "expo-audio",
+      "version": "58.0.10",
+      "auto": false,
+      "keys": [
+        {
+          "key": "NSMicrophoneUsageDescription",
+          "option": "microphonePermission",
+          "default": "Allow $(PRODUCT_NAME) to access your microphone",
+          "when": "recording audio"
+        }
+      ]
+    },
+    {
+      "name": "expo-tracking-transparency",
+      "version": "58.0.2",
+      "auto": false,
+      "keys": [
+        {
+          "key": "NSUserTrackingUsageDescription",
+          "option": "userTrackingPermission",
+          "default": "Allow this app to collect app-related data that can be used for tracking you or your device."
+        }
+      ]
+    }
+  ],
+  "podfileMacros": [
+    {
+      "macro": "PERMISSION_EVENTS",
+      "keys": [
+        "NSCalendarsUsageDescription",
+        "NSCalendarsWriteOnlyAccessUsageDescription",
+        "NSCalendarsFullAccessUsageDescription"
+      ]
+    },
+    { "macro": "PERMISSION_EVENTS_FULL_ACCESS", "keys": ["NSCalendarsFullAccessUsageDescription"] },
+    {
+      "macro": "PERMISSION_REMINDERS",
+      "keys": ["NSRemindersUsageDescription", "NSRemindersFullAccessUsageDescription"]
+    },
+    { "macro": "PERMISSION_CONTACTS", "keys": ["NSContactsUsageDescription"] },
+    { "macro": "PERMISSION_CAMERA", "keys": ["NSCameraUsageDescription"] },
+    { "macro": "PERMISSION_MICROPHONE", "keys": ["NSMicrophoneUsageDescription"] },
+    { "macro": "PERMISSION_SPEECH_RECOGNIZER", "keys": ["NSSpeechRecognitionUsageDescription"] },
+    {
+      "macro": "PERMISSION_PHOTOS",
+      "keys": ["NSPhotoLibraryUsageDescription", "NSPhotoLibraryAddUsageDescription"]
+    },
+    {
+      "macro": "PERMISSION_LOCATION",
+      "keys": [
+        "NSLocationWhenInUseUsageDescription",
+        "NSLocationAlwaysAndWhenInUseUsageDescription"
+      ]
+    },
+    { "macro": "PERMISSION_LOCATION_WHENINUSE", "keys": ["NSLocationWhenInUseUsageDescription"] },
+    { "macro": "PERMISSION_MEDIA_LIBRARY", "keys": ["NSAppleMusicUsageDescription"] },
+    { "macro": "PERMISSION_SENSORS", "keys": ["NSMotionUsageDescription"] },
+    {
+      "macro": "PERMISSION_BLUETOOTH",
+      "keys": ["NSBluetoothAlwaysUsageDescription", "NSBluetoothPeripheralUsageDescription"]
+    },
+    { "macro": "PERMISSION_APP_TRACKING_TRANSPARENCY", "keys": ["NSUserTrackingUsageDescription"] },
+    { "macro": "PERMISSION_ASSISTANT", "keys": ["NSSiriUsageDescription"] }
+  ],
+  "podfileMacroSource": "https://github.com/Baseflow/flutter-permission-handler/blob/main/permission_handler/README.md",
+  "rnPermissions": [
+    { "name": "AppTrackingTransparency", "keys": ["NSUserTrackingUsageDescription"] },
+    { "name": "Bluetooth", "keys": ["NSBluetoothAlwaysUsageDescription"] },
+    { "name": "Calendars", "keys": ["NSCalendarsFullAccessUsageDescription"] },
+    { "name": "CalendarsWriteOnly", "keys": ["NSCalendarsWriteOnlyAccessUsageDescription"] },
+    { "name": "Camera", "keys": ["NSCameraUsageDescription"] },
+    { "name": "Contacts", "keys": ["NSContactsUsageDescription"] },
+    { "name": "FaceID", "keys": ["NSFaceIDUsageDescription"] },
+    { "name": "LocationAlways", "keys": ["NSLocationAlwaysAndWhenInUseUsageDescription"] },
+    { "name": "LocationWhenInUse", "keys": ["NSLocationWhenInUseUsageDescription"] },
+    { "name": "MediaLibrary", "keys": ["NSAppleMusicUsageDescription"] },
+    { "name": "Microphone", "keys": ["NSMicrophoneUsageDescription"] },
+    { "name": "Motion", "keys": ["NSMotionUsageDescription"] },
+    { "name": "PhotoLibrary", "keys": ["NSPhotoLibraryUsageDescription"] },
+    { "name": "PhotoLibraryAddOnly", "keys": ["NSPhotoLibraryAddUsageDescription"] },
+    { "name": "Reminders", "keys": ["NSRemindersFullAccessUsageDescription"] },
+    { "name": "Siri", "keys": ["NSSiriUsageDescription"] },
+    { "name": "SpeechRecognition", "keys": ["NSSpeechRecognitionUsageDescription"] }
+  ],
+  "rnPermissionsSource": "https://www.npmjs.com/package/react-native-permissions",
+  "placeholders": {
+    "exact": [
+      { "text": "your usage description here", "from": "the camera package README" },
+      {
+        "text": "Some message to describe why you need this permission",
+        "from": "the record package README"
+      },
+      {
+        "text": "This app needs access to location when open.",
+        "from": "the geolocator package README"
+      },
+      {
+        "text": "This app needs Bluetooth to function",
+        "from": "the flutter_blue_plus package README"
+      },
+      {
+        "text": "We need access to your contacts to...",
+        "from": "the flutter_contacts package README"
+      },
+      { "text": "[REASON]", "from": "the react-native-permissions README" }
+    ],
+    "words": ["TODO", "TBD", "FIXME", "lorem ipsum", "placeholder"]
+  },
+  "login": {
+    "thirdParty": [
+      {
+        "label": "Google Sign-In",
+        "native": "\\bimport\\s+GoogleSignIn\\b|@import\\s+GoogleSignIn\\b|#import\\s*<GoogleSignIn/|\\bGIDSignIn\\b",
+        "flutter": ["google_sign_in"],
+        "npm": ["@react-native-google-signin/google-signin"],
+        "imports": ["expo-auth-session/providers/google"]
+      },
+      {
+        "label": "Facebook Login",
+        "native": "\\bimport\\s+(FBSDKLoginKit|FacebookLogin)\\b|#import\\s*<FBSDKLoginKit/|\\bFBSDKLoginManager\\b",
+        "flutter": ["flutter_facebook_auth", "flutter_login_facebook"],
+        "npm": ["react-native-fbsdk-next"],
+        "imports": ["expo-auth-session/providers/facebook"]
+      },
+      {
+        "label": "LINE Login",
+        "native": "\\bimport\\s+LineSDK\\b",
+        "flutter": ["flutter_line_sdk"],
+        "npm": ["@xmartlabs/react-native-line"],
+        "imports": []
+      },
+      {
+        "label": "Kakao Login",
+        "native": "\\bimport\\s+KakaoSDKAuth\\b",
+        "flutter": ["kakao_flutter_sdk", "kakao_flutter_sdk_user"],
+        "npm": ["@react-native-seoul/kakao-login"],
+        "imports": []
+      },
+      {
+        "label": "Log in with X",
+        "native": "",
+        "flutter": ["twitter_login"],
+        "npm": [],
+        "imports": []
+      }
+    ],
+    "apple": {
+      "native": "\\bASAuthorizationAppleIDProvider\\b|\\bSignInWithAppleButton\\b|\\bASAuthorizationAppleIDButton\\b",
+      "entitlement": "com.apple.developer.applesignin",
+      "flutter": ["sign_in_with_apple", "the_apple_sign_in"],
+      "npm": ["@invertase/react-native-apple-authentication", "expo-apple-authentication"],
+      "text": "['\"]apple\\.com['\"]"
+    }
+  },
+  "accounts": {
+    "creation": [
+      {
+        "label": "Firebase createUser(withEmail:)",
+        "pattern": "\\bcreateUser\\s*\\(\\s*withEmail\\b"
+      },
+      {
+        "label": "Firebase createUserWithEmailAndPassword",
+        "pattern": "\\bcreateUserWithEmailAndPassword\\b"
+      },
+      { "label": "Supabase auth.signUp", "pattern": "\\.\\s*auth\\s*\\.\\s*signUp\\s*\\(" },
+      {
+        "label": "Amplify Auth.signUp",
+        "pattern": "\\bAmplify\\s*\\.\\s*Auth\\s*\\.\\s*signUp\\b"
+      },
+      {
+        "label": "Clerk sign-up",
+        "pattern": "\\buseSignUp\\s*\\(|\\bsignUp\\s*\\.\\s*create\\s*\\("
+      }
+    ],
+    "creationText": "[\"'`](?:Create (?:an |your )?[Aa]ccount|Sign [Uu]p|SIGN UP|Register an account)[\"'`]",
+    "deletion": [
+      {
+        "label": "a deleteAccount or deleteUser call",
+        "pattern": "\\b(?:deleteAccount|deleteUser|deleteMyAccount|removeAccount|delete_account|delete_user)\\b"
+      },
+      {
+        "label": "Firebase user.delete()",
+        "pattern": "\\b(?:currentUser|user)\\s*[?!]?\\s*\\.\\s*delete\\s*\\("
+      }
+    ],
+    "deletionText": "\\b(?:[Dd]elete|[Dd]eleting|[Rr]emove|[Cc]lose)[-_ ]?(?:[Mm]y[-_ ]|[Yy]our[-_ ]|[Tt]he[-_ ])?[Aa]ccount\\b|\\bDELETE ACCOUNT\\b"
+  }
+}
