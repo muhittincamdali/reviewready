@@ -5,8 +5,9 @@ import { countsLine, ECOSYSTEM_LABELS, REPOSITORY_URL, RULES_URL, toolchainLine 
 
 // Every character that can start Markdown or HTML markup inline: links and images ([ ] ( ) !),
 // emphasis (* _ ~), code (`), headings (#), HTML and autolinks (< >), entities (&), table cells
-// (|) and the backslash itself. A backslash in front makes each one plain text.
-const MARKUP = /[\\`*_[\]()#!<>|~&]/g;
+// (|), GitHub math ($, as in $\color{red}{...}$ or $$...$$) and the backslash itself. A backslash
+// in front makes each one plain text.
+const MARKUP = /[\\`*_[\]()#!<>|~&$]/g;
 // GitHub turns bare URLs, www. addresses, e-mail addresses, @names and issue references (#1,
 // owner/repo#1, GH-1) into links or mentions without any markup, also right after a letter or an
 // underscore (x_https://...). A word joiner (U+2060, invisible) after the scheme, the www, the @,

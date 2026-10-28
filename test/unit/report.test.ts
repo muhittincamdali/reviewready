@@ -169,6 +169,17 @@ describe('render', () => {
     expect(render(hostile, 'text')).not.toContain('\u001b]');
     expect(render(hostile, 'json')).not.toContain('\\u001b');
   });
+
+  it('keeps a dollar sign in project text from opening GitHub math', () => {
+    const math = report([
+      finding('RVW104', { message: 'NSCameraUsageDescription "$\\color{red}{\\text{Approved}}$"' }),
+    ]);
+    math.project.name = '$$x$$';
+    const markdown = render(math, 'markdown');
+    expect(markdown).toContain('\\$\\\\color{red}{\\\\text{Approved}}\\$');
+    expect(markdown).toContain('\\$\\$x\\$\\$');
+    expect(markdown).not.toMatch(/(?<!\\)\$/);
+  });
 });
 
 describe('text helpers', () => {
