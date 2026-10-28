@@ -55,7 +55,8 @@ export function readExpoApp(config: ExpoConfig): ExpoApp | null {
     usesNonExemptEncryption: record(ios.config).usesNonExemptEncryption,
     usesAppleSignIn: ios.usesAppleSignIn === true,
     icon: ios.icon ?? config.json.icon,
-    hasPrivacyManifests: Object.keys(record(ios.privacyManifests)).length > 0,
+    // Prebuild writes PrivacyInfo.xcprivacy for any ios.privacyManifests object, even an empty one.
+    hasPrivacyManifests: typeof ios.privacyManifests === 'object' && ios.privacyManifests !== null,
     deploymentTarget: typeof target === 'string' ? target : null,
     lineOf(needle) {
       const index = text.indexOf(needle);
