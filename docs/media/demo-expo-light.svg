@@ -1,0 +1,53 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="823" height="739" viewBox="0 0 823 739" role="img" aria-label="reviewready fixtures/expo-58-camera --brief: terminal output">
+<title>reviewready · Expo app without ios/</title>
+<style>
+text{font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,"Liberation Mono",monospace;font-size:13px;white-space:pre}
+.t{opacity:0;animation:show 0.01s linear forwards}
+.caret{opacity:0;animation:blink 1.1s step-end infinite}
+@keyframes show{to{opacity:1}}
+@keyframes blink{0%,100%{opacity:1}50%{opacity:0}}
+@media (prefers-reduced-motion:reduce){.t{animation:none;opacity:1}.caret{animation:none;opacity:1}}
+</style>
+<rect width="823" height="739" fill="#FFFFFF"/>
+<rect x="0.5" y="0.5" width="822" height="738" rx="10" fill="#F5F9FF" stroke="#D0E2F7"/>
+<path d="M0.5 34V10.5a10 10 0 0 1 10-10h802a10 10 0 0 1 10 10V34z" fill="#EAF4FF"/>
+<line x1="0.5" y1="34" x2="822.5" y2="34" stroke="#D0E2F7"/>
+<circle cx="20" cy="17" r="6" fill="#0071E3"/><circle cx="40" cy="17" r="6" fill="#5AC8FA"/><circle cx="60" cy="17" r="6" fill="#D0E2F7"/>
+<text x="411.5" y="22" text-anchor="middle" fill="#5A6B80" style="font-size:12px">reviewready · Expo app without ios/</text>
+<text x="20" y="67" fill="#5A6B80"># fixtures/expo-58-camera: config plugins, EAS image with Xcode 16.4</text>
+<text x="20" y="86"><tspan fill="#0071E3" font-weight="700">$ </tspan><tspan fill="#0B1F33"><tspan class="t" style="animation-delay:0.40s">r</tspan><tspan class="t" style="animation-delay:0.45s">e</tspan><tspan class="t" style="animation-delay:0.49s">v</tspan><tspan class="t" style="animation-delay:0.54s">i</tspan><tspan class="t" style="animation-delay:0.58s">e</tspan><tspan class="t" style="animation-delay:0.63s">w</tspan><tspan class="t" style="animation-delay:0.67s">r</tspan><tspan class="t" style="animation-delay:0.72s">e</tspan><tspan class="t" style="animation-delay:0.76s">a</tspan><tspan class="t" style="animation-delay:0.80s">d</tspan><tspan class="t" style="animation-delay:0.85s">y</tspan><tspan class="t" style="animation-delay:0.90s"> </tspan><tspan class="t" style="animation-delay:0.94s">f</tspan><tspan class="t" style="animation-delay:0.98s">i</tspan><tspan class="t" style="animation-delay:1.03s">x</tspan><tspan class="t" style="animation-delay:1.07s">t</tspan><tspan class="t" style="animation-delay:1.12s">u</tspan><tspan class="t" style="animation-delay:1.17s">r</tspan><tspan class="t" style="animation-delay:1.21s">e</tspan><tspan class="t" style="animation-delay:1.25s">s</tspan><tspan class="t" style="animation-delay:1.30s">/</tspan><tspan class="t" style="animation-delay:1.34s">e</tspan><tspan class="t" style="animation-delay:1.39s">x</tspan><tspan class="t" style="animation-delay:1.44s">p</tspan><tspan class="t" style="animation-delay:1.48s">o</tspan><tspan class="t" style="animation-delay:1.52s">-</tspan><tspan class="t" style="animation-delay:1.57s">5</tspan><tspan class="t" style="animation-delay:1.61s">8</tspan><tspan class="t" style="animation-delay:1.66s">-</tspan><tspan class="t" style="animation-delay:1.71s">c</tspan><tspan class="t" style="animation-delay:1.75s">a</tspan><tspan class="t" style="animation-delay:1.79s">m</tspan><tspan class="t" style="animation-delay:1.84s">e</tspan><tspan class="t" style="animation-delay:1.88s">r</tspan><tspan class="t" style="animation-delay:1.93s">a</tspan><tspan class="t" style="animation-delay:1.98s"> </tspan><tspan class="t" style="animation-delay:2.02s">-</tspan><tspan class="t" style="animation-delay:2.06s">-</tspan><tspan class="t" style="animation-delay:2.11s">b</tspan><tspan class="t" style="animation-delay:2.15s">r</tspan><tspan class="t" style="animation-delay:2.20s">i</tspan><tspan class="t" style="animation-delay:2.25s">e</tspan><tspan class="t" style="animation-delay:2.29s">f</tspan></tspan></text>
+<text class="t" x="20" y="105" style="animation-delay:2.83s"><tspan fill="#5A6B80">reviewready 0.1.0 · rules app-review@2026.10.28 (sources read 2026-10-28)</tspan></text>
+<text class="t" x="20" y="124" style="animation-delay:2.87s"></text>
+<text class="t" x="20" y="143" style="animation-delay:2.90s"><tspan fill="#00285C" font-weight="700">field-notes</tspan><tspan fill="#0B1F33"> · Expo · fixtures/expo-58-camera</tspan></text>
+<text class="t" x="20" y="162" style="animation-delay:2.94s"><tspan fill="#5A6B80">Xcode 16.4 pinned</tspan></text>
+<text class="t" x="20" y="181" style="animation-delay:2.98s"><tspan fill="#5A6B80">react-native 0.88.0 (declared)</tspan></text>
+<text class="t" x="20" y="200" style="animation-delay:3.01s"><tspan fill="#5A6B80">expo 58.0.20 (declared)</tspan></text>
+<text class="t" x="20" y="219" style="animation-delay:3.04s"><tspan fill="#5A6B80">target field-notes</tspan></text>
+<text class="t" x="20" y="238" style="animation-delay:3.08s"></text>
+<text class="t" x="20" y="257" style="animation-delay:3.12s"><tspan fill="#00285C" font-weight="700">2 problems App Review or App Store Connect turns away, and 2 warnings to review</tspan></text>
+<text class="t" x="20" y="276" style="animation-delay:3.15s"></text>
+<text class="t" x="20" y="295" style="animation-delay:3.19s"><tspan fill="#00285C" font-weight="700">ERROR    </tspan><tspan fill="#00285C" font-weight="700">RVW101 Purpose string missing</tspan></text>
+<text class="t" x="20" y="314" style="animation-delay:3.22s"><tspan fill="#0B1F33">         </tspan><tspan fill="#0058D4">app.json</tspan></text>
+<text class="t" x="20" y="333" style="animation-delay:3.25s"><tspan fill="#0B1F33">         The expo-tracking-transparency package (its config plugin is not in expo.plugins) needs</tspan></text>
+<text class="t" x="20" y="352" style="animation-delay:3.29s"><tspan fill="#0B1F33">         NSUserTrackingUsageDescription (App Tracking Transparency); field-notes has none.</tspan></text>
+<text class="t" x="20" y="371" style="animation-delay:3.33s"></text>
+<text class="t" x="20" y="390" style="animation-delay:3.36s"><tspan fill="#00285C" font-weight="700">ERROR    </tspan><tspan fill="#00285C" font-weight="700">RVW601 Xcode older than App Store Connect accepts</tspan></text>
+<text class="t" x="20" y="409" style="animation-delay:3.40s"><tspan fill="#0B1F33">         </tspan><tspan fill="#0058D4">eas.json:8</tspan></text>
+<text class="t" x="20" y="428" style="animation-delay:3.43s"><tspan fill="#0B1F33">         eas.json pins Xcode 16.4 (EAS image); App Store Connect accepts uploads built with Xcode 26</tspan></text>
+<text class="t" x="20" y="447" style="animation-delay:3.46s"><tspan fill="#0B1F33">         or later since 28 April 2026.</tspan></text>
+<text class="t" x="20" y="466" style="animation-delay:3.50s"></text>
+<text class="t" x="20" y="485" style="animation-delay:3.54s"><tspan fill="#0058D4" font-weight="700">WARNING  </tspan><tspan fill="#00285C" font-weight="700">RVW104 Purpose string is placeholder or default text</tspan></text>
+<text class="t" x="20" y="504" style="animation-delay:3.57s"><tspan fill="#0B1F33">         </tspan><tspan fill="#0058D4">app.json</tspan></text>
+<text class="t" x="20" y="523" style="animation-delay:3.60s"><tspan fill="#0B1F33">         The expo-location config plugin writes its default text for</tspan></text>
+<text class="t" x="20" y="542" style="animation-delay:3.64s"><tspan fill="#0B1F33">         NSLocationWhenInUseUsageDescription, NSLocationAlwaysAndWhenInUseUsageDescription,</tspan></text>
+<text class="t" x="20" y="561" style="animation-delay:3.67s"><tspan fill="#0B1F33">         NSLocationAlwaysUsageDescription: no option or ios.infoPlist value gives the app's own.</tspan></text>
+<text class="t" x="20" y="580" style="animation-delay:3.71s"></text>
+<text class="t" x="20" y="599" style="animation-delay:3.75s"><tspan fill="#0058D4" font-weight="700">WARNING  </tspan><tspan fill="#00285C" font-weight="700">RVW701 No privacy manifest</tspan></text>
+<text class="t" x="20" y="618" style="animation-delay:3.78s"><tspan fill="#0B1F33">         </tspan><tspan fill="#0058D4">app.json</tspan></text>
+<text class="t" x="20" y="637" style="animation-delay:3.81s"><tspan fill="#0B1F33">         app.json has no ios.privacyManifests, so prebuild writes no privacy manifest for the app.</tspan></text>
+<text class="t" x="20" y="656" style="animation-delay:3.85s"></text>
+<text class="t" x="20" y="675" style="animation-delay:3.88s"><tspan fill="#00285C" font-weight="700">2 errors, 2 warnings, 9 checks passed</tspan></text>
+<text class="t" x="20" y="694" style="animation-delay:3.92s"><tspan fill="#5A6B80">Run it without --brief for the fix and source of each finding.</tspan></text>
+<text class="t" x="20" y="713" style="animation-delay:4.16s"><tspan fill="#0071E3" font-weight="700">$ </tspan></text>
+<rect class="caret" x="35.66" y="701" width="7.83" height="16" fill="#0071E3" style="animation-delay:4.16s"/>
+</svg>
