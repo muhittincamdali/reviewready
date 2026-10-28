@@ -150,6 +150,10 @@ describe('output', () => {
     expect(help.stdout).toContain(`npx ${PACKAGE_NAME}`);
     expect(help.stdout).toContain(RELEASE_TARBALL_URL);
     expect(help.stdout).toContain('--ignore <rules>');
+    expect(help.stdout).toContain('--brief');
+    const brief = await reviewready([REJECTED, '--brief']);
+    expect(brief.code).toBe(EXIT.findings);
+    expect(brief.stdout).not.toContain('How to fix');
   });
 
   it('reads the project without changing it', async () => {

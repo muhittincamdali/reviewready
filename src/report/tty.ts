@@ -9,6 +9,8 @@ export interface TtyOptions {
   color: boolean;
   /** Total width to wrap to (default 100, at least 60). */
   width?: number;
+  /** Only the verdict and one entry per finding: no fixes, sources or list of checks. */
+  brief?: boolean;
 }
 
 type Style = 'bold' | 'dim' | 'red' | 'yellow' | 'cyan' | 'green' | 'blue';
@@ -156,18 +158,26 @@ export function renderTty(report: Report, options: TtyOptions): string {
       ...body(item.message),
     );
     const fix = item.fix ? fixes.get(item.fix.id) : undefined;
-    if (fix) out.push(...body(`Fix: [${fix.letter}] ${fix.fix.title}`, 'bold'));
+    if (fix && !options.brief) out.push(...body(`Fix: [${fix.letter}] ${fix.fix.title}`, 'bold'));
     const source = item.sources[0];
-    if (source) out.push(...body(`Source: ${source.url}`, 'dim'));
+    if (source && !options.brief) out.push(...body(`Source: ${source.url}`, 'dim'));
     out.push('');
   }
 
-  if (fixes.size > 0) out.push(...fixSection(fixes, paint, width));
-  out.push(...checkSection(report, paint));
+  if (fixes.size > 0 && !options.brief) out.push(...fixSection(fixes, paint, width));
+  if (!options.brief) out.push(...checkSection(report, paint));
   for (const note of report.notes) {
     out.push(...wrap(`Note: ${note}`, width).map((line) => paint('dim', line)));
   }
   if (report.notes.length) out.push('');
-  out.push(paint('bold', countsLine(report)), paint('dim', `Rules and sources: ${RULES_URL}`));
+  out.push(paint('bold', countsLine(report)));
+  out.push(
+    paint(
+      'dim',
+      options.brief && report.findings.length > 0
+        ? 'Run it without --brief for the fix and source of each finding.'
+        : `Rules and sources: ${RULES_URL}`,
+    ),
+  );
   return `${out.join('\n')}\n`;
 }
