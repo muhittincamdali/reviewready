@@ -1,0 +1,74 @@
+{
+  "name": "@mcamdali/reviewready",
+  "version": "0.1.0",
+  "description": "Checks a native iOS, Flutter or React Native/Expo project for the App Review rejections a file can show before you submit: purpose strings, export compliance, account deletion, Sign in with Apple, the App Store icon, the Xcode and iOS minimums and the privacy manifest. Every rule cites its source.",
+  "keywords": [
+    "app-store",
+    "app-review",
+    "app-store-connect",
+    "info-plist",
+    "privacy-manifest",
+    "sign-in-with-apple",
+    "export-compliance",
+    "ios",
+    "flutter",
+    "react-native",
+    "expo",
+    "ci",
+    "cli"
+  ],
+  "homepage": "https://github.com/muhittincamdali/reviewready#readme",
+  "bugs": "https://github.com/muhittincamdali/reviewready/issues",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/muhittincamdali/reviewready.git"
+  },
+  "license": "MIT",
+  "author": "Muhittin Camdali",
+  "type": "module",
+  "bin": {
+    "reviewready": "dist/cli/main.js"
+  },
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "default": "./dist/index.js"
+    },
+    "./package.json": "./package.json"
+  },
+  "files": [
+    "dist",
+    "rules/*.json",
+    "!dist/**/*.map"
+  ],
+  "engines": {
+    "node": ">=22.12"
+  },
+  "publishConfig": {
+    "access": "public"
+  },
+  "scripts": {
+    "lint": "biome lint --error-on-warnings . && prettier --check .",
+    "format": "prettier --write .",
+    "typecheck": "tsc --noEmit",
+    "test": "vitest run",
+    "test:coverage": "vitest run --coverage",
+    "build": "tsc -p tsconfig.build.json",
+    "prepack": "npm run build",
+    "demo": "npm run build && node scripts/demo.ts",
+    "docs": "npm --prefix docs/site run build",
+    "smoke": "node scripts/smoke-pack.ts"
+  },
+  "dependencies": {
+    "commander": "15.0.0",
+    "zod": "4.6.7"
+  },
+  "devDependencies": {
+    "@biomejs/biome": "2.6.3",
+    "@types/node": "24.19.2",
+    "@vitest/coverage-v8": "5.0.5",
+    "prettier": "3.9.10",
+    "typescript": "7.0.2",
+    "vitest": "5.0.5"
+  }
+}
