@@ -14,30 +14,24 @@ the app, for example a login service guideline 4.8 exempts.
 
 ## GitHub Actions
 
+[examples/github-actions/reviewready.yml](../../examples/github-actions/reviewready.yml) is a
+workflow to copy into an app repository. It runs on pull requests that change a file reviewready
+reads, adds the Markdown report to the job summary, keeps it as an artifact and fails the job on
+errors:
+
 ```yaml
-name: App Review check
-
-on:
-  pull_request:
-
-jobs:
-  reviewready:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v5
-      - uses: actions/setup-node@v5
-        with:
-          node-version: 24
-      - name: Check the app for App Review rejections
-        run: npx @mcamdali/reviewready --format markdown --output reviewready.md --fail-on error
-      - name: Show the report on the run page
-        if: always()
-        run: cat reviewready.md >> "$GITHUB_STEP_SUMMARY"
+- name: Check for App Review rejections
+  run: |
+    status=0
+    npx --yes --package=https://github.com/muhittincamdali/reviewready/releases/download/v0.1.0/reviewready-0.1.0.tgz \
+      reviewready --format markdown --output reviewready.md --fail-on error || status=$?
+    if [ -f reviewready.md ]; then cat reviewready.md >> "$GITHUB_STEP_SUMMARY"; fi
+    exit "$status"
 ```
 
-reviewready only reads files, so it runs on Linux as well as macOS: it does not need Xcode, a
-simulator or a build. The full workflow is in
-[examples/github-actions/reviewready.yml](../../examples/github-actions/reviewready.yml).
+It installs reviewready from the GitHub release tarball; publishing the package to npm as
+`@mcamdali/reviewready` is planned. reviewready only reads files, so the job runs on Linux: it
+does not need Xcode, a simulator or a build.
 
 ## Other systems
 

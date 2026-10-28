@@ -1,0 +1,94 @@
+# Copy to .github/workflows/reviewready.yml in an app repository. On every pull request that changes
+# a file reviewready reads, the report is added to the job summary and kept as an artifact, and the
+# job fails when reviewready finds what App Review or App Store Connect turns away (errors). Use
+# `--fail-on warning` to fail on warnings too, or `--fail-on none` to report only.
+#
+# The job runs reviewready 0.1.0 from its GitHub release tarball with npx (the command is
+# reviewready). Publishing the package to npm as @mcamdali/reviewready is planned; until then npx
+# cannot find it by that name.
+name: reviewready
+
+on:
+  pull_request:
+    # Every file reviewready reads: the Xcode project, Info.plist and entitlements, the asset
+    # catalogs and privacy manifests, Swift, Objective-C, JavaScript, TypeScript and Dart sources,
+    # the strings files, the manifests and the build files that pin an Xcode.
+    paths:
+      - 'ios/**'
+      - '**/*.xcodeproj/**'
+      - '**/Info.plist'
+      - '**/*.entitlements'
+      - '**/*.xcassets/**'
+      - '**/*.icon/**'
+      - '**/PrivacyInfo.xcprivacy'
+      - '**/Podfile'
+      - '**/*.swift'
+      - '**/*.m'
+      - '**/*.mm'
+      - '**/*.h'
+      - '**/*.js'
+      - '**/*.jsx'
+      - '**/*.ts'
+      - '**/*.tsx'
+      - '**/*.mjs'
+      - '**/*.cjs'
+      - '**/*.dart'
+      - '**/*.strings'
+      - '**/*.xcstrings'
+      - '**/*.arb'
+      - 'package.json'
+      - 'package-lock.json'
+      - 'app.json'
+      - 'app.config.*'
+      - 'eas.json'
+      - 'assets/**'
+      - 'pubspec.yaml'
+      - '.fvmrc'
+      - '.fvm/fvm_config.json'
+      - '.xcode-version'
+      - '.github/workflows/**'
+      - 'codemagic.yaml'
+      - 'codemagic.yml'
+      - 'bitrise.yml'
+      - 'bitrise.yaml'
+      - '.circleci/**'
+      - '**/fastlane/Fastfile'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  check:
+    runs-on: ubuntu-24.04
+    # Ends the job if a run waits on something in the checked repository, instead of GitHub's
+    # default limit of six hours.
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+
+      - uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7.1.0
+        with:
+          node-version: '24'
+
+      - name: Check for App Review rejections
+        run: |
+          status=0
+          npx --yes --package=https://github.com/muhittincamdali/reviewready/releases/download/v0.1.0/reviewready-0.1.0.tgz \
+            reviewready --format markdown --output reviewready.md --fail-on error || status=$?
+          # Exit code 2 (the project could not be read) can come without a report.
+          if [ -f reviewready.md ]; then
+            cat reviewready.md >> "$GITHUB_STEP_SUMMARY"
+          else
+            echo "reviewready exited with $status and wrote no report; see the step log." >> "$GITHUB_STEP_SUMMARY"
+          fi
+          exit "$status"
+
+      - uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
+        if: always()
+        with:
+          name: reviewready-report
+          path: reviewready.md
+          if-no-files-found: ignore
