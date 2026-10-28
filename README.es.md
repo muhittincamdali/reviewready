@@ -1,4 +1,4 @@
-<!-- i18n-source: README.md@c0610d626f9553775dd81adce891cf04a8f1bf4a status=reviewed -->
+<!-- i18n-source: README.md@8664c42f034f901757599afc006cc06fa47c80ca status=reviewed -->
 <!-- brand:start -->
 
 <p align="center"><picture><source media="(prefers-color-scheme: dark)" srcset="https://raw.githubusercontent.com/muhittincamdali/reviewready/main/.github/brand/banner-dark.svg"><source media="(prefers-color-scheme: light)" srcset="https://raw.githubusercontent.com/muhittincamdali/reviewready/main/.github/brand/banner-light.svg"><img src="https://raw.githubusercontent.com/muhittincamdali/reviewready/main/.github/brand/banner-light.svg" alt="reviewready: detecta en CI los rechazos de App Review antes de enviar la app, con la fuente de Apple de cada regla y la solución."></picture></p>
@@ -9,7 +9,7 @@
 
 <p align="center">
 <a href="https://github.com/muhittincamdali/reviewready/actions/workflows/ci.yml"><img src="https://github.com/muhittincamdali/reviewready/actions/workflows/ci.yml/badge.svg" alt="Estado de CI"></a>
-<a href="https://github.com/muhittincamdali/reviewready/releases"><picture><source media="(prefers-color-scheme: dark)" srcset="https://raw.githubusercontent.com/muhittincamdali/reviewready/main/.github/brand/badge-version-dark.svg"><source media="(prefers-color-scheme: light)" srcset="https://raw.githubusercontent.com/muhittincamdali/reviewready/main/.github/brand/badge-version-light.svg"><img src="https://raw.githubusercontent.com/muhittincamdali/reviewready/main/.github/brand/badge-version-light.svg" alt="Última versión: v0.1.0"></picture></a>
+<a href="https://github.com/muhittincamdali/reviewready/releases"><picture><source media="(prefers-color-scheme: dark)" srcset="https://raw.githubusercontent.com/muhittincamdali/reviewready/main/.github/brand/badge-version-dark.svg"><source media="(prefers-color-scheme: light)" srcset="https://raw.githubusercontent.com/muhittincamdali/reviewready/main/.github/brand/badge-version-light.svg"><img src="https://raw.githubusercontent.com/muhittincamdali/reviewready/main/.github/brand/badge-version-light.svg" alt="Última versión: v0.1.1"></picture></a>
 <a href="https://github.com/muhittincamdali/reviewready/blob/main/package.json"><picture><source media="(prefers-color-scheme: dark)" srcset="https://raw.githubusercontent.com/muhittincamdali/reviewready/main/.github/brand/badge-language-dark.svg"><source media="(prefers-color-scheme: light)" srcset="https://raw.githubusercontent.com/muhittincamdali/reviewready/main/.github/brand/badge-language-light.svg"><img src="https://raw.githubusercontent.com/muhittincamdali/reviewready/main/.github/brand/badge-language-light.svg" alt="Versión del lenguaje: Node.js 22.12+"></picture></a>
 <a href="https://github.com/muhittincamdali/reviewready/blob/main/LICENSE"><picture><source media="(prefers-color-scheme: dark)" srcset="https://raw.githubusercontent.com/muhittincamdali/reviewready/main/.github/brand/badge-license-dark.svg"><source media="(prefers-color-scheme: light)" srcset="https://raw.githubusercontent.com/muhittincamdali/reviewready/main/.github/brand/badge-license-light.svg"><img src="https://raw.githubusercontent.com/muhittincamdali/reviewready/main/.github/brand/badge-license-light.svg" alt="Licencia: MIT"></picture></a>
 </p>
@@ -44,7 +44,7 @@ Los rechazos de App Review que los archivos de un proyecto ya delatan (una caden
 **1. Instala reviewready.** Necesitas [Node.js](https://nodejs.org/) 22.12 o posterior (`node --version` muestra la versión; en un Mac, `brew install node` lo instala). Después instala el paquete desde su [release de GitHub](https://github.com/muhittincamdali/reviewready/releases):
 
 ```sh
-npm i -g https://github.com/muhittincamdali/reviewready/releases/download/v0.1.0/reviewready-0.1.0.tgz
+npm i -g https://github.com/muhittincamdali/reviewready/releases/download/v0.1.1/reviewready-0.1.1.tgz
 ```
 
 **2. Abre una terminal en la carpeta de tu app**, la que contiene el `.xcodeproj`, `pubspec.yaml` o `package.json`:
@@ -104,7 +104,7 @@ La salida completa de las dos ejecuciones está en [docs/media/simulator](docs/m
 El comando de Inicio rápido instala el comando `reviewready` desde el tarball del release. Para añadirlo a un proyecto en su lugar:
 
 ```sh
-npm install --save-dev https://github.com/muhittincamdali/reviewready/releases/download/v0.1.0/reviewready-0.1.0.tgz
+npm install --save-dev https://github.com/muhittincamdali/reviewready/releases/download/v0.1.1/reviewready-0.1.1.tgz
 ```
 
 Después, `npx reviewready` ejecuta esa copia. El paquete se llama `@mcamdali/reviewready`, el nombre que importa la API de JavaScript de más abajo. Cada release de GitHub incluye el paquete como `reviewready-<version>.tgz`, con un archivo `SHA256SUMS` para verificarlo.
@@ -172,7 +172,7 @@ Las grabaciones de terminal salen de la CLI sobre los [fixtures](fixtures/README
 | App UIKit que supera todas las comprobaciones                                    | [claro](docs/media/demo-native-ready-light.svg) · [oscuro](docs/media/demo-native-ready-dark.svg)                                                            |
 | `scripts/simulator-check.sh` en iOS 27.0, sin las soluciones y con ellas         | [sin la clave](docs/media/demo-simulator-contacts-probe-missing-27.0-light.svg) · [corregido](docs/media/demo-simulator-contacts-probe-fixed-27.0-light.svg) |
 
-Medido el 28 de octubre de 2026 en un Mac (Apple silicon, M5 Max) con Node.js 26.12: tres series de 100 ejecuciones de `node dist/cli/main.js --json` sobre los seis fixtures, con el arranque de Node.js incluido. Las medianas de las tres series fueron 0,110, 0,112 y 0,109 segundos; la ejecución más lenta tardó 0,24 segundos. El conjunto de pruebas tiene 324 pruebas (`npm test`, el mismo equipo).
+Medido el 28 de octubre de 2026 en un Mac (Apple silicon, M5 Max) con Node.js 26.12: tres series de 100 ejecuciones de `node dist/cli/main.js --json` sobre los seis fixtures, con el arranque de Node.js incluido. Las medianas de las tres series fueron 0,113, 0,111 y 0,112 segundos; la ejecución más lenta tardó 0,19 segundos. El conjunto de pruebas tiene 331 pruebas (`npm test`, el mismo equipo).
 
 ## Estado
 

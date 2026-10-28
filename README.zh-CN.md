@@ -1,4 +1,4 @@
-<!-- i18n-source: README.md@c0610d626f9553775dd81adce891cf04a8f1bf4a status=reviewed -->
+<!-- i18n-source: README.md@8664c42f034f901757599afc006cc06fa47c80ca status=reviewed -->
 <!-- brand:start -->
 
 <p align="center"><picture><source media="(prefers-color-scheme: dark)" srcset="https://raw.githubusercontent.com/muhittincamdali/reviewready/main/.github/brand/banner-dark.svg"><source media="(prefers-color-scheme: light)" srcset="https://raw.githubusercontent.com/muhittincamdali/reviewready/main/.github/brand/banner-light.svg"><img src="https://raw.githubusercontent.com/muhittincamdali/reviewready/main/.github/brand/banner-light.svg" alt="reviewready：在提交前于 CI 中发现 App Review 拒审原因，并给出每条规则的 Apple 来源和修复方法。"></picture></p>
@@ -9,7 +9,7 @@
 
 <p align="center">
 <a href="https://github.com/muhittincamdali/reviewready/actions/workflows/ci.yml"><img src="https://github.com/muhittincamdali/reviewready/actions/workflows/ci.yml/badge.svg" alt="CI 状态"></a>
-<a href="https://github.com/muhittincamdali/reviewready/releases"><picture><source media="(prefers-color-scheme: dark)" srcset="https://raw.githubusercontent.com/muhittincamdali/reviewready/main/.github/brand/badge-version-dark.svg"><source media="(prefers-color-scheme: light)" srcset="https://raw.githubusercontent.com/muhittincamdali/reviewready/main/.github/brand/badge-version-light.svg"><img src="https://raw.githubusercontent.com/muhittincamdali/reviewready/main/.github/brand/badge-version-light.svg" alt="最新版本: v0.1.0"></picture></a>
+<a href="https://github.com/muhittincamdali/reviewready/releases"><picture><source media="(prefers-color-scheme: dark)" srcset="https://raw.githubusercontent.com/muhittincamdali/reviewready/main/.github/brand/badge-version-dark.svg"><source media="(prefers-color-scheme: light)" srcset="https://raw.githubusercontent.com/muhittincamdali/reviewready/main/.github/brand/badge-version-light.svg"><img src="https://raw.githubusercontent.com/muhittincamdali/reviewready/main/.github/brand/badge-version-light.svg" alt="最新版本: v0.1.1"></picture></a>
 <a href="https://github.com/muhittincamdali/reviewready/blob/main/package.json"><picture><source media="(prefers-color-scheme: dark)" srcset="https://raw.githubusercontent.com/muhittincamdali/reviewready/main/.github/brand/badge-language-dark.svg"><source media="(prefers-color-scheme: light)" srcset="https://raw.githubusercontent.com/muhittincamdali/reviewready/main/.github/brand/badge-language-light.svg"><img src="https://raw.githubusercontent.com/muhittincamdali/reviewready/main/.github/brand/badge-language-light.svg" alt="语言版本: Node.js 22.12+"></picture></a>
 <a href="https://github.com/muhittincamdali/reviewready/blob/main/LICENSE"><picture><source media="(prefers-color-scheme: dark)" srcset="https://raw.githubusercontent.com/muhittincamdali/reviewready/main/.github/brand/badge-license-dark.svg"><source media="(prefers-color-scheme: light)" srcset="https://raw.githubusercontent.com/muhittincamdali/reviewready/main/.github/brand/badge-license-light.svg"><img src="https://raw.githubusercontent.com/muhittincamdali/reviewready/main/.github/brand/badge-license-light.svg" alt="许可证: MIT"></picture></a>
 </p>
@@ -45,7 +45,7 @@ fixture</a>：一个为测试编写的 SwiftUI 应用，每条规则对应一个
 **1. 安装 reviewready。** 需要 [Node.js](https://nodejs.org/) 22.12 或更高版本（`node --version` 可查看版本；在 Mac 上可用 `brew install node` 安装）。然后从 [GitHub release](https://github.com/muhittincamdali/reviewready/releases) 安装该软件包：
 
 ```sh
-npm i -g https://github.com/muhittincamdali/reviewready/releases/download/v0.1.0/reviewready-0.1.0.tgz
+npm i -g https://github.com/muhittincamdali/reviewready/releases/download/v0.1.1/reviewready-0.1.1.tgz
 ```
 
 **2. 在应用所在的文件夹中打开终端**，也就是包含 `.xcodeproj`、`pubspec.yaml` 或 `package.json` 的那个文件夹：
@@ -105,7 +105,7 @@ RVW301 和 RVW401 是基于应用的调用、字符串和包做出的启发式�
 “快速开始”中的命令会从 release 压缩包安装 `reviewready` 命令。如果想把它添加到某个项目中：
 
 ```sh
-npm install --save-dev https://github.com/muhittincamdali/reviewready/releases/download/v0.1.0/reviewready-0.1.0.tgz
+npm install --save-dev https://github.com/muhittincamdali/reviewready/releases/download/v0.1.1/reviewready-0.1.1.tgz
 ```
 
 之后 `npx reviewready` 会运行这份副本。软件包的名称是 `@mcamdali/reviewready`，也就是下面的 JavaScript API 所导入的名称。每个 GitHub release 都以 `reviewready-<version>.tgz` 的形式提供该软件包，并附有用于校验的 `SHA256SUMS` 文件。
@@ -173,7 +173,7 @@ console.log(render(report, 'markdown'));
 | 通过所有检查的 UIKit 应用                                                              | [浅色](docs/media/demo-native-ready-light.svg) · [深色](docs/media/demo-native-ready-dark.svg)                                                    |
 | 在 iOS 27.0 上运行 `scripts/simulator-check.sh`，修复前与修复后                        | [缺失](docs/media/demo-simulator-contacts-probe-missing-27.0-light.svg) · [已修复](docs/media/demo-simulator-contacts-probe-fixed-27.0-light.svg) |
 
-测量于 2026 年 10 月 28 日，设备为 Mac（Apple silicon，M5 Max），Node.js 26.12：对六个 fixture 运行 `node dist/cli/main.js --json`，共三组、每组 100 次，包含 Node.js 的启动时间。三组的中位数分别为 0.110、0.112 和 0.109 秒；最慢的一次耗时 0.24 秒。测试套件共有 324 个测试（`npm test`，同一台机器）。
+测量于 2026 年 10 月 28 日，设备为 Mac（Apple silicon，M5 Max），Node.js 26.12：对六个 fixture 运行 `node dist/cli/main.js --json`，共三组、每组 100 次，包含 Node.js 的启动时间。三组的中位数分别为 0.113、0.111 和 0.112 秒；最慢的一次耗时 0.19 秒。测试套件共有 331 个测试（`npm test`，同一台机器）。
 
 ## 状态
 

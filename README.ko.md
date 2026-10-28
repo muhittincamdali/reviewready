@@ -1,4 +1,4 @@
-<!-- i18n-source: README.md@c0610d626f9553775dd81adce891cf04a8f1bf4a status=reviewed -->
+<!-- i18n-source: README.md@8664c42f034f901757599afc006cc06fa47c80ca status=reviewed -->
 <!-- brand:start -->
 
 <p align="center"><picture><source media="(prefers-color-scheme: dark)" srcset="https://raw.githubusercontent.com/muhittincamdali/reviewready/main/.github/brand/banner-dark.svg"><source media="(prefers-color-scheme: light)" srcset="https://raw.githubusercontent.com/muhittincamdali/reviewready/main/.github/brand/banner-light.svg"><img src="https://raw.githubusercontent.com/muhittincamdali/reviewready/main/.github/brand/banner-light.svg" alt="reviewready: 제출하기 전에 CI에서 App Review 거절 사유를 잡아내고, 규칙마다 근거가 되는 Apple 출처와 해결 방법을 보여 줍니다."></picture></p>
@@ -9,7 +9,7 @@
 
 <p align="center">
 <a href="https://github.com/muhittincamdali/reviewready/actions/workflows/ci.yml"><img src="https://github.com/muhittincamdali/reviewready/actions/workflows/ci.yml/badge.svg" alt="CI 상태"></a>
-<a href="https://github.com/muhittincamdali/reviewready/releases"><picture><source media="(prefers-color-scheme: dark)" srcset="https://raw.githubusercontent.com/muhittincamdali/reviewready/main/.github/brand/badge-version-dark.svg"><source media="(prefers-color-scheme: light)" srcset="https://raw.githubusercontent.com/muhittincamdali/reviewready/main/.github/brand/badge-version-light.svg"><img src="https://raw.githubusercontent.com/muhittincamdali/reviewready/main/.github/brand/badge-version-light.svg" alt="최신 버전: v0.1.0"></picture></a>
+<a href="https://github.com/muhittincamdali/reviewready/releases"><picture><source media="(prefers-color-scheme: dark)" srcset="https://raw.githubusercontent.com/muhittincamdali/reviewready/main/.github/brand/badge-version-dark.svg"><source media="(prefers-color-scheme: light)" srcset="https://raw.githubusercontent.com/muhittincamdali/reviewready/main/.github/brand/badge-version-light.svg"><img src="https://raw.githubusercontent.com/muhittincamdali/reviewready/main/.github/brand/badge-version-light.svg" alt="최신 버전: v0.1.1"></picture></a>
 <a href="https://github.com/muhittincamdali/reviewready/blob/main/package.json"><picture><source media="(prefers-color-scheme: dark)" srcset="https://raw.githubusercontent.com/muhittincamdali/reviewready/main/.github/brand/badge-language-dark.svg"><source media="(prefers-color-scheme: light)" srcset="https://raw.githubusercontent.com/muhittincamdali/reviewready/main/.github/brand/badge-language-light.svg"><img src="https://raw.githubusercontent.com/muhittincamdali/reviewready/main/.github/brand/badge-language-light.svg" alt="언어 버전: Node.js 22.12+"></picture></a>
 <a href="https://github.com/muhittincamdali/reviewready/blob/main/LICENSE"><picture><source media="(prefers-color-scheme: dark)" srcset="https://raw.githubusercontent.com/muhittincamdali/reviewready/main/.github/brand/badge-license-dark.svg"><source media="(prefers-color-scheme: light)" srcset="https://raw.githubusercontent.com/muhittincamdali/reviewready/main/.github/brand/badge-license-light.svg"><img src="https://raw.githubusercontent.com/muhittincamdali/reviewready/main/.github/brand/badge-license-light.svg" alt="라이선스: MIT"></picture></a>
 </p>
@@ -45,7 +45,7 @@ fixture</a>로, 규칙마다 문제 하나씩을 넣어 테스트용으로 작�
 **1. reviewready를 설치하세요.** [Node.js](https://nodejs.org/) 22.12 이상이 필요합니다(`node --version`으로 확인할 수 있고, Mac에서는 `brew install node`로 설치합니다). 그런 다음 [GitHub 릴리스](https://github.com/muhittincamdali/reviewready/releases)에서 패키지를 설치하세요.
 
 ```sh
-npm i -g https://github.com/muhittincamdali/reviewready/releases/download/v0.1.0/reviewready-0.1.0.tgz
+npm i -g https://github.com/muhittincamdali/reviewready/releases/download/v0.1.1/reviewready-0.1.1.tgz
 ```
 
 **2. 앱 폴더에서 터미널을 여세요.** `.xcodeproj`, `pubspec.yaml`, `package.json` 중 하나가 있는 폴더입니다.
@@ -105,7 +105,7 @@ RVW301과 RVW401은 앱의 호출, 문자열, 패키지를 살펴보는 휴리�
 빠른 시작의 명령은 릴리스 tarball에서 `reviewready` 명령을 설치합니다. 대신 프로젝트에 추가하려면 다음과 같이 하세요.
 
 ```sh
-npm install --save-dev https://github.com/muhittincamdali/reviewready/releases/download/v0.1.0/reviewready-0.1.0.tgz
+npm install --save-dev https://github.com/muhittincamdali/reviewready/releases/download/v0.1.1/reviewready-0.1.1.tgz
 ```
 
 그러면 `npx reviewready`가 그 사본을 실행합니다. 패키지 이름은 `@mcamdali/reviewready`이며, 아래의 JavaScript API가 import하는 이름이기도 합니다. 각 GitHub 릴리스에는 패키지가 `reviewready-<version>.tgz`로, 검증용 `SHA256SUMS` 파일과 함께 들어 있습니다.
@@ -173,7 +173,7 @@ console.log(render(report, 'markdown'));
 | 모든 검사를 통과하는 UIKit 앱                                                         | [라이트](docs/media/demo-native-ready-light.svg) · [다크](docs/media/demo-native-ready-dark.svg)                                                  |
 | iOS 27.0에서 실행한 `scripts/simulator-check.sh`, 수정 전과 수정 후                   | [누락](docs/media/demo-simulator-contacts-probe-missing-27.0-light.svg) · [수정됨](docs/media/demo-simulator-contacts-probe-fixed-27.0-light.svg) |
 
-2026년 10월 28일 Mac(Apple silicon, M5 Max)에서 Node.js 26.12로 측정했습니다. 여섯 개의 fixture에 대해 `node dist/cli/main.js --json`을 100회 실행하는 세트를 세 번 진행했으며, Node.js 시작 시간을 포함합니다. 세 세트의 중앙값은 0.110초, 0.112초, 0.109초였고, 가장 느린 실행은 0.24초였습니다. 테스트 스위트에는 324개의 테스트가 있습니다(`npm test`, 같은 기기).
+2026년 10월 28일 Mac(Apple silicon, M5 Max)에서 Node.js 26.12로 측정했습니다. 여섯 개의 fixture에 대해 `node dist/cli/main.js --json`을 100회 실행하는 세트를 세 번 진행했으며, Node.js 시작 시간을 포함합니다. 세 세트의 중앙값은 0.113초, 0.111초, 0.112초였고, 가장 느린 실행은 0.19초였습니다. 테스트 스위트에는 331개의 테스트가 있습니다(`npm test`, 같은 기기).
 
 ## 상태
 

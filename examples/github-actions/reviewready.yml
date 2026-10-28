@@ -3,7 +3,7 @@
 # job fails when reviewready finds what App Review or App Store Connect turns away (errors). Use
 # `--fail-on warning` to fail on warnings too, or `--fail-on none` to report only.
 #
-# The job downloads the reviewready 0.1.0 tarball of the GitHub release, checks it against the
+# The job downloads the reviewready 0.1.1 tarball of the GitHub release, checks it against the
 # release's SHA256SUMS and runs it with npx (the command is reviewready). Publishing the package to npm as @mcamdali/reviewready is planned; until then npx
 # cannot find it by that name.
 name: reviewready
@@ -75,10 +75,10 @@ jobs:
 
       - name: Download reviewready and check its checksum
         env:
-          RELEASE: https://github.com/muhittincamdali/reviewready/releases/download/v0.1.0
+          RELEASE: https://github.com/muhittincamdali/reviewready/releases/download/v0.1.1
         run: |
           cd "$RUNNER_TEMP"
-          curl -fsSL --retry 3 -o reviewready-0.1.0.tgz "$RELEASE/reviewready-0.1.0.tgz"
+          curl -fsSL --retry 3 -o reviewready-0.1.1.tgz "$RELEASE/reviewready-0.1.1.tgz"
           curl -fsSL --retry 3 -o SHA256SUMS "$RELEASE/SHA256SUMS"
           sha256sum --check --strict SHA256SUMS
 
@@ -89,7 +89,7 @@ jobs:
           # reviewready.md that is a symbolic link to a file outside it.
           report="$RUNNER_TEMP/reviewready.md"
           rm -f "$report"
-          npx --yes --package="$RUNNER_TEMP/reviewready-0.1.0.tgz" \
+          npx --yes --package="$RUNNER_TEMP/reviewready-0.1.1.tgz" \
             reviewready --format markdown --output "$report" --fail-on error || status=$?
           # Exit code 2 (the project could not be read) can come without a report.
           if [ -f "$report" ]; then

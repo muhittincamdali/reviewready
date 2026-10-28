@@ -1,4 +1,4 @@
-<!-- i18n-source: README.md@c0610d626f9553775dd81adce891cf04a8f1bf4a status=reviewed -->
+<!-- i18n-source: README.md@8664c42f034f901757599afc006cc06fa47c80ca status=reviewed -->
 <!-- brand:start -->
 
 <p align="center"><picture><source media="(prefers-color-scheme: dark)" srcset="https://raw.githubusercontent.com/muhittincamdali/reviewready/main/.github/brand/banner-dark.svg"><source media="(prefers-color-scheme: light)" srcset="https://raw.githubusercontent.com/muhittincamdali/reviewready/main/.github/brand/banner-light.svg"><img src="https://raw.githubusercontent.com/muhittincamdali/reviewready/main/.github/brand/banner-light.svg" alt="reviewready: fängt Ablehnungen durch App Review schon in CI ab, bevor du einreichst, mit der Apple-Quelle jeder Regel und der Lösung."></picture></p>
@@ -9,7 +9,7 @@
 
 <p align="center">
 <a href="https://github.com/muhittincamdali/reviewready/actions/workflows/ci.yml"><img src="https://github.com/muhittincamdali/reviewready/actions/workflows/ci.yml/badge.svg" alt="CI-Status"></a>
-<a href="https://github.com/muhittincamdali/reviewready/releases"><picture><source media="(prefers-color-scheme: dark)" srcset="https://raw.githubusercontent.com/muhittincamdali/reviewready/main/.github/brand/badge-version-dark.svg"><source media="(prefers-color-scheme: light)" srcset="https://raw.githubusercontent.com/muhittincamdali/reviewready/main/.github/brand/badge-version-light.svg"><img src="https://raw.githubusercontent.com/muhittincamdali/reviewready/main/.github/brand/badge-version-light.svg" alt="Aktuelle Version: v0.1.0"></picture></a>
+<a href="https://github.com/muhittincamdali/reviewready/releases"><picture><source media="(prefers-color-scheme: dark)" srcset="https://raw.githubusercontent.com/muhittincamdali/reviewready/main/.github/brand/badge-version-dark.svg"><source media="(prefers-color-scheme: light)" srcset="https://raw.githubusercontent.com/muhittincamdali/reviewready/main/.github/brand/badge-version-light.svg"><img src="https://raw.githubusercontent.com/muhittincamdali/reviewready/main/.github/brand/badge-version-light.svg" alt="Aktuelle Version: v0.1.1"></picture></a>
 <a href="https://github.com/muhittincamdali/reviewready/blob/main/package.json"><picture><source media="(prefers-color-scheme: dark)" srcset="https://raw.githubusercontent.com/muhittincamdali/reviewready/main/.github/brand/badge-language-dark.svg"><source media="(prefers-color-scheme: light)" srcset="https://raw.githubusercontent.com/muhittincamdali/reviewready/main/.github/brand/badge-language-light.svg"><img src="https://raw.githubusercontent.com/muhittincamdali/reviewready/main/.github/brand/badge-language-light.svg" alt="Sprachversion: Node.js 22.12+"></picture></a>
 <a href="https://github.com/muhittincamdali/reviewready/blob/main/LICENSE"><picture><source media="(prefers-color-scheme: dark)" srcset="https://raw.githubusercontent.com/muhittincamdali/reviewready/main/.github/brand/badge-license-dark.svg"><source media="(prefers-color-scheme: light)" srcset="https://raw.githubusercontent.com/muhittincamdali/reviewready/main/.github/brand/badge-license-light.svg"><img src="https://raw.githubusercontent.com/muhittincamdali/reviewready/main/.github/brand/badge-license-light.svg" alt="Lizenz: MIT"></picture></a>
 </p>
@@ -44,7 +44,7 @@ Ablehnungen durch App Review, die die Dateien eines Projekts bereits verraten (e
 **1. Installiere reviewready.** Du brauchst [Node.js](https://nodejs.org/) 22.12 oder neuer (`node --version` zeigt die Version an; auf einem Mac installiert `brew install node` es). Installiere dann das Paket aus seinem [GitHub-Release](https://github.com/muhittincamdali/reviewready/releases):
 
 ```sh
-npm i -g https://github.com/muhittincamdali/reviewready/releases/download/v0.1.0/reviewready-0.1.0.tgz
+npm i -g https://github.com/muhittincamdali/reviewready/releases/download/v0.1.1/reviewready-0.1.1.tgz
 ```
 
 **2. Öffne ein Terminal im Ordner deiner App**, in dem die `.xcodeproj`, `pubspec.yaml` oder `package.json` liegt:
@@ -104,7 +104,7 @@ Die vollständige Ausgabe beider Läufe liegt in [docs/media/simulator](docs/med
 Der Befehl unter „Schnellstart“ installiert den Befehl `reviewready` aus dem Release-Tarball. So fügst du ihn stattdessen einem Projekt hinzu:
 
 ```sh
-npm install --save-dev https://github.com/muhittincamdali/reviewready/releases/download/v0.1.0/reviewready-0.1.0.tgz
+npm install --save-dev https://github.com/muhittincamdali/reviewready/releases/download/v0.1.1/reviewready-0.1.1.tgz
 ```
 
 `npx reviewready` führt dann diese Kopie aus. Das Paket heißt `@mcamdali/reviewready`, den Namen, den die JavaScript-API weiter unten importiert. Jedes GitHub-Release enthält das Paket als `reviewready-<version>.tgz` mit einer Datei `SHA256SUMS` zum Überprüfen.
@@ -172,7 +172,7 @@ Die Terminal-Aufzeichnungen stammen vom CLI an den [Fixtures](fixtures/README.md
 | UIKit-App, die alle Prüfungen besteht                                              | [hell](docs/media/demo-native-ready-light.svg) · [dunkel](docs/media/demo-native-ready-dark.svg)                                                      |
 | `scripts/simulator-check.sh` unter iOS 27.0, ohne und mit den Lösungen             | [fehlend](docs/media/demo-simulator-contacts-probe-missing-27.0-light.svg) · [behoben](docs/media/demo-simulator-contacts-probe-fixed-27.0-light.svg) |
 
-Gemessen am 28. Oktober 2026 auf einem Mac (Apple silicon, M5 Max) mit Node.js 26.12: drei Durchgänge zu je 100 Läufen von `node dist/cli/main.js --json` über die sechs Fixtures, einschließlich des Node.js-Starts. Die Mediane der drei Durchgänge betrugen 0,110, 0,112 und 0,109 Sekunden; der langsamste Lauf dauerte 0,24 Sekunden. Die Testsuite umfasst 324 Tests (`npm test`, derselbe Rechner).
+Gemessen am 28. Oktober 2026 auf einem Mac (Apple silicon, M5 Max) mit Node.js 26.12: drei Durchgänge zu je 100 Läufen von `node dist/cli/main.js --json` über die sechs Fixtures, einschließlich des Node.js-Starts. Die Mediane der drei Durchgänge betrugen 0,113, 0,111 und 0,112 Sekunden; der langsamste Lauf dauerte 0,19 Sekunden. Die Testsuite umfasst 331 Tests (`npm test`, derselbe Rechner).
 
 ## Status
 

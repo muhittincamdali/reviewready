@@ -22,10 +22,10 @@ errors:
 ```yaml
 - name: Download reviewready and check its checksum
   env:
-    RELEASE: https://github.com/muhittincamdali/reviewready/releases/download/v0.1.0
+    RELEASE: https://github.com/muhittincamdali/reviewready/releases/download/v0.1.1
   run: |
     cd "$RUNNER_TEMP"
-    curl -fsSL --retry 3 -o reviewready-0.1.0.tgz "$RELEASE/reviewready-0.1.0.tgz"
+    curl -fsSL --retry 3 -o reviewready-0.1.1.tgz "$RELEASE/reviewready-0.1.1.tgz"
     curl -fsSL --retry 3 -o SHA256SUMS "$RELEASE/SHA256SUMS"
     sha256sum --check --strict SHA256SUMS
 
@@ -33,7 +33,7 @@ errors:
   run: |
     status=0
     report="$RUNNER_TEMP/reviewready.md"
-    npx --yes --package="$RUNNER_TEMP/reviewready-0.1.0.tgz" \
+    npx --yes --package="$RUNNER_TEMP/reviewready-0.1.1.tgz" \
       reviewready --format markdown --output "$report" --fail-on error || status=$?
     if [ -f "$report" ]; then cat "$report" >> "$GITHUB_STEP_SUMMARY"; fi
     exit "$status"

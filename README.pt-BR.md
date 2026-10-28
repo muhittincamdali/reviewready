@@ -1,4 +1,4 @@
-<!-- i18n-source: README.md@c0610d626f9553775dd81adce891cf04a8f1bf4a status=reviewed -->
+<!-- i18n-source: README.md@8664c42f034f901757599afc006cc06fa47c80ca status=reviewed -->
 <!-- brand:start -->
 
 <p align="center"><picture><source media="(prefers-color-scheme: dark)" srcset="https://raw.githubusercontent.com/muhittincamdali/reviewready/main/.github/brand/banner-dark.svg"><source media="(prefers-color-scheme: light)" srcset="https://raw.githubusercontent.com/muhittincamdali/reviewready/main/.github/brand/banner-light.svg"><img src="https://raw.githubusercontent.com/muhittincamdali/reviewready/main/.github/brand/banner-light.svg" alt="reviewready: detecta no CI as rejeições do App Review antes de você enviar o app, com a fonte da Apple de cada regra e a correção."></picture></p>
@@ -9,7 +9,7 @@
 
 <p align="center">
 <a href="https://github.com/muhittincamdali/reviewready/actions/workflows/ci.yml"><img src="https://github.com/muhittincamdali/reviewready/actions/workflows/ci.yml/badge.svg" alt="Status da CI"></a>
-<a href="https://github.com/muhittincamdali/reviewready/releases"><picture><source media="(prefers-color-scheme: dark)" srcset="https://raw.githubusercontent.com/muhittincamdali/reviewready/main/.github/brand/badge-version-dark.svg"><source media="(prefers-color-scheme: light)" srcset="https://raw.githubusercontent.com/muhittincamdali/reviewready/main/.github/brand/badge-version-light.svg"><img src="https://raw.githubusercontent.com/muhittincamdali/reviewready/main/.github/brand/badge-version-light.svg" alt="Versão mais recente: v0.1.0"></picture></a>
+<a href="https://github.com/muhittincamdali/reviewready/releases"><picture><source media="(prefers-color-scheme: dark)" srcset="https://raw.githubusercontent.com/muhittincamdali/reviewready/main/.github/brand/badge-version-dark.svg"><source media="(prefers-color-scheme: light)" srcset="https://raw.githubusercontent.com/muhittincamdali/reviewready/main/.github/brand/badge-version-light.svg"><img src="https://raw.githubusercontent.com/muhittincamdali/reviewready/main/.github/brand/badge-version-light.svg" alt="Versão mais recente: v0.1.1"></picture></a>
 <a href="https://github.com/muhittincamdali/reviewready/blob/main/package.json"><picture><source media="(prefers-color-scheme: dark)" srcset="https://raw.githubusercontent.com/muhittincamdali/reviewready/main/.github/brand/badge-language-dark.svg"><source media="(prefers-color-scheme: light)" srcset="https://raw.githubusercontent.com/muhittincamdali/reviewready/main/.github/brand/badge-language-light.svg"><img src="https://raw.githubusercontent.com/muhittincamdali/reviewready/main/.github/brand/badge-language-light.svg" alt="Versão da linguagem: Node.js 22.12+"></picture></a>
 <a href="https://github.com/muhittincamdali/reviewready/blob/main/LICENSE"><picture><source media="(prefers-color-scheme: dark)" srcset="https://raw.githubusercontent.com/muhittincamdali/reviewready/main/.github/brand/badge-license-dark.svg"><source media="(prefers-color-scheme: light)" srcset="https://raw.githubusercontent.com/muhittincamdali/reviewready/main/.github/brand/badge-license-light.svg"><img src="https://raw.githubusercontent.com/muhittincamdali/reviewready/main/.github/brand/badge-license-light.svg" alt="Licença: MIT"></picture></a>
 </p>
@@ -44,7 +44,7 @@ Rejeições do App Review que os arquivos de um projeto já mostram (uma string 
 **1. Instale o reviewready.** Você precisa do [Node.js](https://nodejs.org/) 22.12 ou posterior (`node --version` mostra a versão; no Mac, `brew install node` instala). Depois, instale o pacote a partir do [release no GitHub](https://github.com/muhittincamdali/reviewready/releases):
 
 ```sh
-npm i -g https://github.com/muhittincamdali/reviewready/releases/download/v0.1.0/reviewready-0.1.0.tgz
+npm i -g https://github.com/muhittincamdali/reviewready/releases/download/v0.1.1/reviewready-0.1.1.tgz
 ```
 
 **2. Abra um terminal na pasta do seu app**, aquela com o `.xcodeproj`, o `pubspec.yaml` ou o `package.json`:
@@ -104,7 +104,7 @@ A saída completa das duas execuções está em [docs/media/simulator](docs/medi
 O comando do Início rápido instala o comando `reviewready` a partir do tarball do release. Para adicioná-lo a um projeto:
 
 ```sh
-npm install --save-dev https://github.com/muhittincamdali/reviewready/releases/download/v0.1.0/reviewready-0.1.0.tgz
+npm install --save-dev https://github.com/muhittincamdali/reviewready/releases/download/v0.1.1/reviewready-0.1.1.tgz
 ```
 
 O `npx reviewready` passa a executar essa cópia. O nome do pacote é `@mcamdali/reviewready`, o nome que a API JavaScript abaixo importa. Cada release do GitHub traz o pacote como `reviewready-<version>.tgz`, com um arquivo `SHA256SUMS` para verificá-lo.
@@ -172,7 +172,7 @@ As gravações de terminal vêm da CLI sobre os [fixtures](fixtures/README.md), 
 | App UIKit que passa em todas as verificações                                     | [claro](docs/media/demo-native-ready-light.svg) · [escuro](docs/media/demo-native-ready-dark.svg)                                                       |
 | `scripts/simulator-check.sh` no iOS 27.0, sem e com as correções                 | [ausente](docs/media/demo-simulator-contacts-probe-missing-27.0-light.svg) · [corrigido](docs/media/demo-simulator-contacts-probe-fixed-27.0-light.svg) |
 
-Medido em 28 de outubro de 2026 em um Mac (Apple silicon, M5 Max) com Node.js 26.12: três séries de 100 execuções de `node dist/cli/main.js --json` sobre os seis fixtures, incluindo a inicialização do Node.js. As medianas das três séries foram 0,110, 0,112 e 0,109 segundo; a execução mais lenta levou 0,24 segundo. A suíte de testes tem 324 testes (`npm test`, na mesma máquina).
+Medido em 28 de outubro de 2026 em um Mac (Apple silicon, M5 Max) com Node.js 26.12: três séries de 100 execuções de `node dist/cli/main.js --json` sobre os seis fixtures, incluindo a inicialização do Node.js. As medianas das três séries foram 0,113, 0,111 e 0,112 segundo; a execução mais lenta levou 0,19 segundo. A suíte de testes tem 331 testes (`npm test`, na mesma máquina).
 
 ## Status
 

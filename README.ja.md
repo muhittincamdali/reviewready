@@ -1,4 +1,4 @@
-<!-- i18n-source: README.md@c0610d626f9553775dd81adce891cf04a8f1bf4a status=reviewed -->
+<!-- i18n-source: README.md@8664c42f034f901757599afc006cc06fa47c80ca status=reviewed -->
 <!-- brand:start -->
 
 <p align="center"><picture><source media="(prefers-color-scheme: dark)" srcset="https://raw.githubusercontent.com/muhittincamdali/reviewready/main/.github/brand/banner-dark.svg"><source media="(prefers-color-scheme: light)" srcset="https://raw.githubusercontent.com/muhittincamdali/reviewready/main/.github/brand/banner-light.svg"><img src="https://raw.githubusercontent.com/muhittincamdali/reviewready/main/.github/brand/banner-light.svg" alt="reviewready：提出前に CI で App Review のリジェクト要因を検出し、各ルールの根拠となる Apple のページと対処方法を示します。"></picture></p>
@@ -9,7 +9,7 @@
 
 <p align="center">
 <a href="https://github.com/muhittincamdali/reviewready/actions/workflows/ci.yml"><img src="https://github.com/muhittincamdali/reviewready/actions/workflows/ci.yml/badge.svg" alt="CI ステータス"></a>
-<a href="https://github.com/muhittincamdali/reviewready/releases"><picture><source media="(prefers-color-scheme: dark)" srcset="https://raw.githubusercontent.com/muhittincamdali/reviewready/main/.github/brand/badge-version-dark.svg"><source media="(prefers-color-scheme: light)" srcset="https://raw.githubusercontent.com/muhittincamdali/reviewready/main/.github/brand/badge-version-light.svg"><img src="https://raw.githubusercontent.com/muhittincamdali/reviewready/main/.github/brand/badge-version-light.svg" alt="最新バージョン: v0.1.0"></picture></a>
+<a href="https://github.com/muhittincamdali/reviewready/releases"><picture><source media="(prefers-color-scheme: dark)" srcset="https://raw.githubusercontent.com/muhittincamdali/reviewready/main/.github/brand/badge-version-dark.svg"><source media="(prefers-color-scheme: light)" srcset="https://raw.githubusercontent.com/muhittincamdali/reviewready/main/.github/brand/badge-version-light.svg"><img src="https://raw.githubusercontent.com/muhittincamdali/reviewready/main/.github/brand/badge-version-light.svg" alt="最新バージョン: v0.1.1"></picture></a>
 <a href="https://github.com/muhittincamdali/reviewready/blob/main/package.json"><picture><source media="(prefers-color-scheme: dark)" srcset="https://raw.githubusercontent.com/muhittincamdali/reviewready/main/.github/brand/badge-language-dark.svg"><source media="(prefers-color-scheme: light)" srcset="https://raw.githubusercontent.com/muhittincamdali/reviewready/main/.github/brand/badge-language-light.svg"><img src="https://raw.githubusercontent.com/muhittincamdali/reviewready/main/.github/brand/badge-language-light.svg" alt="言語バージョン: Node.js 22.12+"></picture></a>
 <a href="https://github.com/muhittincamdali/reviewready/blob/main/LICENSE"><picture><source media="(prefers-color-scheme: dark)" srcset="https://raw.githubusercontent.com/muhittincamdali/reviewready/main/.github/brand/badge-license-dark.svg"><source media="(prefers-color-scheme: light)" srcset="https://raw.githubusercontent.com/muhittincamdali/reviewready/main/.github/brand/badge-license-light.svg"><img src="https://raw.githubusercontent.com/muhittincamdali/reviewready/main/.github/brand/badge-license-light.svg" alt="ライセンス: MIT"></picture></a>
 </p>
@@ -45,7 +45,7 @@ fixture</a> で、テスト用に書かれた、ルールごとに 1 つの問�
 **1. reviewready をインストールします。** [Node.js](https://nodejs.org/) 22.12 以降が必要です（`node --version` で確認できます。Mac では `brew install node` でインストールできます）。続いて、[GitHub リリース](https://github.com/muhittincamdali/reviewready/releases)からパッケージをインストールします。
 
 ```sh
-npm i -g https://github.com/muhittincamdali/reviewready/releases/download/v0.1.0/reviewready-0.1.0.tgz
+npm i -g https://github.com/muhittincamdali/reviewready/releases/download/v0.1.1/reviewready-0.1.1.tgz
 ```
 
 **2. アプリのフォルダでターミナルを開きます。** `.xcodeproj`、`pubspec.yaml`、`package.json` のいずれかがあるフォルダです。
@@ -105,7 +105,7 @@ RVW301 と RVW401 は、アプリの呼び出し、文字列、パッケージ�
 「クイックスタート」のコマンドは、リリースの tarball から `reviewready` コマンドをインストールします。代わりにプロジェクトへ追加する場合は次のとおりです。
 
 ```sh
-npm install --save-dev https://github.com/muhittincamdali/reviewready/releases/download/v0.1.0/reviewready-0.1.0.tgz
+npm install --save-dev https://github.com/muhittincamdali/reviewready/releases/download/v0.1.1/reviewready-0.1.1.tgz
 ```
 
 以降は `npx reviewready` がそのコピーを実行します。パッケージ名は `@mcamdali/reviewready` で、後述の JavaScript API が import する名前です。各 GitHub リリースには、パッケージが `reviewready-<version>.tgz` として、検証用の `SHA256SUMS` ファイルとともに添付されています。
@@ -173,7 +173,7 @@ console.log(render(report, 'markdown'));
 | すべてのチェックに合格する UIKit アプリ                                               | [ライト](docs/media/demo-native-ready-light.svg) · [ダーク](docs/media/demo-native-ready-dark.svg)                                                  |
 | iOS 27.0 での `scripts/simulator-check.sh`、修正なしと修正あり                        | [修正前](docs/media/demo-simulator-contacts-probe-missing-27.0-light.svg) · [修正後](docs/media/demo-simulator-contacts-probe-fixed-27.0-light.svg) |
 
-2026 年 10 月 28 日に、Mac（Apple silicon、M5 Max）と Node.js 26.12 で計測しました。6 つのフィクスチャに対して `node dist/cli/main.js --json` を 100 回実行するセットを 3 回行い、Node.js の起動時間を含みます。3 セットの中央値は 0.110 秒、0.112 秒、0.109 秒で、最も遅かった実行は 0.24 秒でした。テストスイートには 324 件のテストがあります（`npm test`、同じマシン）。
+2026 年 10 月 28 日に、Mac（Apple silicon、M5 Max）と Node.js 26.12 で計測しました。6 つのフィクスチャに対して `node dist/cli/main.js --json` を 100 回実行するセットを 3 回行い、Node.js の起動時間を含みます。3 セットの中央値は 0.113 秒、0.111 秒、0.112 秒で、最も遅かった実行は 0.19 秒でした。テストスイートには 331 件のテストがあります（`npm test`、同じマシン）。
 
 ## ステータス
 

@@ -1,4 +1,4 @@
-<!-- i18n-source: README.md@c0610d626f9553775dd81adce891cf04a8f1bf4a status=reviewed -->
+<!-- i18n-source: README.md@8664c42f034f901757599afc006cc06fa47c80ca status=reviewed -->
 <!-- brand:start -->
 
 <p align="center"><picture><source media="(prefers-color-scheme: dark)" srcset="https://raw.githubusercontent.com/muhittincamdali/reviewready/main/.github/brand/banner-dark.svg"><source media="(prefers-color-scheme: light)" srcset="https://raw.githubusercontent.com/muhittincamdali/reviewready/main/.github/brand/banner-light.svg"><img src="https://raw.githubusercontent.com/muhittincamdali/reviewready/main/.github/brand/banner-light.svg" alt="reviewready : repère en CI les rejets d’App Review avant l’envoi, avec la source Apple de chaque règle et la correction."></picture></p>
@@ -9,7 +9,7 @@
 
 <p align="center">
 <a href="https://github.com/muhittincamdali/reviewready/actions/workflows/ci.yml"><img src="https://github.com/muhittincamdali/reviewready/actions/workflows/ci.yml/badge.svg" alt="État de la CI"></a>
-<a href="https://github.com/muhittincamdali/reviewready/releases"><picture><source media="(prefers-color-scheme: dark)" srcset="https://raw.githubusercontent.com/muhittincamdali/reviewready/main/.github/brand/badge-version-dark.svg"><source media="(prefers-color-scheme: light)" srcset="https://raw.githubusercontent.com/muhittincamdali/reviewready/main/.github/brand/badge-version-light.svg"><img src="https://raw.githubusercontent.com/muhittincamdali/reviewready/main/.github/brand/badge-version-light.svg" alt="Dernière version: v0.1.0"></picture></a>
+<a href="https://github.com/muhittincamdali/reviewready/releases"><picture><source media="(prefers-color-scheme: dark)" srcset="https://raw.githubusercontent.com/muhittincamdali/reviewready/main/.github/brand/badge-version-dark.svg"><source media="(prefers-color-scheme: light)" srcset="https://raw.githubusercontent.com/muhittincamdali/reviewready/main/.github/brand/badge-version-light.svg"><img src="https://raw.githubusercontent.com/muhittincamdali/reviewready/main/.github/brand/badge-version-light.svg" alt="Dernière version: v0.1.1"></picture></a>
 <a href="https://github.com/muhittincamdali/reviewready/blob/main/package.json"><picture><source media="(prefers-color-scheme: dark)" srcset="https://raw.githubusercontent.com/muhittincamdali/reviewready/main/.github/brand/badge-language-dark.svg"><source media="(prefers-color-scheme: light)" srcset="https://raw.githubusercontent.com/muhittincamdali/reviewready/main/.github/brand/badge-language-light.svg"><img src="https://raw.githubusercontent.com/muhittincamdali/reviewready/main/.github/brand/badge-language-light.svg" alt="Version du langage: Node.js 22.12+"></picture></a>
 <a href="https://github.com/muhittincamdali/reviewready/blob/main/LICENSE"><picture><source media="(prefers-color-scheme: dark)" srcset="https://raw.githubusercontent.com/muhittincamdali/reviewready/main/.github/brand/badge-license-dark.svg"><source media="(prefers-color-scheme: light)" srcset="https://raw.githubusercontent.com/muhittincamdali/reviewready/main/.github/brand/badge-license-light.svg"><img src="https://raw.githubusercontent.com/muhittincamdali/reviewready/main/.github/brand/badge-license-light.svg" alt="Licence: MIT"></picture></a>
 </p>
@@ -44,7 +44,7 @@ Les rejets d’App Review que les fichiers d’un projet laissent déjà voir (u
 **1. Installez reviewready.** Vous avez besoin de [Node.js](https://nodejs.org/) 22.12 ou plus récent (`node --version` affiche la version ; sur un Mac, `brew install node` l’installe). Installez ensuite le paquet depuis sa [release GitHub](https://github.com/muhittincamdali/reviewready/releases) :
 
 ```sh
-npm i -g https://github.com/muhittincamdali/reviewready/releases/download/v0.1.0/reviewready-0.1.0.tgz
+npm i -g https://github.com/muhittincamdali/reviewready/releases/download/v0.1.1/reviewready-0.1.1.tgz
 ```
 
 **2. Ouvrez un terminal dans le dossier de votre app**, celui qui contient le `.xcodeproj`, `pubspec.yaml` ou `package.json` :
@@ -104,7 +104,7 @@ La sortie complète des deux exécutions se trouve dans [docs/media/simulator](d
 La commande du Démarrage rapide installe la commande `reviewready` depuis l’archive tarball de la release. Pour l’ajouter plutôt à un projet :
 
 ```sh
-npm install --save-dev https://github.com/muhittincamdali/reviewready/releases/download/v0.1.0/reviewready-0.1.0.tgz
+npm install --save-dev https://github.com/muhittincamdali/reviewready/releases/download/v0.1.1/reviewready-0.1.1.tgz
 ```
 
 `npx reviewready` exécute ensuite cette copie. Le paquet s’appelle `@mcamdali/reviewready`, le nom qu’importe l’API JavaScript ci-dessous. Chaque release GitHub contient le paquet sous la forme `reviewready-<version>.tgz`, avec un fichier `SHA256SUMS` pour le vérifier.
@@ -172,7 +172,7 @@ Les enregistrements du terminal viennent de la CLI sur les [fixtures](fixtures/R
 | App UIKit qui réussit toutes les vérifications                                     | [clair](docs/media/demo-native-ready-light.svg) · [sombre](docs/media/demo-native-ready-dark.svg)                                                      |
 | `scripts/simulator-check.sh` sous iOS 27.0, sans puis avec les corrections         | [manquant](docs/media/demo-simulator-contacts-probe-missing-27.0-light.svg) · [corrigé](docs/media/demo-simulator-contacts-probe-fixed-27.0-light.svg) |
 
-Mesuré le 28 octobre 2026 sur un Mac (Apple silicon, M5 Max) avec Node.js 26.12 : trois séries de 100 exécutions de `node dist/cli/main.js --json` sur les six fixtures, démarrage de Node.js compris. Les médianes des trois séries étaient de 0,110, 0,112 et 0,109 seconde ; l’exécution la plus lente a pris 0,24 seconde. La suite de tests compte 324 tests (`npm test`, même machine).
+Mesuré le 28 octobre 2026 sur un Mac (Apple silicon, M5 Max) avec Node.js 26.12 : trois séries de 100 exécutions de `node dist/cli/main.js --json` sur les six fixtures, démarrage de Node.js compris. Les médianes des trois séries étaient de 0,113, 0,111 et 0,112 seconde ; l’exécution la plus lente a pris 0,19 seconde. La suite de tests compte 331 tests (`npm test`, même machine).
 
 ## Statut
 
