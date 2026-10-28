@@ -20,11 +20,20 @@ reads, adds the Markdown report to the job summary, keeps it as an artifact and 
 errors:
 
 ```yaml
+- name: Download reviewready and check its checksum
+  env:
+    RELEASE: https://github.com/muhittincamdali/reviewready/releases/download/v0.1.0
+  run: |
+    cd "$RUNNER_TEMP"
+    curl -fsSL --retry 3 -o reviewready-0.1.0.tgz "$RELEASE/reviewready-0.1.0.tgz"
+    curl -fsSL --retry 3 -o SHA256SUMS "$RELEASE/SHA256SUMS"
+    sha256sum --check --strict SHA256SUMS
+
 - name: Check for App Review rejections
   run: |
     status=0
     report="$RUNNER_TEMP/reviewready.md"
-    npx --yes --package=https://github.com/muhittincamdali/reviewready/releases/download/v0.1.0/reviewready-0.1.0.tgz \
+    npx --yes --package="$RUNNER_TEMP/reviewready-0.1.0.tgz" \
       reviewready --format markdown --output "$report" --fail-on error || status=$?
     if [ -f "$report" ]; then cat "$report" >> "$GITHUB_STEP_SUMMARY"; fi
     exit "$status"
@@ -33,7 +42,9 @@ errors:
 The report goes to `$RUNNER_TEMP`, not the checkout: the checkout holds the pull request's files,
 and one of them can be a `reviewready.md` that is a symbolic link to a file outside it.
 
-It installs reviewready from the GitHub release tarball; publishing the package to npm as
+It installs reviewready from the GitHub release tarball, and only after `sha256sum --check` has
+matched it against the `SHA256SUMS` file of the same release, so a corrupted or cut-off download
+stops the job; publishing the package to npm as
 `@mcamdali/reviewready` is planned. reviewready only reads files, so the job runs on Linux: it
 does not need Xcode, a simulator or a build.
 
