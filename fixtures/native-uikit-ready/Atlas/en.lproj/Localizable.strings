@@ -1,0 +1,4 @@
+"route.title" = "Route";
+"account.title" = "Account";
+"account.delete" = "Delete account";
+"account.delete.confirm" = "This deletes your account and your routes. It cannot be undone.";
