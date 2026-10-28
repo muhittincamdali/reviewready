@@ -76,11 +76,15 @@ jobs:
       - name: Check for App Review rejections
         run: |
           status=0
+          # The report goes to the runner's temp folder, not the checkout: a pull request can add a
+          # reviewready.md that is a symbolic link to a file outside it.
+          report="$RUNNER_TEMP/reviewready.md"
+          rm -f "$report"
           npx --yes --package=https://github.com/muhittincamdali/reviewready/releases/download/v0.1.0/reviewready-0.1.0.tgz \
-            reviewready --format markdown --output reviewready.md --fail-on error || status=$?
+            reviewready --format markdown --output "$report" --fail-on error || status=$?
           # Exit code 2 (the project could not be read) can come without a report.
-          if [ -f reviewready.md ]; then
-            cat reviewready.md >> "$GITHUB_STEP_SUMMARY"
+          if [ -f "$report" ]; then
+            cat "$report" >> "$GITHUB_STEP_SUMMARY"
           else
             echo "reviewready exited with $status and wrote no report; see the step log." >> "$GITHUB_STEP_SUMMARY"
           fi
@@ -90,5 +94,5 @@ jobs:
         if: always()
         with:
           name: reviewready-report
-          path: reviewready.md
+          path: ${{ runner.temp }}/reviewready.md
           if-no-files-found: ignore

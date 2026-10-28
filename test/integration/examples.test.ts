@@ -1,5 +1,5 @@
 import { execFileSync, spawnSync } from 'node:child_process';
-import { readFileSync } from 'node:fs';
+import { readFileSync, symlinkSync, writeFileSync } from 'node:fs';
 import { join } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { describe, expect, it } from 'vitest';
@@ -62,13 +62,14 @@ describe('examples/github-actions/reviewready.yml', () => {
       `node ${JSON.stringify(join(ROOT, 'dist/cli/main.js'))} "$CHECK"`,
     );
 
-  const runStep = (check: string) => {
-    const cwd = scratchDir('action');
-    const summary = join(cwd, 'summary.md');
+  // `cwd` stands for the checkout (the pull request's files), `temp` for $RUNNER_TEMP.
+  const runStep = (check: string, cwd = scratchDir('action')) => {
+    const temp = scratchDir('runner-temp');
+    const summary = join(temp, 'summary.md');
     const result = spawnSync('bash', ['-e', '-c', script], {
       cwd,
       encoding: 'utf8',
-      env: { ...process.env, CHECK: check, GITHUB_STEP_SUMMARY: summary },
+      env: { ...process.env, CHECK: check, GITHUB_STEP_SUMMARY: summary, RUNNER_TEMP: temp },
     });
     return { status: result.status, summary: readFileSync(summary, 'utf8') };
   };
@@ -104,8 +105,9 @@ describe('examples/github-actions/reviewready.yml', () => {
     expect(workflow).toMatch(/^ {4}timeout-minutes: 10$/m);
     expect(script).not.toContain('npx');
     expect(script).toContain(
-      '"$CHECK" --format markdown --output reviewready.md --fail-on error || status=$?',
+      '"$CHECK" --format markdown --output "$report" --fail-on error || status=$?',
     );
+    expect(workflow).toMatch(/^ {10}path: \$\{\{ runner\.temp \}\}\/reviewready\.md$/m);
   });
 
   it('adds the report to the summary and fails the job on errors', () => {
@@ -124,5 +126,17 @@ describe('examples/github-actions/reviewready.yml', () => {
     const { status, summary } = runStep(scratchDir('empty'));
     expect(status).toBe(2);
     expect(summary).toBe('reviewready exited with 2 and wrote no report; see the step log.\n');
+  });
+
+  it('does not read or write a reviewready.md link the pull request adds to the checkout', () => {
+    const checkout = scratchDir('checkout');
+    const secret = join(scratchDir('outside'), 'secret.txt');
+    writeFileSync(secret, 'runner secret\n');
+    symlinkSync(secret, join(checkout, 'reviewready.md'));
+    for (const check of [join(ROOT, 'fixtures/native-swiftui-rejected'), scratchDir('empty')]) {
+      const { summary } = runStep(check, checkout);
+      expect(summary).not.toContain('runner secret');
+    }
+    expect(readFileSync(secret, 'utf8')).toBe('runner secret\n');
   });
 });

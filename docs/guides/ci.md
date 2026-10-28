@@ -23,11 +23,15 @@ errors:
 - name: Check for App Review rejections
   run: |
     status=0
+    report="$RUNNER_TEMP/reviewready.md"
     npx --yes --package=https://github.com/muhittincamdali/reviewready/releases/download/v0.1.0/reviewready-0.1.0.tgz \
-      reviewready --format markdown --output reviewready.md --fail-on error || status=$?
-    if [ -f reviewready.md ]; then cat reviewready.md >> "$GITHUB_STEP_SUMMARY"; fi
+      reviewready --format markdown --output "$report" --fail-on error || status=$?
+    if [ -f "$report" ]; then cat "$report" >> "$GITHUB_STEP_SUMMARY"; fi
     exit "$status"
 ```
+
+The report goes to `$RUNNER_TEMP`, not the checkout: the checkout holds the pull request's files,
+and one of them can be a `reviewready.md` that is a symbolic link to a file outside it.
 
 It installs reviewready from the GitHub release tarball; publishing the package to npm as
 `@mcamdali/reviewready` is planned. reviewready only reads files, so the job runs on Linux: it
