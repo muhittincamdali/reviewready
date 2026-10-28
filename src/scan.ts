@@ -61,8 +61,9 @@ function byPlace(left: Finding, right: Finding): number {
 }
 
 /**
- * The one-line verdict. `appKnown` is false when the app's Xcode project or Expo config could not
- * be read: then the app is never called ready, whatever else was found.
+ * The one-line verdict. `appKnown` is false when part of the app could not be read (its Xcode
+ * project, Expo config or Info.plist, or a source folder): then the app is never called ready,
+ * whatever else was found.
  */
 export function verdictOf(findings: readonly Finding[], appKnown = true): Verdict {
   const errors = findings.filter((item) => item.severity === 'error').length;
@@ -77,7 +78,7 @@ export function verdictOf(findings: readonly Finding[], appKnown = true): Verdic
   if (!appKnown) {
     return {
       code: 'not-known',
-      text: `Not known: the app's project or config could not be read (see the notes)${andWarnings}`,
+      text: `Not known: part of the app could not be read (see the notes)${andWarnings}`,
     };
   }
   if (warnings > 0) {
@@ -144,7 +145,9 @@ export async function scan(path: string, options: ScanOptions = {}): Promise<Rep
     },
     verdict: verdictOf(
       findings,
-      !app.appNotChecked && !app.targets.some((target) => target.unreadInfoPlist),
+      !app.appNotChecked &&
+        !app.sourcesNotSearched &&
+        !app.targets.some((target) => target.unreadInfoPlist),
     ),
     findings,
     checks: checkSummaries(findings, outcome.checked, ignored),

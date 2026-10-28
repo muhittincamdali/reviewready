@@ -65,7 +65,7 @@ describe('verdictOf', () => {
     });
     expect(verdictOf([finding('RVW201')], false)).toEqual({
       code: 'not-known',
-      text: "Not known: the app's project or config could not be read (see the notes), and 1 warning to review",
+      text: 'Not known: part of the app could not be read (see the notes), and 1 warning to review',
     });
     expect(verdictOf([finding('RVW201')]).text).toBe('1 warning App Review may flag');
     expect(verdictOf([])).toEqual({

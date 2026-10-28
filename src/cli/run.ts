@@ -46,8 +46,8 @@ export const RELEASE_TARBALL_URL = `${REPOSITORY_URL}/releases/download/v${VERSI
 const HELP_AFTER = `
 Exit codes:
   0  no findings at or above --fail-on
-  1  findings at or above --fail-on, or an app project or config that could not
-     be read (so a rejection in it is not known); not with --fail-on none
+  1  findings at or above --fail-on, or part of the app that could not be read
+     (so a rejection in it is not known); not with --fail-on none
   2  bad arguments, no iOS project found, a report file that could not be
      written, or an unexpected error
 

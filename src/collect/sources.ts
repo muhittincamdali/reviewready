@@ -2,6 +2,7 @@
 // JavaScript and TypeScript of a React Native or Expo app, Dart under a Flutter app's lib/, and the
 // app's localized strings (.strings, .xcstrings, .arb), which hold the words its screens show.
 // Each code file is kept as written and with its comments and string contents blanked out.
+import type { Dirent } from 'node:fs';
 import { readdir, realpath } from 'node:fs/promises';
 import { extname, join, relative, sep } from 'node:path';
 import { isInside, megabytes, readProjectFile } from '../core/files.js';
@@ -47,23 +48,47 @@ const SKIPPED =
 /** Files that are not app code: type declarations, tests, web-only variants and configs. */
 const SKIPPED_FILES = /(\.d\.ts|\.(test|spec)\.[jt]sx?|\.web\.[jt]sx?|\.config\.[cm]?[jt]s)$/;
 
-const MAX_DEPTH = 12;
+/** Folder levels searched below a source root; a hostile project could nest folders without end. */
+export const MAX_DEPTH = 12;
+
+/** Errors that mean a folder has nothing to list, not that its files are unknown. */
+const NOTHING_TO_LIST = new Set(['ENOENT', 'ENOTDIR']);
+
+export interface SourceListing {
+  /** The source files found, sorted. */
+  files: string[];
+  /** Folders deeper than MAX_DEPTH, which were not searched. */
+  tooDeep: string[];
+  /** Folders that could not be listed, for example for lack of permission. */
+  unreadable: string[];
+}
 
 /**
  * Every file with one of `languages` under `folder`, skipping dependencies, builds, tests and the
- * other platforms' folders. `folder` itself may be one of those names (for example ios/).
+ * other platforms' folders. `folder` itself may be one of those names (for example ios/). The
+ * folders it could not search are returned with the files, so the report can say what it missed.
  */
 export async function listSourceFiles(
   folder: string,
   languages: ReadonlySet<Language>,
-): Promise<string[]> {
+): Promise<SourceListing> {
   const found: string[] = [];
+  const tooDeep: string[] = [];
+  const unreadable: string[] = [];
   const walk = async (dir: string, depth: number) => {
-    if (depth > MAX_DEPTH) return;
-    const entries = await readdir(dir, { withFileTypes: true }).catch(() => []);
+    let entries: Dirent[];
+    try {
+      entries = await readdir(dir, { withFileTypes: true });
+    } catch (error) {
+      if (!NOTHING_TO_LIST.has((error as NodeJS.ErrnoException).code ?? '')) unreadable.push(dir);
+      return;
+    }
     for (const entry of entries) {
       if (entry.isDirectory()) {
-        if (!SKIPPED.test(entry.name)) await walk(join(dir, entry.name), depth + 1);
+        if (SKIPPED.test(entry.name)) continue;
+        const child = join(dir, entry.name);
+        if (depth >= MAX_DEPTH) tooDeep.push(child);
+        else await walk(child, depth + 1);
         continue;
       }
       const language = EXTENSIONS[extname(entry.name)];
@@ -78,7 +103,7 @@ export async function listSourceFiles(
     }
   };
   await walk(folder, 0);
-  return found.sort();
+  return { files: found.sort(), tooDeep: tooDeep.sort(), unreadable: unreadable.sort() };
 }
 
 export function sourceFile(path: string, text: string): SourceFile {
@@ -124,15 +149,20 @@ const NAMED_IN_NOTE = 3;
 
 export interface SourceSet {
   files: SourceFile[];
-  /** Files that were not read because of SOURCE_LIMITS, for the report. */
+  /** Files and folders that were not read, for the report. */
   notes: string[];
+  /**
+   * Whether a source folder was too deep or could not be listed. Its files are not known, and one
+   * of them may call an API that needs a purpose string, so the result is not known either.
+   */
+  foldersNotSearched: boolean;
 }
 
 /** "Source files not read (why): a, b, c and 4 more." */
-function skippedNote(paths: string[], why: string): string {
+function skippedNote(paths: string[], why: string, what = 'Source files not read'): string {
   const named = paths.slice(0, NAMED_IN_NOTE).join(', ');
   const rest = paths.length - NAMED_IN_NOTE;
-  return `Source files not read (${why}): ${named}${rest > 0 ? ` and ${rest} more` : ''}.`;
+  return `${what} (${why}): ${named}${rest > 0 ? ` and ${rest} more` : ''}.`;
 }
 
 interface ReadResult {
@@ -214,10 +244,24 @@ export async function readSources(
   const shown = (paths: string[]) => paths.map((path) => shownPath(path, projectRoot));
   const notes: string[] = [];
   const inside = await rootsInside(roots, projectRoot, notes);
-  const lists = await Promise.all(
+  const listings = await Promise.all(
     inside.map((root) => listSourceFiles(root.folder, root.languages)),
   );
-  const paths = [...new Set(lists.flat())].sort();
+  // The project folder itself is relative to itself as "", which a note cannot show.
+  const folders = (paths: string[]) => [
+    ...new Set(shown(paths).map((path) => path || 'the project folder')),
+  ];
+  const tooDeep = folders(listings.flatMap((listing) => listing.tooDeep));
+  const unreadable = folders(listings.flatMap((listing) => listing.unreadable));
+  if (tooDeep.length > 0) {
+    notes.push(
+      skippedNote(tooDeep, `more than ${MAX_DEPTH} levels down`, 'Source folders not searched'),
+    );
+  }
+  if (unreadable.length > 0) {
+    notes.push(skippedNote(unreadable, 'could not be listed', 'Source folders not searched'));
+  }
+  const paths = [...new Set(listings.flatMap((listing) => listing.files))].sort();
   if (paths.length > limits.files) {
     notes.push(
       `The project has ${paths.length} source files; reviewready read the first ${limits.files} by path.`,
@@ -236,5 +280,5 @@ export async function readSources(
       skippedNote(shown(overBudget), `after the first ${megabytes(limits.totalBytes)} of source`),
     );
   }
-  return { files, notes };
+  return { files, notes, foldersNotSearched: tooDeep.length > 0 || unreadable.length > 0 };
 }
