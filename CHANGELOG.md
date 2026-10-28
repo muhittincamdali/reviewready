@@ -7,6 +7,8 @@ All notable changes to reviewready are listed here. The format follows
 
 ## [Unreleased]
 
+## [0.1.1] - 2026-10-28
+
 ### Fixed
 
 - Source files more than 12 folder levels down, or in a folder that could not be listed, were left
@@ -57,5 +59,6 @@ All notable changes to reviewready are listed here. The format follows
 - The GitHub Actions example writes the report to `$RUNNER_TEMP` instead of the checkout and checks
   the release tarball against the release's `SHA256SUMS` before it runs it.
 
-[Unreleased]: https://github.com/muhittincamdali/reviewready/compare/v0.1.0...HEAD
+[Unreleased]: https://github.com/muhittincamdali/reviewready/compare/v0.1.1...HEAD
+[0.1.1]: https://github.com/muhittincamdali/reviewready/compare/v0.1.0...v0.1.1
 [0.1.0]: https://github.com/muhittincamdali/reviewready/releases/tag/v0.1.0

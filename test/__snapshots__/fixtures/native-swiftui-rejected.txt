@@ -1,4 +1,4 @@
-reviewready 0.1.0 · rules app-review@2026.10.28 (sources read 2026-10-28)
+reviewready 0.1.1 · rules app-review@2026.10.28 (sources read 2026-10-28)
 
 Ledger · native iOS · fixtures/native-swiftui-rejected
 Xcode 16.4 pinned · deployment target iOS 12.0
