@@ -1,4 +1,4 @@
-<!-- i18n-source: README.md@e6df98d52e28f2cab4ebd87b40c1410d705319f5 status=reviewed -->
+<!-- i18n-source: README.md@c0610d626f9553775dd81adce891cf04a8f1bf4a status=reviewed -->
 <!-- brand:start -->
 
 <p align="center"><picture><source media="(prefers-color-scheme: dark)" srcset="https://raw.githubusercontent.com/muhittincamdali/reviewready/main/.github/brand/banner-dark.svg"><source media="(prefers-color-scheme: light)" srcset="https://raw.githubusercontent.com/muhittincamdali/reviewready/main/.github/brand/banner-light.svg"><img src="https://raw.githubusercontent.com/muhittincamdali/reviewready/main/.github/brand/banner-light.svg" alt="reviewready：提出前に CI で App Review のリジェクト要因を検出し、各ルールの根拠となる Apple のページと対処方法を示します。"></picture></p>
@@ -127,7 +127,7 @@ reviewready [path] [options]
 | `--brief`               | ターミナルとテキストのレポート：判定と検出結果のみ                          |
 | `--no-color`            | ターミナルでもプレーンテキストにする（`NO_COLOR` と `FORCE_COLOR` に対応）  |
 
-終了コード：`0` は `--fail-on` 以上の項目がないこと、`1` はそれ以上の検出があること、`2` は引数の誤り、iOS プロジェクトが見つからないこと、または予期しないエラーです。Xcode プロジェクト、Info.plist、Expo の設定、ソースフォルダのいずれかを読み取れなかった場合、判定は “Not known” となり、`--fail-on none` を指定しない限り終了コードは `1` になります。reviewready は、読み取っていないファイルをもとにアプリを「準備完了」と判定することはありません。
+終了コード：`0` は `--fail-on` 以上の項目がないこと、`1` はそれ以上の検出があること、`2` は引数の誤り、iOS プロジェクトが見つからないこと、または予期しないエラーです。Xcode プロジェクト、Info.plist、Expo の設定、ソースフォルダ、ソースファイルのいずれかを読み取れなかった場合、判定は “Not known” となり、`--fail-on none` を指定しない限り終了コードは `1` になります。reviewready は、読み取っていないファイルをもとにアプリを「準備完了」と判定することはありません。
 
 reviewready は iOS アプリを自動で見つけます。ネイティブアプリではルート、または 1 階層下の `.xcodeproj`、Flutter、React Native、Expo アプリでは `ios/` を使います。読み取る対象は、各 iOS アプリターゲットの Info.plist（XML またはバイナリ）、build setting、entitlement、アイコンセット、プライバシーマニフェスト、アプリの Swift、Objective-C、JavaScript、TypeScript、Dart のファイルと strings ファイル、Podfile、そして Xcode を固定しているファイルです。`ios/` のない Expo アプリは app.json からチェックします。
 
@@ -196,7 +196,7 @@ console.log(render(report, 'markdown'));
 - **build setting は project.pbxproj からのみ読み取ります。** `.xcconfig` ファイルは読み取りません。ターゲットの Info.plist を読み取れない場合、結果は “not known” となり、レポートに理由が記載されます。
 - **Expo の設定は JSON として読み取ります。** `app.config.js` と `app.config.ts` は実行しないため、結果は “not known” になります。app.json は読み取ります。
 - **対象はファイルのみです。** reviewready はアプリをビルドせず、画面も確認しません。また App Review は、ファイルからわかる以上の情報で判断します。このリポジトリのシミュレータ録画は、Mac で実行した `scripts/simulator-check.sh` によるものです。
-- **入力には上限があります。** プロジェクトは pull request 由来の場合があるため、reviewready はプロジェクトファイルを 1 つあたり最大 32 MB まで、ソースについては 1 ファイルあたり 4 MB、合計 20,000 ファイルかつ 128 MB まで、12 階層下までのフォルダしか読みません。読み飛ばしたものはレポートのノートに記載されます。それより深い、または一覧を取得できないために探索しなかったソースフォルダがあると、結果は “not known” になります。パターンは、100 万文字の悪意あるファイルでテスト済みです。
+- **入力には上限があります。** プロジェクトは pull request 由来の場合があるため、reviewready はプロジェクトファイルを 1 つあたり最大 32 MB まで、ソースについては 1 ファイルあたり 4 MB、合計 20,000 ファイルかつ 128 MB まで、12 階層下までのフォルダしか読みません。読み飛ばしたものはレポートのノートに記載され、結果は “not known” になります。対象は、これらの上限を超える、プロジェクト外へリンクされている、または読み取れないソースファイルと、それより深い、一覧を取得できない、またはシンボリックリンクであるために探索しなかったソースフォルダです（フォルダへのリンクはたどりません）。パターンは、100 万文字の悪意あるファイルでテスト済みです。
 
 ## ドキュメント
 

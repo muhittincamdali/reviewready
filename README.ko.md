@@ -1,4 +1,4 @@
-<!-- i18n-source: README.md@e6df98d52e28f2cab4ebd87b40c1410d705319f5 status=reviewed -->
+<!-- i18n-source: README.md@c0610d626f9553775dd81adce891cf04a8f1bf4a status=reviewed -->
 <!-- brand:start -->
 
 <p align="center"><picture><source media="(prefers-color-scheme: dark)" srcset="https://raw.githubusercontent.com/muhittincamdali/reviewready/main/.github/brand/banner-dark.svg"><source media="(prefers-color-scheme: light)" srcset="https://raw.githubusercontent.com/muhittincamdali/reviewready/main/.github/brand/banner-light.svg"><img src="https://raw.githubusercontent.com/muhittincamdali/reviewready/main/.github/brand/banner-light.svg" alt="reviewready: 제출하기 전에 CI에서 App Review 거절 사유를 잡아내고, 규칙마다 근거가 되는 Apple 출처와 해결 방법을 보여 줍니다."></picture></p>
@@ -127,7 +127,7 @@ reviewready [path] [options]
 | `--brief`               | 터미널 및 텍스트 보고서: 판정과 발견 사항만 표시                      |
 | `--no-color`            | 터미널에서도 일반 텍스트로 출력(`NO_COLOR`와 `FORCE_COLOR`를 따름)    |
 
-종료 코드: `0`은 `--fail-on` 이상의 항목이 없음, `1`은 그 이상의 발견 사항이 있음, `2`는 잘못된 인수, iOS 프로젝트를 찾지 못함 또는 예기치 않은 오류를 뜻합니다. Xcode 프로젝트, Info.plist, Expo 설정 또는 소스 폴더를 읽지 못하면 판정은 “Not known”이 되고, `--fail-on none`을 지정하지 않는 한 종료 코드는 `1`입니다. reviewready는 읽지 못한 파일을 근거로 앱이 준비되었다고 판정하는 일이 없습니다.
+종료 코드: `0`은 `--fail-on` 이상의 항목이 없음, `1`은 그 이상의 발견 사항이 있음, `2`는 잘못된 인수, iOS 프로젝트를 찾지 못함 또는 예기치 않은 오류를 뜻합니다. Xcode 프로젝트, Info.plist, Expo 설정, 소스 폴더 또는 소스 파일을 읽지 못하면 판정은 “Not known”이 되고, `--fail-on none`을 지정하지 않는 한 종료 코드는 `1`입니다. reviewready는 읽지 못한 파일을 근거로 앱이 준비되었다고 판정하는 일이 없습니다.
 
 reviewready는 iOS 앱을 스스로 찾습니다. 네이티브 앱은 루트 또는 한 단계 아래 폴더의 `.xcodeproj`를, Flutter, React Native, Expo 앱은 `ios/`를 사용합니다. 모든 iOS 앱 타깃의 Info.plist(XML 또는 바이너리), build setting, entitlement, 아이콘 세트, 개인정보 보호 매니페스트와 앱의 Swift, Objective-C, JavaScript, TypeScript, Dart 파일 및 strings 파일, Podfile, 그리고 Xcode 버전을 고정하는 파일을 읽습니다. `ios/`가 없는 Expo 앱은 app.json을 기준으로 검사합니다.
 
@@ -196,7 +196,7 @@ console.log(render(report, 'markdown'));
 - **build setting은 project.pbxproj에서만 읽습니다.** `.xcconfig` 파일은 읽지 않습니다. 타깃의 Info.plist를 읽을 수 없으면 결과는 “not known”이 되고 보고서에 이유가 적힙니다.
 - **Expo 설정은 JSON으로 읽습니다.** `app.config.js`와 `app.config.ts`는 실행하지 않으므로 결과가 “not known”이 됩니다. app.json은 읽습니다.
 - **파일만 봅니다.** reviewready는 앱을 빌드하지 않고 화면도 보지 않으며, App Review는 파일에서 드러나는 것보다 더 많은 것을 보고 판단합니다. 이 저장소의 시뮬레이터 녹화는 Mac에서 실행한 `scripts/simulator-check.sh`의 결과입니다.
-- **입력 크기에 제한이 있습니다.** 프로젝트는 pull request에서 올 수 있으므로, reviewready는 프로젝트 파일은 파일당 최대 32MB까지, 소스는 파일당 4MB, 총 20,000개 파일과 128MB까지, 12단계 아래까지의 폴더만 읽습니다. 읽지 않은 항목은 보고서의 노트에 나열됩니다. 더 깊거나 목록을 읽을 수 없어 탐색하지 못한 소스 폴더가 있으면 결과는 “not known”이 됩니다. 패턴은 100만 자짜리 악의적 파일로 테스트했습니다.
+- **입력 크기에 제한이 있습니다.** 프로젝트는 pull request에서 올 수 있으므로, reviewready는 프로젝트 파일은 파일당 최대 32MB까지, 소스는 파일당 4MB, 총 20,000개 파일과 128MB까지, 12단계 아래까지의 폴더만 읽습니다. 읽지 않은 항목은 보고서의 노트에 나열되며 결과를 “not known”으로 만듭니다. 이 제한을 넘거나 프로젝트 밖으로 링크되었거나 읽을 수 없는 소스 파일, 그리고 더 깊거나 목록을 읽을 수 없거나 심볼릭 링크여서 탐색하지 못한 소스 폴더가 여기에 해당합니다(폴더 링크는 따라가지 않습니다). 패턴은 100만 자짜리 악의적 파일로 테스트했습니다.
 
 ## 문서
 

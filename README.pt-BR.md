@@ -1,4 +1,4 @@
-<!-- i18n-source: README.md@e6df98d52e28f2cab4ebd87b40c1410d705319f5 status=reviewed -->
+<!-- i18n-source: README.md@c0610d626f9553775dd81adce891cf04a8f1bf4a status=reviewed -->
 <!-- brand:start -->
 
 <p align="center"><picture><source media="(prefers-color-scheme: dark)" srcset="https://raw.githubusercontent.com/muhittincamdali/reviewready/main/.github/brand/banner-dark.svg"><source media="(prefers-color-scheme: light)" srcset="https://raw.githubusercontent.com/muhittincamdali/reviewready/main/.github/brand/banner-light.svg"><img src="https://raw.githubusercontent.com/muhittincamdali/reviewready/main/.github/brand/banner-light.svg" alt="reviewready: detecta no CI as rejeições do App Review antes de você enviar o app, com a fonte da Apple de cada regra e a correção."></picture></p>
@@ -126,7 +126,7 @@ reviewready [path] [options]
 | `--brief`               | Relatórios de terminal e de texto: só o veredito e os achados                   |
 | `--no-color`            | Texto simples mesmo em um terminal (`NO_COLOR` e `FORCE_COLOR` são respeitados) |
 
-Códigos de saída: `0` nada no nível de `--fail-on` ou acima, `1` achados nesse nível ou acima, `2` argumentos inválidos, nenhum projeto iOS encontrado ou um erro inesperado. Quando um projeto Xcode, um Info.plist, a configuração do Expo ou uma pasta de código-fonte não pôde ser lido, o veredito é “Not known” e o código de saída é `1`, a menos que se use `--fail-on none`: o reviewready nunca declara um app pronto com base em arquivos que não leu.
+Códigos de saída: `0` nada no nível de `--fail-on` ou acima, `1` achados nesse nível ou acima, `2` argumentos inválidos, nenhum projeto iOS encontrado ou um erro inesperado. Quando um projeto Xcode, um Info.plist, a configuração do Expo, uma pasta ou um arquivo de código-fonte não pôde ser lido, o veredito é “Not known” e o código de saída é `1`, a menos que se use `--fail-on none`: o reviewready nunca declara um app pronto com base em arquivos que não leu.
 
 O reviewready encontra o app iOS sozinho: um `.xcodeproj` na raiz ou uma pasta abaixo nos apps nativos, `ios/` nos apps Flutter, React Native e Expo. Ele lê o Info.plist de cada target de app iOS (XML ou binário), os build settings e entitlements, o conjunto de ícones e o manifesto de privacidade, os arquivos Swift, Objective-C, JavaScript, TypeScript e Dart do app e seus arquivos de strings, o Podfile e os arquivos que fixam uma versão do Xcode. Um app Expo sem `ios/` é verificado a partir do app.json.
 
@@ -195,7 +195,7 @@ Medido em 28 de outubro de 2026 em um Mac (Apple silicon, M5 Max) com Node.js 26
 - **Build settings apenas do project.pbxproj.** Os arquivos `.xcconfig` não são lidos. Quando o Info.plist de um target não pode ser lido, o resultado é “not known” e o relatório explica o motivo.
 - **Configuração do Expo como JSON.** `app.config.js` e `app.config.ts` não são executados, então deixam o resultado como “not known”; o app.json é lido.
 - **Somente arquivos.** O reviewready não compila o app nem olha as telas dele, e o App Review decide com mais do que os arquivos mostram. As gravações do simulador neste repositório vêm do `scripts/simulator-check.sh`, executado em um Mac.
-- **Entrada limitada.** Um projeto pode vir de um pull request, então o reviewready lê no máximo 32 MB por arquivo de projeto e, do código-fonte, 4 MB por arquivo, 20.000 arquivos e 128 MB no total, em pastas de até 12 níveis de profundidade; o que ele deixa de fora aparece nas notas do relatório. Uma pasta de código-fonte que ele não percorreu, por estar mais funda ou por não poder ser listada, deixa o resultado como “not known”. Os padrões foram testados com arquivos hostis de um milhão de caracteres.
+- **Entrada limitada.** Um projeto pode vir de um pull request, então o reviewready lê no máximo 32 MB por arquivo de projeto e, do código-fonte, 4 MB por arquivo, 20.000 arquivos e 128 MB no total, em pastas de até 12 níveis de profundidade; o que ele deixa de fora aparece nas notas do relatório e deixa o resultado como “not known”: um arquivo de código-fonte acima desses limites, com link para fora do projeto ou que não pode ser lido, e uma pasta de código-fonte que ele não percorreu por estar mais funda, por não poder ser listada ou por ser um link simbólico (links para pastas não são seguidos). Os padrões foram testados com arquivos hostis de um milhão de caracteres.
 
 ## Documentação
 

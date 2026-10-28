@@ -1,4 +1,4 @@
-<!-- i18n-source: README.md@e6df98d52e28f2cab4ebd87b40c1410d705319f5 status=reviewed -->
+<!-- i18n-source: README.md@c0610d626f9553775dd81adce891cf04a8f1bf4a status=reviewed -->
 <!-- brand:start -->
 
 <p align="center"><picture><source media="(prefers-color-scheme: dark)" srcset="https://raw.githubusercontent.com/muhittincamdali/reviewready/main/.github/brand/banner-dark.svg"><source media="(prefers-color-scheme: light)" srcset="https://raw.githubusercontent.com/muhittincamdali/reviewready/main/.github/brand/banner-light.svg"><img src="https://raw.githubusercontent.com/muhittincamdali/reviewready/main/.github/brand/banner-light.svg" alt="reviewready: fängt Ablehnungen durch App Review schon in CI ab, bevor du einreichst, mit der Apple-Quelle jeder Regel und der Lösung."></picture></p>
@@ -126,7 +126,7 @@ reviewready [path] [options]
 | `--brief`               | Terminal- und Textberichte: nur das Urteil und die Befunde                     |
 | `--no-color`            | Klartext auch in einem Terminal (`NO_COLOR` und `FORCE_COLOR` werden beachtet) |
 
-Exit-Codes: `0` nichts auf oder über der Stufe von `--fail-on`, `1` Befunde auf oder über dieser Stufe, `2` falsche Argumente, kein iOS-Projekt gefunden oder ein unerwarteter Fehler. Wenn ein Xcode-Projekt, eine Info.plist, die Expo-Konfiguration oder ein Quellordner nicht gelesen werden konnte, lautet das Urteil „Not known“ und der Exit-Code ist `1`, außer bei `--fail-on none`: reviewready erklärt eine App nie für bereit, wenn es Dateien nicht gelesen hat.
+Exit-Codes: `0` nichts auf oder über der Stufe von `--fail-on`, `1` Befunde auf oder über dieser Stufe, `2` falsche Argumente, kein iOS-Projekt gefunden oder ein unerwarteter Fehler. Wenn ein Xcode-Projekt, eine Info.plist, die Expo-Konfiguration, ein Quellordner oder eine Quelldatei nicht gelesen werden konnte, lautet das Urteil „Not known“ und der Exit-Code ist `1`, außer bei `--fail-on none`: reviewready erklärt eine App nie für bereit, wenn es Dateien nicht gelesen hat.
 
 reviewready findet die iOS-App selbst: eine `.xcodeproj` im Wurzelordner oder einen Ordner darunter bei nativen Apps, `ios/` bei Flutter-, React-Native- und Expo-Apps. Es liest die Info.plist jedes iOS-App-Targets (XML oder binär), die Build-Settings und Entitlements, das Icon-Set und das Datenschutz-Manifest, die Swift-, Objective-C-, JavaScript-, TypeScript- und Dart-Dateien der App und ihre Strings-Dateien, das Podfile und die Dateien, die eine Xcode-Version festlegen. Eine Expo-App ohne `ios/` wird anhand der app.json geprüft.
 
@@ -195,7 +195,7 @@ Gemessen am 28. Oktober 2026 auf einem Mac (Apple silicon, M5 Max) mit Node.js 2
 - **Build-Settings nur aus der project.pbxproj.** `.xcconfig`-Dateien werden nicht gelesen. Wenn die Info.plist eines Targets nicht gelesen werden kann, lautet das Ergebnis „not known“, und der Bericht nennt den Grund.
 - **Expo-Konfiguration als JSON.** `app.config.js` und `app.config.ts` werden nicht ausgeführt, daher ergeben sie das Ergebnis „not known“; die app.json wird gelesen.
 - **Nur Dateien.** reviewready baut die App nicht und sieht sich ihre Bildschirme nicht an, und App Review entscheidet anhand von mehr, als Dateien zeigen. Die Simulator-Aufzeichnungen in diesem Repository stammen von `scripts/simulator-check.sh`, ausgeführt auf einem Mac.
-- **Begrenzte Eingabe.** Ein Projekt kann aus einem Pull Request stammen, deshalb liest reviewready höchstens 32 MB pro Projektdatei und von den Quelldateien 4 MB pro Datei, 20.000 Dateien und 128 MB insgesamt, in Ordnern bis zu 12 Ebenen tief; was es auslässt, steht in den Hinweisen des Berichts. Ein Quellordner, den es nicht durchsucht hat, weil er tiefer liegt oder nicht aufgelistet werden kann, ergibt das Ergebnis „not known“. Die Muster sind an feindlichen Dateien mit einer Million Zeichen getestet.
+- **Begrenzte Eingabe.** Ein Projekt kann aus einem Pull Request stammen, deshalb liest reviewready höchstens 32 MB pro Projektdatei und von den Quelldateien 4 MB pro Datei, 20.000 Dateien und 128 MB insgesamt, in Ordnern bis zu 12 Ebenen tief; was es auslässt, steht in den Hinweisen des Berichts und ergibt das Ergebnis „not known“: eine Quelldatei über diesen Grenzen, mit einem Link aus dem Projekt hinaus oder ohne Leserecht, und ein Quellordner, den es nicht durchsucht hat, weil er tiefer liegt, nicht aufgelistet werden kann oder ein symbolischer Link ist (Links auf Ordner werden nicht verfolgt). Die Muster sind an feindlichen Dateien mit einer Million Zeichen getestet.
 
 ## Dokumentation
 

@@ -12,6 +12,12 @@ All notable changes to reviewready are listed here. The format follows
 - Source files more than 12 folder levels down, or in a folder that could not be listed, were left
   out without a note, so a project could pass with a call it never read. The report now names those
   folders and the verdict is "Not known" (exit code 1 unless `--fail-on none`).
+- A source file over the 4 MB, 20,000-file or 128 MB limit, or one that could not be read, was left
+  out with a note while the verdict stayed "ready" with exit code 0. Any source file that is not
+  read now makes the verdict "Not known".
+- Symbolic links under a source folder were dropped without a note. A linked source file inside the
+  project is now read; one linked outside it, and a linked folder (which is not followed), are named
+  in the notes and make the verdict "Not known".
 
 ## [0.1.0] - 2026-10-28
 
