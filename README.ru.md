@@ -1,4 +1,4 @@
-<!-- i18n-source: README.md@8664c42f034f901757599afc006cc06fa47c80ca status=reviewed -->
+<!-- i18n-source: README.md@4f0c5c0678109a70c5b44246d1e07e9b463cafe3 status=reviewed -->
 <!-- brand:start -->
 
 <p align="center"><picture><source media="(prefers-color-scheme: dark)" srcset="https://raw.githubusercontent.com/muhittincamdali/reviewready/main/.github/brand/banner-dark.svg"><source media="(prefers-color-scheme: light)" srcset="https://raw.githubusercontent.com/muhittincamdali/reviewready/main/.github/brand/banner-light.svg"><img src="https://raw.githubusercontent.com/muhittincamdali/reviewready/main/.github/brand/banner-light.svg" alt="reviewready: находит причины отклонения App Review в CI до отправки, с источником Apple для каждого правила и исправлением."></picture></p>
@@ -41,10 +41,10 @@
 
 ## Быстрый старт
 
-**1. Установите reviewready.** Вам нужен [Node.js](https://nodejs.org/) 22.12 или новее (`node --version` покажет версию; на Mac его устанавливает `brew install node`). Затем установите пакет из его [релиза на GitHub](https://github.com/muhittincamdali/reviewready/releases):
+**1. Установите reviewready.** Вам нужен [Node.js](https://nodejs.org/) 22.12 или новее (`node --version` покажет версию; на Mac его устанавливает `brew install node`). Затем установите пакет из [npm](https://www.npmjs.com/package/@mcamdali/reviewready):
 
 ```sh
-npm i -g https://github.com/muhittincamdali/reviewready/releases/download/v0.1.1/reviewready-0.1.1.tgz
+npm i -g @mcamdali/reviewready
 ```
 
 **2. Откройте терминал в папке вашего приложения** — той, где лежит `.xcodeproj`, `pubspec.yaml` или `package.json`:
@@ -61,7 +61,7 @@ reviewready
 
 Начните с замечаний **ERROR**: App Review или App Store Connect отклонят приложение из-за них. Затем разберите замечания **WARNING**, на которые App Review может указать. Для каждого замечания исправление описано в списке «How to fix», а ссылка ведёт на страницу Apple, из которой оно взято.
 
-Homebrew устанавливает тот же пакет вместе с Node.js: `brew install muhittincamdali/tap/reviewready`. Реестр npm (`npx @mcamdali/reviewready`) планируется.
+Homebrew устанавливает тот же пакет вместе с Node.js: `brew install muhittincamdali/tap/reviewready`. Без установки его запускает из npm команда `npx @mcamdali/reviewready`.
 
 ## Что проверяет reviewready
 
@@ -101,10 +101,10 @@ RVW301 и RVW401 — эвристики по вызовам, строкам и �
 
 ## Установка
 
-Команда из раздела «Быстрый старт» устанавливает команду `reviewready` из архива tarball релиза. Чтобы вместо этого добавить его в проект:
+Команда из раздела «Быстрый старт» устанавливает команду `reviewready` глобально. Чтобы вместо этого добавить его в проект:
 
 ```sh
-npm install --save-dev https://github.com/muhittincamdali/reviewready/releases/download/v0.1.1/reviewready-0.1.1.tgz
+npm install --save-dev @mcamdali/reviewready
 ```
 
 После этого `npx reviewready` запускает эту копию. Пакет называется `@mcamdali/reviewready` — это имя импортирует JavaScript API, описанный ниже. Каждый релиз на GitHub содержит пакет в виде `reviewready-<version>.tgz` и файл `SHA256SUMS` для его проверки.
@@ -185,7 +185,7 @@ console.log(render(report, 'markdown'));
 | Build settings из `.xcconfig`, пакеты Swift и Pods приложения, `app.config.js`                                                                           | планируется (0.2) |
 | Вывод в формате SARIF и GitHub Action                                                                                                                    | планируется (0.3) |
 | Homebrew (`muhittincamdali/tap`)                                                                                                                         | работает          |
-| Реестр npm                                                                                                                                               | планируется       |
+| Реестр npm                                                                                                                                               | работает |
 | Стабильная схема правил и формат JSON                                                                                                                    | планируется (1.0) |
 
 ## Ограничения

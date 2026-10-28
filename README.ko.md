@@ -1,4 +1,4 @@
-<!-- i18n-source: README.md@8664c42f034f901757599afc006cc06fa47c80ca status=reviewed -->
+<!-- i18n-source: README.md@4f0c5c0678109a70c5b44246d1e07e9b463cafe3 status=reviewed -->
 <!-- brand:start -->
 
 <p align="center"><picture><source media="(prefers-color-scheme: dark)" srcset="https://raw.githubusercontent.com/muhittincamdali/reviewready/main/.github/brand/banner-dark.svg"><source media="(prefers-color-scheme: light)" srcset="https://raw.githubusercontent.com/muhittincamdali/reviewready/main/.github/brand/banner-light.svg"><img src="https://raw.githubusercontent.com/muhittincamdali/reviewready/main/.github/brand/banner-light.svg" alt="reviewready: 제출하기 전에 CI에서 App Review 거절 사유를 잡아내고, 규칙마다 근거가 되는 Apple 출처와 해결 방법을 보여 줍니다."></picture></p>
@@ -42,10 +42,10 @@ fixture</a>로, 규칙마다 문제 하나씩을 넣어 테스트용으로 작�
 
 ## 빠른 시작
 
-**1. reviewready를 설치하세요.** [Node.js](https://nodejs.org/) 22.12 이상이 필요합니다(`node --version`으로 확인할 수 있고, Mac에서는 `brew install node`로 설치합니다). 그런 다음 [GitHub 릴리스](https://github.com/muhittincamdali/reviewready/releases)에서 패키지를 설치하세요.
+**1. reviewready를 설치하세요.** [Node.js](https://nodejs.org/) 22.12 이상이 필요합니다(`node --version`으로 확인할 수 있고, Mac에서는 `brew install node`로 설치합니다). 그런 다음 [npm](https://www.npmjs.com/package/@mcamdali/reviewready)에서 패키지를 설치하세요.
 
 ```sh
-npm i -g https://github.com/muhittincamdali/reviewready/releases/download/v0.1.1/reviewready-0.1.1.tgz
+npm i -g @mcamdali/reviewready
 ```
 
 **2. 앱 폴더에서 터미널을 여세요.** `.xcodeproj`, `pubspec.yaml`, `package.json` 중 하나가 있는 폴더입니다.
@@ -62,7 +62,7 @@ reviewready
 
 먼저 **ERROR** 항목부터 처리하세요. App Review나 App Store Connect가 이 항목들 때문에 앱을 반려합니다. 그다음으로 App Review가 지적할 수 있는 **WARNING** 항목을 처리하세요. 각 항목은 해결 방법을 “How to fix” 목록에 알려 주고, 근거가 된 Apple 페이지로 연결됩니다.
 
-Homebrew는 같은 패키지를 Node.js와 함께 설치합니다: `brew install muhittincamdali/tap/reviewready`. npm 레지스트리(`npx @mcamdali/reviewready`) 지원은 계획하고 있습니다.
+Homebrew는 같은 패키지를 Node.js와 함께 설치합니다: `brew install muhittincamdali/tap/reviewready`. 설치하지 않고 `npx @mcamdali/reviewready`로 npm에서 바로 실행할 수도 있습니다.
 
 ## reviewready가 검사하는 항목
 
@@ -102,10 +102,10 @@ RVW301과 RVW401은 앱의 호출, 문자열, 패키지를 살펴보는 휴리�
 
 ## 설치
 
-빠른 시작의 명령은 릴리스 tarball에서 `reviewready` 명령을 설치합니다. 대신 프로젝트에 추가하려면 다음과 같이 하세요.
+빠른 시작의 명령은 `reviewready` 명령을 전역으로 설치합니다. 대신 프로젝트에 추가하려면 다음과 같이 하세요.
 
 ```sh
-npm install --save-dev https://github.com/muhittincamdali/reviewready/releases/download/v0.1.1/reviewready-0.1.1.tgz
+npm install --save-dev @mcamdali/reviewready
 ```
 
 그러면 `npx reviewready`가 그 사본을 실행합니다. 패키지 이름은 `@mcamdali/reviewready`이며, 아래의 JavaScript API가 import하는 이름이기도 합니다. 각 GitHub 릴리스에는 패키지가 `reviewready-<version>.tgz`로, 검증용 `SHA256SUMS` 파일과 함께 들어 있습니다.
@@ -186,7 +186,7 @@ console.log(render(report, 'markdown'));
 | `.xcconfig` build setting, 앱의 Swift 패키지와 Pod, `app.config.js`                                                                     | 계획됨(0.2) |
 | SARIF 출력과 GitHub Action                                                                                                              | 계획됨(0.3) |
 | Homebrew(`muhittincamdali/tap`)                                                                                                         | 동작함      |
-| npm 레지스트리                                                                                                                          | 계획됨      |
+| npm 레지스트리                                                                                                                          | 동작함      |
 | 안정적인 규칙 스키마와 JSON 구조                                                                                                        | 계획됨(1.0) |
 
 ## 한계

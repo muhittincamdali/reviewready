@@ -1,4 +1,4 @@
-<!-- i18n-source: README.md@8664c42f034f901757599afc006cc06fa47c80ca status=reviewed -->
+<!-- i18n-source: README.md@4f0c5c0678109a70c5b44246d1e07e9b463cafe3 status=reviewed -->
 <!-- brand:start -->
 
 <p align="center"><picture><source media="(prefers-color-scheme: dark)" srcset="https://raw.githubusercontent.com/muhittincamdali/reviewready/main/.github/brand/banner-dark.svg"><source media="(prefers-color-scheme: light)" srcset="https://raw.githubusercontent.com/muhittincamdali/reviewready/main/.github/brand/banner-light.svg"><img src="https://raw.githubusercontent.com/muhittincamdali/reviewready/main/.github/brand/banner-light.svg" alt="reviewready：提出前に CI で App Review のリジェクト要因を検出し、各ルールの根拠となる Apple のページと対処方法を示します。"></picture></p>
@@ -42,10 +42,10 @@ fixture</a> で、テスト用に書かれた、ルールごとに 1 つの問�
 
 ## クイックスタート
 
-**1. reviewready をインストールします。** [Node.js](https://nodejs.org/) 22.12 以降が必要です（`node --version` で確認できます。Mac では `brew install node` でインストールできます）。続いて、[GitHub リリース](https://github.com/muhittincamdali/reviewready/releases)からパッケージをインストールします。
+**1. reviewready をインストールします。** [Node.js](https://nodejs.org/) 22.12 以降が必要です（`node --version` で確認できます。Mac では `brew install node` でインストールできます）。続いて、[npm](https://www.npmjs.com/package/@mcamdali/reviewready) からパッケージをインストールします。
 
 ```sh
-npm i -g https://github.com/muhittincamdali/reviewready/releases/download/v0.1.1/reviewready-0.1.1.tgz
+npm i -g @mcamdali/reviewready
 ```
 
 **2. アプリのフォルダでターミナルを開きます。** `.xcodeproj`、`pubspec.yaml`、`package.json` のいずれかがあるフォルダです。
@@ -62,7 +62,7 @@ reviewready
 
 まず **ERROR** の項目から対処してください。これらは App Review または App Store Connect で差し戻されます。次に、App Review が指摘する可能性のある **WARNING** の項目に進みます。各項目には対処方法が “How to fix” リストに示され、根拠となる Apple のページへのリンクが付いています。
 
-Homebrew では同じパッケージを Node.js とともにインストールできます：`brew install muhittincamdali/tap/reviewready`。npm レジストリ（`npx @mcamdali/reviewready`）での提供は計画中です。
+Homebrew では同じパッケージを Node.js とともにインストールできます：`brew install muhittincamdali/tap/reviewready`。インストールせずに `npx @mcamdali/reviewready` で npm から実行することもできます。
 
 ## reviewready がチェックする内容
 
@@ -102,10 +102,10 @@ RVW301 と RVW401 は、アプリの呼び出し、文字列、パッケージ�
 
 ## インストール
 
-「クイックスタート」のコマンドは、リリースの tarball から `reviewready` コマンドをインストールします。代わりにプロジェクトへ追加する場合は次のとおりです。
+「クイックスタート」のコマンドは、`reviewready` コマンドをグローバルにインストールします。代わりにプロジェクトへ追加する場合は次のとおりです。
 
 ```sh
-npm install --save-dev https://github.com/muhittincamdali/reviewready/releases/download/v0.1.1/reviewready-0.1.1.tgz
+npm install --save-dev @mcamdali/reviewready
 ```
 
 以降は `npx reviewready` がそのコピーを実行します。パッケージ名は `@mcamdali/reviewready` で、後述の JavaScript API が import する名前です。各 GitHub リリースには、パッケージが `reviewready-<version>.tgz` として、検証用の `SHA256SUMS` ファイルとともに添付されています。
@@ -186,7 +186,7 @@ console.log(render(report, 'markdown'));
 | `.xcconfig` の build setting、アプリの Swift パッケージと Pod、`app.config.js`                                                                | 計画中（0.2） |
 | SARIF 出力と GitHub Action                                                                                                                    | 計画中（0.3） |
 | Homebrew（`muhittincamdali/tap`）                                                                                                             | 動作します    |
-| npm レジストリ                                                                                                                                | 計画中        |
+| npm レジストリ                                                                                                                                | 動作します      |
 | 安定したルールスキーマと JSON の構造                                                                                                          | 計画中（1.0） |
 
 ## 制限事項

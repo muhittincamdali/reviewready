@@ -1,4 +1,4 @@
-<!-- i18n-source: README.md@8664c42f034f901757599afc006cc06fa47c80ca status=reviewed -->
+<!-- i18n-source: README.md@4f0c5c0678109a70c5b44246d1e07e9b463cafe3 status=reviewed -->
 <!-- brand:start -->
 
 <p align="center"><picture><source media="(prefers-color-scheme: dark)" srcset="https://raw.githubusercontent.com/muhittincamdali/reviewready/main/.github/brand/banner-dark.svg"><source media="(prefers-color-scheme: light)" srcset="https://raw.githubusercontent.com/muhittincamdali/reviewready/main/.github/brand/banner-light.svg"><img src="https://raw.githubusercontent.com/muhittincamdali/reviewready/main/.github/brand/banner-light.svg" alt="reviewready: App Review ret sebeplerini göndermeden önce CI'da yakalar; her kuralın Apple kaynağını ve düzeltmesini verir."></picture></p>
@@ -61,10 +61,10 @@ fixture</a>, testler için yazılmış ve kural başına bir sorun içeren bir S
 
 **1. reviewready'yi kurun.** [Node.js](https://nodejs.org/) 22.12 veya üstü gerekir
 (`node --version` sürümü gösterir; Mac'te `brew install node` kurar). Ardından paketi
-[GitHub sürümünden](https://github.com/muhittincamdali/reviewready/releases) kurun:
+[npm'den](https://www.npmjs.com/package/@mcamdali/reviewready) kurun:
 
 ```sh
-npm i -g https://github.com/muhittincamdali/reviewready/releases/download/v0.1.1/reviewready-0.1.1.tgz
+npm i -g @mcamdali/reviewready
 ```
 
 **2. Uygulamanızın klasöründe bir terminal açın**; `.xcodeproj`, `pubspec.yaml` ya da
@@ -85,7 +85,7 @@ App Review'ün işaretleyebileceği **WARNING** bulgularına geçin. Her bulgu, 
 listesinde belirtir ve dayandığı Apple sayfasına bağlanır.
 
 Homebrew aynı paketi Node.js ile birlikte kurar: `brew install muhittincamdali/tap/reviewready`.
-npm registry (`npx @mcamdali/reviewready`) planlanıyor.
+Kurmadan çalıştırmak için: `npx @mcamdali/reviewready`.
 
 ## reviewready neleri kontrol eder
 
@@ -133,11 +133,11 @@ reviewready'nin iki çözümüyle.
 
 ## Kurulum
 
-Hızlı başlangıçtaki komut, `reviewready` komutunu sürüm arşivinden kurar. Bunun yerine bir projeye
+Hızlı başlangıçtaki komut, `reviewready` komutunu genel olarak kurar. Bunun yerine bir projeye
 eklemek için:
 
 ```sh
-npm install --save-dev https://github.com/muhittincamdali/reviewready/releases/download/v0.1.1/reviewready-0.1.1.tgz
+npm install --save-dev @mcamdali/reviewready
 ```
 
 Ardından `npx reviewready` bu kopyayı çalıştırır. Paketin adı `@mcamdali/reviewready`; aşağıdaki
@@ -238,7 +238,7 @@ sürdü. Test paketinde 331 test var (`npm test`, aynı makine).
 | `.xcconfig` build setting'leri, uygulamanın Swift paketleri ve Pod'ları, `app.config.js`                                                                       | planlanıyor (0.2) |
 | SARIF çıktısı ve bir GitHub Action                                                                                                                             | planlanıyor (0.3) |
 | Homebrew (`muhittincamdali/tap`)                                                                                                                               | çalışıyor         |
-| npm registry                                                                                                                                                   | planlanıyor       |
+| npm registry                                                                                                                                                   | çalışıyor         |
 | Kararlı kural şeması ve JSON düzeni                                                                                                                            | planlanıyor (1.0) |
 
 ## Sınırlar
